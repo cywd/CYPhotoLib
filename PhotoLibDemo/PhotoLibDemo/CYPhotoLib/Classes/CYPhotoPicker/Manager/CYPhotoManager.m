@@ -49,6 +49,26 @@
     //    PHFetchResult * topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     //    [self fetchCollection:topLevelUserCollections];
     
+    
+    
+    // 不完美排序
+    NSArray * engNameList = @[@"Camera Roll", @"My Photo Stream", @"Recently Added", @"Selfies", @"Favorites", @"Screenshots", @"Recently Deleted", @"Bursts", @"Videos"];
+    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        for (NSUInteger i = 0; i<engNameList.count; i++) {
+            if ([obj.ablumName isEqualToString:engNameList[i]]) {
+                [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:i];
+            }
+        }
+        
+    }];
+    
+    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.ablumName isEqualToString:@"All Photos"]) {
+            [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
+        }
+    }];
+    
     return _ablumsList;
 }
 
@@ -84,7 +104,7 @@
  */
 - (PHFetchResult *)fetchResultInCollection:(PHAssetCollection *)collection asending:(BOOL)asending {
     
-    PHFetchOptions * option = [[PHFetchOptions alloc]init];
+    PHFetchOptions * option = [[PHFetchOptions alloc] init];
     option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:asending]];
     //    option.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
     PHFetchResult * result;
@@ -96,9 +116,10 @@
     }
     //获取所有相册资源合集
     else {
-        
+//        option.includeAssetSourceTypes = PHAssetSourceTypeNone;
 #warning 这里获取的是所有的资源合集?
         result = [PHAsset fetchAssetsWithOptions:option];
+        
     }
     return result;
 }

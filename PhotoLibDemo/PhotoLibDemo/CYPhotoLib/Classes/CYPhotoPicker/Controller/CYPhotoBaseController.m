@@ -20,6 +20,13 @@
     self.view.backgroundColor = WHITECOLOR;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    // 将Navigationbar变成透明而不模糊
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar .shadowImage = [UIImage new];
+    self.navigationController.navigationBar .translucent = YES;
+    
+//    [self setupNavbar];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,7 +42,7 @@
     [self.navigationController.navigationBar findHairlineImageViewUnder].hidden = YES;
     
     if (self.navigationController.viewControllers.count > 1) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:[UIButton buttonWithFrame:CGRectMake(0, 0, 22, 22) Target:self Selector:@selector(backBtnAction) Image:@"SuBack.png" ImagePressed:@"SuBack.png"]];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:[UIButton buttonWithFrame:CGRectMake(0, 0, 22, 22) Target:self Selector:@selector(backBtnAction) Image:@"CYBack" ImagePressed:@"CYBack.png"]];
         self.navigationItem.leftBarButtonItem = item;
     }
 }

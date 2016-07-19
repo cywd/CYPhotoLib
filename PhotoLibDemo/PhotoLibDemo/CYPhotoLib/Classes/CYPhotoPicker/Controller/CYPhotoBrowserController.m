@@ -26,6 +26,14 @@
     
     [self setNavigationTitle:self.collectionTitle ? self.collectionTitle : @"相机胶卷"];
     
+    // 滑动的时候隐藏navigation bar
+//    self.navigationController.hidesBarsOnSwipe = YES;
+    
+    // 消除导航条返回键带的title
+//    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+    
+    
+    
     [self setupUI];
     [self loadAssetData];
     
@@ -66,10 +74,12 @@
             // YES
             cell.tanhao.hidden = YES;
             cell.coverBtn.hidden = NO;
+            cell.selBtn.hidden = YES;
         } else {
             // NO
 //            cell.tanhao.hidden = YES;
             cell.coverBtn.hidden = YES;
+            cell.selBtn.hidden = NO;
         }
     }];
     
