@@ -15,7 +15,7 @@
     button.titleLabel.font = [UIFont systemFontOfSize:17.0];
     [button setFrame:frame];
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
     return button;
 }
