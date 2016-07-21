@@ -10,6 +10,7 @@
 #import "CYPhotoHeader.h"
 #import "CYPhotoBrowserCell.h"
 #import "CYPhotoManager.h"
+#import "CYPhotoPreviewerController.h"
 
 @interface CYPhotoBrowserController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 
@@ -87,8 +88,31 @@
         cell.imageIV.image = image;
     }];
     
+    __weak typeof(cell) weakCell = cell;
+    __weak typeof(self) weakSelf = self;
     
+    [cell setSelectedBlock:^(BOOL isSelected) {
+        
+        if (isSelected) {
+            
+        } else {
+            
+        }
+    }];
     
+    [cell setImgTapBlock:^{
+        CYPhotoPreviewerController *previewer = [[CYPhotoPreviewerController alloc] init];
+        if (weakCell.selBtn.selected) {
+            previewer.isPreviewSelectedPhotos = YES;
+        }
+        previewer.selectedAsset = weakSelf.dataSource[indexPath.item];
+        
+        [previewer setBackBlock:^{
+            [collectionView reloadData];
+        }];
+        
+        [weakSelf.navigationController pushViewController:previewer animated:YES];
+    }];
     
     return cell;
 }

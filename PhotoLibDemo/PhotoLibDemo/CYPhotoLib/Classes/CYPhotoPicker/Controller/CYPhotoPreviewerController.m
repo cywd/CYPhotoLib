@@ -7,8 +7,16 @@
 //
 
 #import "CYPhotoPreviewerController.h"
+#import "CYPhotoHeader.h"
+#import "CYPhotoBrowserCell.h"
 
-@interface CYPhotoPreviewerController ()
+@interface CYPhotoPreviewerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+
+
+@property (nonatomic, strong) UICollectionView * collectionView;
+@property (nonatomic, strong) NSArray * dataSource;
+@property (nonatomic, strong) UIButton * selBtn;
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -16,7 +24,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    [self setupUI];
+}
+
+#pragma mark - UI
+- (void)setupUI {
+    if (self.previewPhotos) {
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
