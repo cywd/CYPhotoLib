@@ -29,6 +29,10 @@
     [self setupUI];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
 #pragma mark - UI
 - (void)setupUI {
 //    if (self.previewPhotos) {
@@ -58,7 +62,6 @@
     [self refreshSelBtnStatusWithCurrentPage:(int)self.currentPage];
     [self refreshTitle];
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -90,11 +93,6 @@
     int currnt = (int)scrollView.contentOffset.x / self.collectionView.w;
     [self refreshSelBtnStatusWithCurrentPage:currnt];
     [self refreshTitle];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)refreshSelBtnStatusWithCurrentPage:(int)page {

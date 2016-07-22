@@ -34,15 +34,12 @@
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     
     
-    
     [self setupUI];
     [self loadAssetData];
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - collectionView代理
@@ -119,6 +116,7 @@
     return cell;
 }
 
+#pragma mark - ui
 - (void)setupUI
 {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
