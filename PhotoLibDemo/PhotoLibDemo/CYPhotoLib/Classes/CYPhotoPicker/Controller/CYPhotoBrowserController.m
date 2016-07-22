@@ -107,6 +107,8 @@
         }
         previewer.selectedAsset = weakSelf.dataSource[indexPath.item];
         
+        previewer.previewPhotos = weakSelf.dataSource.copy;
+        
         [previewer setBackBlock:^{
             [collectionView reloadData];
         }];
