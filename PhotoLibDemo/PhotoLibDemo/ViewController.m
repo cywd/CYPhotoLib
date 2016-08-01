@@ -46,8 +46,6 @@
 - (IBAction)btnClick:(UIButton *)sender {
     
     
-    
-    
     if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
         PHFetchResult *fetchResult = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     } else {
