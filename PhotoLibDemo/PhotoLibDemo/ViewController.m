@@ -45,9 +45,19 @@
  */
 - (IBAction)btnClick:(UIButton *)sender {
     
-    
+    [self gotoPhotos];
+}
+
+- (void)gotoPhotos
+{
     if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
-        PHFetchResult *fetchResult = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+        // 弹出权限的选择框
+        [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+        
+        // 目前的办法是让它重新判断（待寻找点击事件的监听方法）
+        [self gotoPhotos];
+        
+        return;
     } else {
         if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized ) {
             
@@ -79,7 +89,6 @@
     CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
     [ablumsList.navigationController pushViewController:browser animated:NO];
     [self presentViewController:NVC animated:YES completion:nil];
-    
 }
 
 @end
