@@ -48,8 +48,32 @@
     [self gotoPhotos];
 }
 
+static bool a = NO;
 - (void)gotoPhotos
 {
+    if (a) {
+        if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized ) {
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                // 跳转到 “设置\"-\"隐私\"-\"照片”
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
+            }];
+            [alert addAction:cancelAction];
+            [alert addAction:okAction];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+            
+            //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
+            //        [photoLibaryNotice show];
+            
+            return;
+        }
+    }
+    
     if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
         // 弹出权限的选择框
         [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
@@ -58,6 +82,7 @@
         // 目前的办法是让它重新判断（待寻找点击事件的监听方法）
         [self gotoPhotos];
         
+        a = YES;
         
         return;
     } else {
