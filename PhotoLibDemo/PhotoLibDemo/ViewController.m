@@ -54,8 +54,10 @@
         // 弹出权限的选择框
         [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
         
+#warning 这么做有严重bug，会导致内存不断增加
         // 目前的办法是让它重新判断（待寻找点击事件的监听方法）
         [self gotoPhotos];
+        
         
         return;
     } else {
