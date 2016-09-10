@@ -66,7 +66,6 @@ static bool a = NO;
             
             [self presentViewController:alert animated:YES completion:nil];
             
-            
             //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
             //        [photoLibaryNotice show];
             

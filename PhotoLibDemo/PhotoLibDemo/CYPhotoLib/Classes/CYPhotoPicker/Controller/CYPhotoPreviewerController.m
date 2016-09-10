@@ -95,8 +95,8 @@
     [self refreshTitle];
 }
 
-- (void)refreshSelBtnStatusWithCurrentPage:(int)page {
-    
+- (void)refreshSelBtnStatusWithCurrentPage:(int)page
+{    
     self.currentPage = page;
 }
 
