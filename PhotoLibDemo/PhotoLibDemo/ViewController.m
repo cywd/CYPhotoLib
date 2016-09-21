@@ -85,7 +85,7 @@
 
 - (void)jump {
     CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc]init];
-    ablumsList.assetCollections = [[CYPhotoManager manager]getAllAblums];
+    ablumsList.assetCollections = [[CYPhotoManager manager] getAllAblums];
     UINavigationController * NVC = [[UINavigationController alloc] initWithRootViewController:ablumsList];
     
     //默认跳转到照片图册
@@ -101,15 +101,11 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // 跳转到 “设置\"-\"隐私\"-\"照片”
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
-        
     }];
     [alert addAction:cancelAction];
     [alert addAction:okAction];
     
     [self presentViewController:alert animated:YES completion:nil];
-    
-    //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
-    //        [photoLibaryNotice show];
     
     return;
 }
@@ -128,8 +124,6 @@
     
     [self presentViewController:alert animated:YES completion:nil];
     
-    //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
-    //        [photoLibaryNotice show];
     return;
 }
 
