@@ -15,7 +15,6 @@
 		E79864901D17CD020074F8D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E798648E1D17CD020074F8D2 /* LaunchScreen.storyboard */; };
 		E798649B1D17CD020074F8D2 /* PhotoLibDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E798649A1D17CD020074F8D2 /* PhotoLibDemoTests.m */; };
 		E79864A61D17CD020074F8D2 /* PhotoLibDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864A51D17CD020074F8D2 /* PhotoLibDemoUITests.m */; };
-		E7AB9AE41D3C82930072D32D /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB9AE31D3C82930072D32D /* CYPhotoPicker.m */; };
 		E7AB9AE71D3C8A470072D32D /* NSString+CYPHChineseName.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB9AE61D3C8A470072D32D /* NSString+CYPHChineseName.m */; };
 		E7AB9AEA1D3C8ACA0072D32D /* UIView+CY_1pxLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB9AE91D3C8ACA0072D32D /* UIView+CY_1pxLine.m */; };
 		E7AB9AED1D3CB3080072D32D /* UIView+CYRect.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB9AEC1D3CB3080072D32D /* UIView+CYRect.m */; };
@@ -80,8 +79,6 @@
 		E79864A71D17CD020074F8D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E79865041D17CE1C0074F8D2 /* CYPhotoLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoLib.h; sourceTree = "<group>"; };
 		E798652A1D17CE3D0074F8D2 /* CYPhotoCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCommon.h; sourceTree = "<group>"; };
-		E7AB9AE21D3C82930072D32D /* CYPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoPicker.h; sourceTree = "<group>"; };
-		E7AB9AE31D3C82930072D32D /* CYPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoPicker.m; sourceTree = "<group>"; };
 		E7AB9AE51D3C8A470072D32D /* NSString+CYPHChineseName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CYPHChineseName.h"; sourceTree = "<group>"; };
 		E7AB9AE61D3C8A470072D32D /* NSString+CYPHChineseName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CYPHChineseName.m"; sourceTree = "<group>"; };
 		E7AB9AE81D3C8ACA0072D32D /* UIView+CY_1pxLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CY_1pxLine.h"; sourceTree = "<group>"; };
@@ -244,8 +241,6 @@
 			isa = PBXGroup;
 			children = (
 				E7AB9B1A1D3CE3F40072D32D /* CYPhotoHeader.h */,
-				E7AB9AE21D3C82930072D32D /* CYPhotoPicker.h */,
-				E7AB9AE31D3C82930072D32D /* CYPhotoPicker.m */,
 				E7AB9AD61D3C82580072D32D /* Category */,
 				E7AB9AD71D3C82580072D32D /* Controller */,
 				E7AB9ADC1D3C82580072D32D /* Manager */,
@@ -490,7 +485,6 @@
 			files = (
 				E7AB9B021D3CE3180072D32D /* CYPhotoAblumListController.m in Sources */,
 				E7AB9B181D3CE3C80072D32D /* CYPhotoBrowserCell.m in Sources */,
-				E7AB9AE41D3C82930072D32D /* CYPhotoPicker.m in Sources */,
 				E7AB9AE71D3C8A470072D32D /* NSString+CYPHChineseName.m in Sources */,
 				E79864881D17CD020074F8D2 /* ViewController.m in Sources */,
 				E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */,
