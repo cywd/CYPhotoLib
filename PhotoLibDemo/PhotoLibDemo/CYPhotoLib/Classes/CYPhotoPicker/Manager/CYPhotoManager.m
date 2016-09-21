@@ -165,6 +165,9 @@
     //resizeMode：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
     option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone;
     
+    // 这里设置iCloud
+    option.networkAccessAllowed = YES;
+    
     // PHImageContentModeAspectFit ？ PHImageContentModeAspectFill ?
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         if (completeBlock) completeBlock(result, info);
@@ -178,6 +181,9 @@
 {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option = PHImageRequestOptionsResizeModeNone;
+    
+    // 这里设置iCloud
+    option.networkAccessAllowed = YES;
     
     [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
         if (completeBlock) completeBlock(imageData.length / 1000.0);

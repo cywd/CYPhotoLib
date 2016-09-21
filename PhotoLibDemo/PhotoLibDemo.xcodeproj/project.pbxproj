@@ -412,7 +412,7 @@
 				TargetAttributes = {
 					E798647C1D17CD020074F8D2 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 3SL26X62NP;
+						DevelopmentTeam = 7ENE4DHQ7N;
 					};
 					E79864951D17CD020074F8D2 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -646,11 +646,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3SL26X62NP;
+				DEVELOPMENT_TEAM = 7ENE4DHQ7N;
 				INFOPLIST_FILE = PhotoLibDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Futurestar.PhotoLibDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -658,11 +659,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3SL26X62NP;
+				DEVELOPMENT_TEAM = 7ENE4DHQ7N;
 				INFOPLIST_FILE = PhotoLibDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Futurestar.PhotoLibDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

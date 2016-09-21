@@ -81,7 +81,8 @@
         }
     }];
     
-    [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.w * 2, cell.h * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
+#warning 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
+    [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.w * 2, cell.h * 2) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
         cell.imageIV.image = image;
     }];
     

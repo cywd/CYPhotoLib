@@ -13,7 +13,6 @@
 
 @interface CYPhotoPreviewerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 
-
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSArray * dataSource;
 @property (nonatomic, strong) UIButton * selBtn;

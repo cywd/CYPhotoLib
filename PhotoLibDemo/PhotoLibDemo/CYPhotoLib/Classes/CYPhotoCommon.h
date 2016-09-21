@@ -9,9 +9,6 @@
 #ifndef CYPhotoCommon_h
 #define CYPhotoCommon_h
 
-
-
-
 static NSString *PICKER_PowerBrowserPhotoLibirayText = @"您屏蔽了选择相册的权限，开启请去系统设置->隐私->我的App来打开权限";
 
 #endif /* CYPhotoCommon_h */
