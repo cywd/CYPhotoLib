@@ -79,7 +79,7 @@
         } else if (status == PHAuthorizationStatusDenied) {
             [self deined];
         } else if (status == PHAuthorizationStatusRestricted) {
-            [self par];
+            [self restricted];
         }
         
     }];
