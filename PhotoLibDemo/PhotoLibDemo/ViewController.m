@@ -55,18 +55,18 @@
 {
     switch ([PHPhotoLibrary authorizationStatus]) {
         case PHAuthorizationStatusDenied:
-            printf("PHAuthorizationStatusDenied");
+            printf("PHAuthorizationStatusDenied - 用户拒绝当前应用访问相册,我们需要提醒用户打开访问开关");
             [self deined];
             break;
         case PHAuthorizationStatusRestricted:
-            printf("PHAuthorizationStatusRestricted");
-            [self par];
+            printf("PHAuthorizationStatusRestricted - 家长控制,不允许访问");
+            [self restricted];
             break;
         case PHAuthorizationStatusNotDetermined:
-            printf("PHAuthorizationStatusNotDetermined");
+            printf("PHAuthorizationStatusNotDetermined - 还没有选择");
             break;
         case PHAuthorizationStatusAuthorized:
-            printf("PHAuthorizationStatusAuthorized");
+            printf("PHAuthorizationStatusAuthorized - 用户允许当前应用访问相册");
             break;
         default:
             break;
@@ -83,8 +83,6 @@
         }
         
     }];
-    
-    
 }
 
 - (void)jump {
@@ -118,7 +116,7 @@
     return;
 }
 
-- (void)par {
+- (void)restricted {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"由于开启了家长控制，应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
