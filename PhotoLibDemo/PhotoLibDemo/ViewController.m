@@ -11,6 +11,8 @@
 #import "CYPhotoManager.h"
 #import "CYPhotoBrowserController.h"
 
+#import <Photos/Photos.h>
+
 @interface ViewController ()
 
 @end
@@ -48,65 +50,44 @@
     [self gotoPhotos];
 }
 
-static bool a = NO;
+//static bool a = NO;
 - (void)gotoPhotos
 {
-    if (a) {
-        if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized ) {
-            
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                // 跳转到 “设置\"-\"隐私\"-\"照片”
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
-            }];
-            [alert addAction:cancelAction];
-            [alert addAction:okAction];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            
-            //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
-            //        [photoLibaryNotice show];
-            
-            return;
-        }
+    switch ([PHPhotoLibrary authorizationStatus]) {
+        case PHAuthorizationStatusDenied:
+            printf("PHAuthorizationStatusDenied");
+            [self deined];
+            break;
+        case PHAuthorizationStatusRestricted:
+            printf("PHAuthorizationStatusRestricted");
+            [self par];
+            break;
+        case PHAuthorizationStatusNotDetermined:
+            printf("PHAuthorizationStatusNotDetermined");
+            break;
+        case PHAuthorizationStatusAuthorized:
+            printf("PHAuthorizationStatusAuthorized");
+            break;
+        default:
+            break;
     }
     
-    if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
-        // 弹出权限的选择框
-        [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
         
-#warning 这么做有严重bug，会导致内存不断增加
-        // 目前的办法是让它重新判断（待寻找点击事件的监听方法）
-        [self gotoPhotos];
-        
-        a = YES;
-        
-        return;
-    } else {
-        if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized ) {
-            
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                // 跳转到 “设置\"-\"隐私\"-\"照片”
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
-            }];
-            [alert addAction:cancelAction];
-            [alert addAction:okAction];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            
-            
-            //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
-            //        [photoLibaryNotice show];
-            
-            return;
+        if (status == PHAuthorizationStatusAuthorized) {
+            [self jump];
+        } else if (status == PHAuthorizationStatusDenied) {
+            [self deined];
+        } else if (status == PHAuthorizationStatusRestricted) {
+            [self par];
         }
-    }
+        
+    }];
     
+    
+}
+
+- (void)jump {
     CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc]init];
     ablumsList.assetCollections = [[CYPhotoManager manager]getAllAblums];
     UINavigationController * NVC = [[UINavigationController alloc] initWithRootViewController:ablumsList];
@@ -115,6 +96,45 @@ static bool a = NO;
     CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
     [ablumsList.navigationController pushViewController:browser animated:NO];
     [self presentViewController:NVC animated:YES completion:nil];
+}
+
+- (void)deined {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // 跳转到 “设置\"-\"隐私\"-\"照片”
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
+        
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
+    //        [photoLibaryNotice show];
+    
+    return;
+}
+
+- (void)par {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"由于开启了家长控制，应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // 跳转到 “设置\"-\"隐私\"-\"照片”
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
+        
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    //        UIAlertView * photoLibaryNotice = [[UIAlertView alloc] initWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
+    //        [photoLibaryNotice show];
+    return;
 }
 
 @end
