@@ -12,11 +12,10 @@
 #import "CYPhotoManager.h"
 #import "CYPhotoPreviewerController.h"
 
-@interface CYPhotoBrowserController ()<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface CYPhotoBrowserController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *dataSource;
-
 
 @end
 
@@ -32,7 +31,6 @@
     
     // 消除导航条返回键带的title
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
-    
     
     [self setupUI];
     [self loadAssetData];
@@ -135,7 +133,6 @@
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
     self.navigationItem.rightBarButtonItem = item;
-    
 }
 
 - (void)loadAssetData
