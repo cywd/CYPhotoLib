@@ -25,7 +25,6 @@
 //                                                  forBarMetrics:UIBarMetricsDefault];
 //    self.navigationController.navigationBar .shadowImage = [UIImage new];
 //    self.navigationController.navigationBar .translucent = YES;
- 
     
     [self setupNavbar];
 }
@@ -56,6 +55,5 @@
     self.title = title;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:WHITECOLOR}];
 }
-
 
 @end

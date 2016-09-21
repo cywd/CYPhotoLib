@@ -101,64 +101,7 @@
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    SuPhotoBrowserCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"headCell" forIndexPath:indexPath];
-//    [self fetchImageFromAsset:self.dataSource[indexPath.row] completeBlock:^(UIImage *image, NSDictionary *info) {
-//        cell.imageIV.image = image;
-//        [self changeCellSelBtnPosition];
-//    }];
-//    cell.selBtn.selected = [[SuPhotoCenter shareCenter].selectedPhotos containsObject:self.dataSource[indexPath.row]];
-//    
-//    __weak typeof(cell) weakCell = cell;
-//    __weak typeof(self) weakSelf = self;
-//    [cell setSelectedBlock:^(BOOL isSelected) {
-//        if (isSelected) {
-//            if ([[SuPhotoCenter shareCenter] isReachMaxSelectedCount]) {
-//                weakCell.selBtn.selected = NO;
-//                return;
-//            }
-//            [weakCell.selBtn startSelectedAnimation];
-//            [[SuPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.row]];
-//            //调整位置
-//            NSInteger photoCount = weakSelf.dataSource.count > weakSelf.preViewCount ? weakSelf.preViewCount : weakSelf.dataSource.count;
-//            //取得当前cell的位置
-//            CGRect rect = [collectionView convertRect:weakCell.frame fromView:collectionView];
-//            CGPoint point = collectionView.contentOffset;
-//            float cellEndX = rect.origin.x + rect.size.width - point.x;
-//            //滚动到屏幕三分之二处
-//            if (cellEndX > SCREEN_W * 2 / 3) {
-//                float forwardLen;
-//                if (indexPath.item == photoCount - 1) {
-//                    forwardLen = cellEndX - SCREEN_W + Space;
-//                }else {
-//                    forwardLen = cellEndX - SCREEN_W * 2 / 3;
-//                }
-//                point.x += forwardLen;
-//                [collectionView setContentOffset:point animated:YES];
-//            }
-//        }else {
-//            [[SuPhotoCenter shareCenter].selectedPhotos removeObject:weakSelf.dataSource[indexPath.row]];
-//        }
-//        [weakSelf refreshDoneStatus];
-//    }];
-//    
-//    [cell setImgTapBlock:^{
-//        SuPhotoPreviewer * previewer = [[SuPhotoPreviewer alloc]init];
-//        if (weakCell.selBtn.selected) {
-//            previewer.isPreviewSelectedPhotos = YES;
-//        }
-//        previewer.selectedAsset = weakSelf.dataSource[indexPath.row];
-//        [previewer setBackBlock:^(){
-//            [collectionView reloadData];
-//            [weakSelf refreshDoneStatus];
-//        }];
-//        [previewer setDoneBlock:^{
-//            [weakSelf dismissPhotoPickerWithoutAni];
-//        }];
-//        UINavigationController * NVC = [[UINavigationController alloc]initWithRootViewController:previewer];
-//        [weakSelf.sender presentViewController:NVC animated:YES completion:nil];
-//    }];
-//
-    
+
     UICollectionViewCell *cell = [[UICollectionViewCell alloc] init];
     return cell;
 }
@@ -177,28 +120,7 @@
 
 #pragma mark - cell相关处理
 - (void)changeCellSelBtnPosition {
-//    for (SuPhotoBrowserCell * cell in self.collectionView.visibleCells) {
-//        //获取每个cell在当前屏幕上的位置
-//        CGRect rect = [self convertRect:cell.frame fromView:_collectionView];
-//        //获取最右边的cell, 停在屏幕的边上
-//        if (rect.origin.x > SCREEN_W - cell.w) {
-//            //获取cell里的选择按钮在当前屏幕上的位置
-//            CGRect cellRect = [self convertRect:cell.selBtn.frame fromView:cell];
-//            //选择按钮在屏幕上固定的位置
-//            cellRect.origin.x = SCREEN_W - 25.0 - 1.0 - 5.0;
-//            //转化成在cell内的位置
-//            cellRect = [self convertRect:cellRect toView:cell];
-//            //如果在cell外则固定在左侧，如果在cell里则移动到相应的位置
-//            if (cellRect.origin.x < 1.0) {
-//                cellRect.origin.x = 1.0;
-//            }
-//            cell.selBtn.x = cellRect.origin.x;
-//        }
-//        //如果不是最右边, 则停在cell的右上角
-//        else {
-//            cell.selBtn.x = cell.w - Space - cell.selBtn.w;
-//        }
-//    }
+    
 }
 
 //- (CGSize)calculateImgSizeFromAsset:(PHAsset *)asset {
