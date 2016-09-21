@@ -50,7 +50,6 @@
     [self gotoPhotos];
 }
 
-//static bool a = NO;
 - (void)gotoPhotos
 {
     switch ([PHPhotoLibrary authorizationStatus]) {
@@ -81,7 +80,6 @@
         } else if (status == PHAuthorizationStatusRestricted) {
             [self restricted];
         }
-        
     }];
 }
 
