@@ -22,6 +22,7 @@
 
 @implementation CYPhotoPreviewerController
 
+#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -32,7 +33,40 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - UI
+#pragma mark - collection delegate
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.dataSource.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    CYPhotoBrowserCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"headCell" forIndexPath:indexPath];
+    [[CYPhotoManager manager] fetchImageInAsset:self.dataSource[indexPath.item] size:CGSizeMake(cell.w, cell.h) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
+        cell.imageIV.contentMode = UIViewContentModeScaleAspectFit;
+        cell.imageIV.image = image;
+    }];
+    
+    cell.tanhao.hidden = YES;
+    cell.coverBtn.hidden = YES;
+    cell.selBtn.hidden = YES;
+    
+    __weak typeof(self) weakSelf = self;
+    [cell setImgTapBlock:^{
+        [weakSelf refreshHiddenStatus];
+    }];
+    return cell;
+}
+
+#pragma mark - scrollview delegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    int currnt = (int)scrollView.contentOffset.x / self.collectionView.w;
+    [self refreshSelBtnStatusWithCurrentPage:currnt];
+    [self refreshTitle];
+}
+
+#pragma mark - private methods
 - (void)setupUI {
 //    if (self.previewPhotos) {
 //        self.dataSource = self.previewPhotos.copy;
@@ -61,37 +95,6 @@
     [self refreshSelBtnStatusWithCurrentPage:(int)self.currentPage];
     [self refreshTitle];
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return self.dataSource.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    CYPhotoBrowserCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"headCell" forIndexPath:indexPath];
-    [[CYPhotoManager manager] fetchImageInAsset:self.dataSource[indexPath.item] size:CGSizeMake(cell.w, cell.h) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
-        cell.imageIV.contentMode = UIViewContentModeScaleAspectFit;
-        cell.imageIV.image = image;
-    }];
-    
-    cell.tanhao.hidden = YES;
-    cell.coverBtn.hidden = YES;
-    cell.selBtn.hidden = YES;
-    
-    __weak typeof(self) weakSelf = self;
-    [cell setImgTapBlock:^{
-        [weakSelf refreshHiddenStatus];
-    }];
-    return cell;
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    int currnt = (int)scrollView.contentOffset.x / self.collectionView.w;
-    [self refreshSelBtnStatusWithCurrentPage:currnt];
-    [self refreshTitle];
 }
 
 - (void)refreshSelBtnStatusWithCurrentPage:(int)page

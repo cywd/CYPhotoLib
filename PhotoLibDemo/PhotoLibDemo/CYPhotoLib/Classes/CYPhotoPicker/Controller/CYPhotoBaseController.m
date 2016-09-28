@@ -15,6 +15,7 @@
 
 @implementation CYPhotoBaseController
 
+#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = WHITECOLOR;
@@ -34,7 +35,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - 导航栏
+#pragma mark - private methods
 - (void)setupNavbar {
     self.navigationController.navigationBar.barTintColor = BTNCOLOR;
     self.navigationController.navigationBar.tintColor = WHITECOLOR;
@@ -47,13 +48,14 @@
     }
 }
 
-- (void)backBtnAction {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)setNavigationTitle:(NSString *)title {
     self.title = title;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:WHITECOLOR}];
+}
+
+#pragma mark - event response
+- (void)backBtnAction {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

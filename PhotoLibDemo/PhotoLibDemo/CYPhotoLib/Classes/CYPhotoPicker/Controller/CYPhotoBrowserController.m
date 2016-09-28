@@ -21,6 +21,7 @@
 
 @implementation CYPhotoBrowserController
 
+#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -40,7 +41,7 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - collectionView代理
+#pragma mark - collectionView delegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.dataSource.count;
 }
@@ -115,7 +116,7 @@
     return cell;
 }
 
-#pragma mark - ui
+#pragma mark - private methods
 - (void)setupUI
 {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -141,7 +142,7 @@
     [self.collectionView reloadData];
 }
 
-#pragma mark - action
+#pragma mark - event response
 - (void)cancelBtnAction {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }

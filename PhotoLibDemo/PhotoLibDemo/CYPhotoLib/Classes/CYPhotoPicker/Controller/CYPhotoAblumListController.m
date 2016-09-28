@@ -20,6 +20,7 @@
 
 @implementation CYPhotoAblumListController
 
+#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -32,29 +33,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UI
-- (void)setupUI {
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H - 64) style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.showsHorizontalScrollIndicator = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.tableFooterView = [[UIView alloc]init];
-    [self.view addSubview:self.tableView];
-    
-    [self setupCancelBtn];
-}
-
-- (void)setupCancelBtn {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
-    self.navigationItem.rightBarButtonItem = item;
-}
-
-- (void)cancelBtnAction {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - tableView代理
+#pragma mark - tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.assetCollections.count;
 }
@@ -76,5 +55,30 @@
     browser.collectionTitle = [info.ablumName chineseName];;
     [self.navigationController pushViewController:browser animated:YES];
 }
+
+#pragma mark - private methods
+- (void)setupUI {
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H - 64) style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.showsHorizontalScrollIndicator = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.tableFooterView = [[UIView alloc]init];
+    [self.view addSubview:self.tableView];
+    
+    [self setupCancelBtn];
+}
+
+- (void)setupCancelBtn {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+#pragma mark - event response
+- (void)cancelBtnAction {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - getters and setters
 
 @end
