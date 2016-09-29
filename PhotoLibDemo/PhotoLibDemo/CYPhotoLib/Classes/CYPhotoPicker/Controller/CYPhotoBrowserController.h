@@ -14,4 +14,6 @@
 @property (nonatomic, copy) NSString * collectionTitle;
 @property (nonatomic, strong) PHAssetCollection * assetCollection;
 
+@property (nonatomic, assign) BOOL isSigleSel;
+
 @end

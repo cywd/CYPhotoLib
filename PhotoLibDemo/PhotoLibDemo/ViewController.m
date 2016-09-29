@@ -11,7 +11,7 @@
 #import "CYPhotoManager.h"
 #import "CYPhotoBrowserController.h"
 
-#import <Photos/Photos.h>
+//#import <Photos/Photos.h>
 
 @interface ViewController ()
 
@@ -84,6 +84,7 @@
 }
 
 - (void)jump {
+    
     CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc]init];
     ablumsList.assetCollections = [[CYPhotoManager manager] getAllAblums];
     UINavigationController * NVC = [[UINavigationController alloc] initWithRootViewController:ablumsList];

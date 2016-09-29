@@ -14,7 +14,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageIV;
 @property (weak, nonatomic) IBOutlet UIButton *coverBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *tanhao;
+@property (weak, nonatomic) IBOutlet UIButton *singleSelBtn;
 
+@property (copy, nonatomic) void(^sigleSelectedBlock)(BOOL isSelected);
 @property (nonatomic, copy) void(^selectedBlock)(BOOL isSelected);
 @property (nonatomic, copy) void(^imgTapBlock)();
 

@@ -50,6 +50,7 @@
     cell.tanhao.hidden = YES;
     cell.coverBtn.hidden = YES;
     cell.selBtn.hidden = YES;
+    cell.singleSelBtn.hidden = YES;
     
     __weak typeof(self) weakSelf = self;
     [cell setImgTapBlock:^{

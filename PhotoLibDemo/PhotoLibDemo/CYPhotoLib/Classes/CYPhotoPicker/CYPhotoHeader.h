@@ -32,12 +32,19 @@
 #import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
 
+#import "CYPhotoCenter.h"
+#import "CYPhotoAblumListController.h"
+#import "CYPhotoPreviewerController.h"
+#import "CYPhotoManager.h"
+
 #import "UIView+CY_1pxLine.h"
 #import "UIView+CYRect.h"
 #import "UIView+CYAnimation.h"
 #import "UIButton+CYCreate.h"
 #import "UIImage+CYCutDown.h"
 #import "NSString+CYPHChineseName.h"
+
+
 
 
 #endif /* CYPhotoHeader_h */

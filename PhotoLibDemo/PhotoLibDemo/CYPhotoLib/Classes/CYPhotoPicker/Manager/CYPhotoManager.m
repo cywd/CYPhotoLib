@@ -124,17 +124,13 @@
     return result;
 }
 
-/*
- * 获取所有相册图片资源
- */
+/** 获取所有相册图片资源 */
 - (NSArray<PHAsset *> *)fetchAllAssets
 {
     return [self fetchAssetsInCollection:nil asending:NO];
 }
 
-/*
- * 获取指定相册图片资源
- */
+/** 获取指定相册图片资源 */
 - (NSArray<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending
 {
     NSMutableArray<PHAsset *> *list = [NSMutableArray array];
@@ -156,9 +152,7 @@
     return list;
 }
 
-/*
- * 获取资源对应的图片
- */
+/** 获取资源对应的图片 */
 - (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock
 {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
@@ -174,9 +168,7 @@
     }];
 }
 
-/*
- * 获取资源对应的原图大小
- */
+/** 获取资源对应的原图大小 */
 - (void)getImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock
 {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
@@ -190,9 +182,7 @@
     }];
 }
 
-/*
- * 获取资源数组对应的图片数组
- */
+/** 获取资源数组对应的图片数组 */
 - (void)fetchImagesWithAssetsArray:(NSMutableArray<PHAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock
 {
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E70DB8F11D9BA78800672B2C /* CYPhotoCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E70DB8F01D9BA78800672B2C /* CYPhotoCenter.m */; };
 		E79864821D17CD020074F8D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864811D17CD020074F8D2 /* main.m */; };
 		E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864841D17CD020074F8D2 /* AppDelegate.m */; };
 		E79864881D17CD020074F8D2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864871D17CD020074F8D2 /* ViewController.m */; };
@@ -61,6 +62,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E70DB8EF1D9BA78800672B2C /* CYPhotoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCenter.h; sourceTree = "<group>"; };
+		E70DB8F01D9BA78800672B2C /* CYPhotoCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoCenter.m; sourceTree = "<group>"; };
 		E798647D1D17CD020074F8D2 /* PhotoLibDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79864811D17CD020074F8D2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E79864831D17CD020074F8D2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -299,6 +302,8 @@
 			children = (
 				E7AB9AF71D3CB7C50072D32D /* CYPhotoManager.h */,
 				E7AB9AF81D3CB7C50072D32D /* CYPhotoManager.m */,
+				E70DB8EF1D9BA78800672B2C /* CYPhotoCenter.h */,
+				E70DB8F01D9BA78800672B2C /* CYPhotoCenter.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -488,6 +493,7 @@
 				E7AB9AE71D3C8A470072D32D /* NSString+CYPHChineseName.m in Sources */,
 				E79864881D17CD020074F8D2 /* ViewController.m in Sources */,
 				E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */,
+				E70DB8F11D9BA78800672B2C /* CYPhotoCenter.m in Sources */,
 				E7AB9AFF1D3CE2F10072D32D /* CYPhotoBaseController.m in Sources */,
 				E7AB9B091D3CE34A0072D32D /* CYPhotoBrowserController.m in Sources */,
 				E7AB9AF01D3CB3540072D32D /* UIButton+CYCreate.m in Sources */,
