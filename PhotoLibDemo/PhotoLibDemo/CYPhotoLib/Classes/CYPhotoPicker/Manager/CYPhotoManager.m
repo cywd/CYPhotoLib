@@ -117,7 +117,7 @@
     //获取所有相册资源合集
     else {
 //        option.includeAssetSourceTypes = PHAssetSourceTypeNone;
-#warning 这里获取的是所有的资源合集?
+        // 这里获取的是所有的资源合集?
         result = [PHAsset fetchAssetsWithOptions:option];
         
     }

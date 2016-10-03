@@ -105,7 +105,7 @@
 
 - (void)refreshTitle
 {
-     [self setNavigationTitle:[NSString stringWithFormat:@"%ld / %ld", self.currentPage + 1, self.dataSource.count]];
+     [self setNavigationTitle:[NSString stringWithFormat:@"%zi / %zi", self.currentPage + 1, self.dataSource.count]];
 }
 
 - (void)refreshHiddenStatus

@@ -32,7 +32,7 @@
         cell.ablumCover.image = image;
     }];
     cell.ablumName.text = [info.ablumName chineseName];
-    cell.ablumCount.text = [NSString stringWithFormat:@"(%ld)",info.count];
+    cell.ablumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
     
     //line
     UIView * line = [[UIView alloc]initWithFrame:CGRectMake(100, 61 - SINGLE_LINE_ADJUST_OFFSET, SCREEN_W - 100, SINGLE_LINE_WIDTH)];

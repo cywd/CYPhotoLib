@@ -10,8 +10,6 @@
 
 @implementation CYPhotoBrowserCell
 
-
-
 - (IBAction)selectBtnAction:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (self.selectedBlock) self.selectedBlock(sender.selected);

@@ -111,7 +111,7 @@
         
     }];
     
-#warning 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
+    // 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
     [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.w * 2, cell.h * 2) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
         cell.imageIV.image = image;
     }];
@@ -150,6 +150,10 @@
         [weakSelf.navigationController pushViewController:previewer animated:YES];
     }];
     
+    [cell setSigleSelectedBlock:^(BOOL isSelected) {
+        
+    }];
+    
     return cell;
 }
 
@@ -183,7 +187,7 @@
     if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
         self.bottomViewCover.hidden = YES;
         self.isOriginalBtn.selected = [CYPhotoCenter shareCenter].isOriginal;
-        self.comBtn.text = [NSString stringWithFormat:@"完成(%ld)", [CYPhotoCenter shareCenter].selectedPhotos.count];
+        self.comBtn.text = [NSString stringWithFormat:@"完成(%zi)", [CYPhotoCenter shareCenter].selectedPhotos.count];
     } else {
         self.bottomViewCover.hidden = NO;
         self.isOriginalBtn.selected = NO;
