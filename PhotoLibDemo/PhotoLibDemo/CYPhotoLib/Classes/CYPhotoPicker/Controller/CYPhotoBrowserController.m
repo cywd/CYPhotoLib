@@ -116,6 +116,8 @@
         cell.imageIV.image = image;
     }];
     
+    cell.selBtn.selected = [[CYPhotoCenter shareCenter].selectedPhotos containsObject:self.dataSource[indexPath.item]];
+    
     __weak typeof(cell) weakCell = cell;
     __weak typeof(self) weakSelf = self;
     
