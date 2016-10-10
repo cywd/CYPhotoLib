@@ -72,42 +72,47 @@
     
     [[CYPhotoManager manager] getImageDataLength:asset completeBlock:^(CGFloat length) {
         
-        cell.singleSelBtn.hidden = !_isSigleSel;
-        
-        if (length < (102400 / 1000.0) ) {
-            // YES
-            cell.tanhao.hidden = NO;
-        } else if (width/height > 2 || height/width > 2) {
-            // YES
-            cell.tanhao.hidden = NO;
+        if (asset.mediaType == PHAssetMediaTypeImage) {
+            cell.singleSelBtn.hidden = !_isSigleSel;
+            
+            if (length < (102400 / 1000.0) ) {
+                // YES
+                cell.tanhao.hidden = NO;
+            } else if (width/height > 2 || height/width > 2) {
+                // YES
+                cell.tanhao.hidden = NO;
+            } else {
+                // NO
+                cell.tanhao.hidden = YES;
+            }
+            
+            if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
+                // YES
+                cell.tanhao.hidden = YES;
+                cell.coverBtn.hidden = NO;
+                //            cell.selBtn.hidden = YES;
+            } else {
+                // NO
+                //            cell.tanhao.hidden = YES;
+                cell.coverBtn.hidden = YES;
+                //            cell.selBtn.hidden = NO;
+            }
+            
+            
+            
+            if (!cell.coverBtn.hidden) {
+                cell.selBtn.hidden = YES;
+            }
+            
+            if (!cell.singleSelBtn.hidden) {
+                cell.selBtn.hidden = YES;
+                cell.tanhao.hidden = YES;
+            }
         } else {
-            // NO
-            cell.tanhao.hidden = YES;
-        }
-        
-        if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
-            // YES
+            cell.selBtn.hidden = YES;
             cell.tanhao.hidden = YES;
             cell.coverBtn.hidden = NO;
-//            cell.selBtn.hidden = YES;
-        } else {
-            // NO
-//            cell.tanhao.hidden = YES;
-            cell.coverBtn.hidden = YES;
-//            cell.selBtn.hidden = NO;
         }
-        
-        
-        
-        if (!cell.coverBtn.hidden) {
-            cell.selBtn.hidden = YES;
-        }
-        
-        if (!cell.singleSelBtn.hidden) {
-            cell.selBtn.hidden = YES;
-            cell.tanhao.hidden = YES;
-        }
-        
         
     }];
     
