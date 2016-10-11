@@ -106,7 +106,8 @@
     
     PHFetchOptions * option = [[PHFetchOptions alloc] init];
     option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:asending]];
-    //    option.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
+    // 一个过滤器，留下的类型，图片格式
+    option.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
     PHFetchResult * result;
     //获取指定相册资源合集
     if (collection) {
