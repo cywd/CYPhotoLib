@@ -12,9 +12,9 @@
 
 @interface CYPhotoAblumCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *ablumCover;
-@property (weak, nonatomic) IBOutlet UILabel *ablumName;
-@property (weak, nonatomic) IBOutlet UILabel *ablumCount;
+@property (strong, nonatomic) UIImageView *ablumCover;
+@property (strong, nonatomic) UILabel *ablumName;
+@property (strong, nonatomic) UILabel *ablumCount;
 
 + (instancetype)cellForTableView:(UITableView *)tableView info:(CYAblumInfo *)info;
 

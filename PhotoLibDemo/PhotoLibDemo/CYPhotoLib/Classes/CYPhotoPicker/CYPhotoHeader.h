@@ -34,8 +34,8 @@
 
 #import "CYPhotoCenter.h"
 #import "CYPhotoAblumListController.h"
-#import "CYPhotoPreviewerController.h"
 #import "CYPhotoManager.h"
+#import "CYPhotoBrowserController.h"
 
 #import "UIView+CY_1pxLine.h"
 #import "UIView+CYRect.h"

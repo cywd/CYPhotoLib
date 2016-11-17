@@ -52,9 +52,21 @@
 }
 
 - (BOOL)isReachMaxSelectedCount {
-    if (self.selectedPhotos.count >= self.selectedCount) {
-//        NSString *msg = [NSString stringWithFormat:@"最多只能选择%ld张", self.selectedCount];
+    if (self.selectedPhotos.count >= self.maxSelectedCount) {
+        NSString *msg = [NSString stringWithFormat:@"最多只能选择%ld张", self.maxSelectedCount];
+//        ShowMsg(msg);
         
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)isReachMinSelectedCount {
+    
+    if (self.selectedPhotos.count < self.minSelectedCount) {
+        NSString *msg = [NSString stringWithFormat:@"至少要选择%ld张", self.minSelectedCount];
+//        ShowMsg(msg);
         return YES;
     }
     return NO;
@@ -63,11 +75,15 @@
 #pragma mark - 清除信息
 - (void)clearInfos {
     self.selectedCount = 20;
+    self.maxSelectedCount = 20;
+    self.minSelectedCount = 1;
     self.isOriginal = NO;
     self.handle = nil;
     self.allPhotos = nil;
     [self.selectedPhotos removeAllObjects];
+//    self.selectedPhotos = [NSMutableArray array];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 #pragma mark - 监听图片变化代理

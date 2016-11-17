@@ -38,30 +38,30 @@
     //先清空数组
     [_ablumsList removeAllObjects];
     
+    //列出并加入所有智能相册 系统相册
+    PHFetchResult * smartAblums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
+    [self fetchCollection:smartAblums];
+
+    
     PHFetchResult * ablums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     [self fetchCollection:ablums];
     
-    //列出并加入所有智能相册
-    PHFetchResult * smartAblums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-    [self fetchCollection:smartAblums];
     
     //列出列出并加入所有用户创建的相册
-    //    PHFetchResult * topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
-    //    [self fetchCollection:topLevelUserCollections];
-    
-    
+//    PHFetchResult * topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+//    [self fetchCollection:topLevelUserCollections];
     
     // 不完美排序
-    NSArray * engNameList = @[@"Camera Roll", @"My Photo Stream", @"Recently Added", @"Selfies", @"Favorites", @"Screenshots", @"Recently Deleted", @"Bursts", @"Videos"];
-    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        for (NSUInteger i = 0; i<engNameList.count; i++) {
-            if ([obj.ablumName isEqualToString:engNameList[i]]) {
-                [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:i];
-            }
-        }
-        
-    }];
+//    NSArray * engNameList = @[@"Camera Roll", @"My Photo Stream", @"Recently Added", @"Selfies", @"Favorites", @"Screenshots", @"Recently Deleted", @"Bursts", @"Videos"];
+//    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        for (NSUInteger i = 0; i<engNameList.count; i++) {
+//            if ([obj.ablumName isEqualToString:engNameList[i]]) {
+//                [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:i];
+//            }
+//        }
+//        
+//    }];
     
     [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.ablumName isEqualToString:@"All Photos"]) {
@@ -161,7 +161,8 @@
     option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone;
     
     // 这里设置iCloud
-    option.networkAccessAllowed = YES;
+//    option.networkAccessAllowed = YES;
+    option.synchronous = !isResize;
     
     // PHImageContentModeAspectFit ？ PHImageContentModeAspectFill ?
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
@@ -169,18 +170,102 @@
     }];
 }
 
+- (void)fetchImageWithLocalIdentifiers:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock {
+    __weak typeof(self) weakSelf = self;
+    [self fetchAssetWithLocalIdentifiers:localIdentifier completeBlock:^(PHAsset *asset) {
+        
+        [weakSelf fetchImageInAsset:asset size:size isResize:isResize completeBlock:completeBlock];
+        
+    }];
+}
+
+/** 根据localid获取资源对应的asset */
+- (void)fetchAssetWithLocalIdentifiers:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock {
+    // 需要localIdentifier
+    PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
+    PHFetchResult *fetchResult = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:fetchOptions];
+    PHAsset *asset = [fetchResult firstObject];
+    if (completeBlock) completeBlock(asset);
+}
+
 /** 获取资源对应的原图大小 */
 - (void)getImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock
 {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option = PHImageRequestOptionsResizeModeNone;
+    option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
     // 这里设置iCloud
-    option.networkAccessAllowed = YES;
+//    option.networkAccessAllowed = YES;
+//    option.synchronous = YES;
     
     [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
         if (completeBlock) completeBlock(imageData.length / 1000.0);
     }];
+}
+
+- (BOOL)isInLocalAblumWithAsset:(PHAsset *)asset {
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.networkAccessAllowed = NO;
+    option.synchronous = YES;
+    
+    __block BOOL isInLocalAblum = YES;
+    
+    [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        isInLocalAblum = imageData ? YES : NO;
+    }];
+    return isInLocalAblum;
+}
+
+/** 获取资源对应的原图大小 */
+- (void)getImageDataLength1:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock
+{
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.resizeMode = PHImageRequestOptionsResizeModeNone;
+    
+    // 这里设置iCloud
+    option.networkAccessAllowed = YES;
+//    option.synchronous = YES;
+    
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        if (completeBlock) completeBlock(imageData.length / 1000.0);
+    }];
+}
+
+/** 获取资源对应的原图大小 */
+- (void)getImageDataLength2:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock
+{
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.resizeMode = PHImageRequestOptionsResizeModeNone;
+    
+    // 这里设置iCloud
+//    option.networkAccessAllowed = YES;
+//    option.synchronous = YES;
+    
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        if (completeBlock) completeBlock(imageData.length / 1000.0);
+    }];
+}
+
+- (void)getImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
+    
+    __weak typeof(self) weakSelf = self;
+    [self fetchAssetWithLocalIdentifiers:localIdentifier completeBlock:^(PHAsset *asset) {
+        [weakSelf getImageDataWithAsset:asset completeBlock:completeBlock];
+    }];
+}
+
+
+/** 获取资源对应的原图data */
+- (void)getImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock
+{
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.resizeMode = PHImageRequestOptionsResizeModeNone;
+    
+    // 这里设置iCloud
+//    option.networkAccessAllowed = YES;
+//    option.synchronous = YES;
+    
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:completeBlock];
 }
 
 /** 获取资源数组对应的图片数组 */
@@ -243,5 +328,7 @@
         }];
     }
 }
+
+
 
 @end

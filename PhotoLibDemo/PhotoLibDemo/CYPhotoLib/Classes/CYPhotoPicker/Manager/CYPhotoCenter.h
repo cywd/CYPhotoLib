@@ -17,6 +17,9 @@
  */
 @property (nonatomic, assign) NSInteger selectedCount;
 
+@property (nonatomic, assign) NSInteger maxSelectedCount;
+@property (nonatomic, assign) NSInteger minSelectedCount;
+
 /*
  * 是否原图
  */
@@ -56,6 +59,8 @@
  *  判断是否达到最大选择数
  */
 - (BOOL)isReachMaxSelectedCount;
+
+- (BOOL)isReachMinSelectedCount;
 
 /**
  *  完成选择（相机的照片）

@@ -24,7 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setNavigationTitle:@"照片"];
+    self.title = @"照片";
+    
+//    [self setNavigationTitle:@"照片"];
     [self setupUI];
 }
 
@@ -44,15 +46,19 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPat {
-    return 62.0;
+    return 80.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
+    
+    browser.isSingleSel = self.isSingleSel;
     CYAblumInfo *info = self.self.assetCollections[indexPath.row];
+    
+    browser.info = info;
     browser.assetCollection = info.assetCollection;
-    browser.collectionTitle = [info.ablumName chineseName];;
+    browser.collectionTitle = [info.ablumName chineseName];
     [self.navigationController pushViewController:browser animated:YES];
 }
 
@@ -62,7 +68,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.showsHorizontalScrollIndicator = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.view addSubview:self.tableView];
     
@@ -76,6 +82,7 @@
 
 #pragma mark - event response
 - (void)cancelBtnAction {
+    [[CYPhotoCenter shareCenter] clearInfos];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 

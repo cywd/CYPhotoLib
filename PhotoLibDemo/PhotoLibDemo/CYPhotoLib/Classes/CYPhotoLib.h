@@ -9,6 +9,8 @@
 #ifndef CYPhotoLib_h
 #define CYPhotoLib_h
 
-
+#import "CYPhotoHeader.h"
+#import "CYPhotoCommon.h"
+#import "CYPhotoPicker.h"
 
 #endif /* CYPhotoLib_h */
