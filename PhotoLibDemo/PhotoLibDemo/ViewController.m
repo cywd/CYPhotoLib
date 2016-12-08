@@ -41,6 +41,14 @@
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     [picker showInSender:self isSingleSel:NO handle:^(NSArray *photos) {
         
+        NSMutableArray *assetArray = [CYPhotoCenter shareCenter].selectedPhotos;
+        
+        [[CYPhotoManager manager] fetchImageInAsset:assetArray[0] size:PHImageManagerMaximumSize isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
+           
+            
+            
+        }];
+        
     }];
 }
 
