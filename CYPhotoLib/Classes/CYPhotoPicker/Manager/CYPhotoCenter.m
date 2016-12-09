@@ -53,7 +53,7 @@
 
 - (BOOL)isReachMaxSelectedCount {
     if (self.selectedPhotos.count >= self.maxSelectedCount) {
-        NSString *msg = [NSString stringWithFormat:@"最多只能选择%ld张", self.maxSelectedCount];
+//        NSString *msg = [NSString stringWithFormat:@"最多只能选择%ld张", self.maxSelectedCount];
 //        ShowMsg(msg);
         
         return YES;
@@ -65,7 +65,7 @@
 - (BOOL)isReachMinSelectedCount {
     
     if (self.selectedPhotos.count < self.minSelectedCount) {
-        NSString *msg = [NSString stringWithFormat:@"至少要选择%ld张", self.minSelectedCount];
+//        NSString *msg = [NSString stringWithFormat:@"至少要选择%ld张", self.minSelectedCount];
 //        ShowMsg(msg);
         return YES;
     }

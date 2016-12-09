@@ -59,15 +59,17 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(BOOL)shouldAutorotate
+- (BOOL)shouldAutorotate
 {
     return YES;
 }
--(NSUInteger)supportedInterfaceOrientations
+
+- (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
--(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
     return UIInterfaceOrientationPortrait;
 }

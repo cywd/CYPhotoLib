@@ -216,15 +216,15 @@
         }
         // Download image from iCloud / 从iCloud下载图片
         if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
-            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
-            PHAssetImageProgressHandler dd = option.progressHandler;
-            
-            [option setProgressHandler:^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
-                
-                
-                
-            }];
-            
+//            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
+//            PHAssetImageProgressHandler dd = option.progressHandler;
+//            
+//            [option setProgressHandler:^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
+//                
+//                
+//                
+//            }];
+//            
             option.networkAccessAllowed = YES;
             option.resizeMode = PHImageRequestOptionsResizeModeFast;
             [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {

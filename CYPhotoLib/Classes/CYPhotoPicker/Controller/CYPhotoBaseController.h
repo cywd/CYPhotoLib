@@ -11,6 +11,6 @@
 @interface CYPhotoBaseController : UIViewController
 
 /* 设置标题 */
-- (void)setNavigationTitle:(NSString *)title;
+//- (void)setNavigationTitle:(NSString *)title;
 
 @end
