@@ -46,7 +46,6 @@
         [[CYPhotoManager manager] fetchImageInAsset:assetArray[0] size:PHImageManagerMaximumSize isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
            
             
-            
         }];
         
     }];
