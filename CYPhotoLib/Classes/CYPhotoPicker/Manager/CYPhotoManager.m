@@ -156,13 +156,27 @@
 /** 获取资源对应的图片 */
 - (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock
 {
+    //请求大图界面，当切换图片时，取消上一张图片的请求，对于iCloud端的图片，可以节省流量
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    //resizeMode：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
-    option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone;
-    
+    /**
+     resizeMode：对请求的图像怎样缩放。有三种选择：None，默认加载方式；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
+     deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
+     这个属性只有在 synchronous 为 true 时有效。
+     */
+    option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone; //控制照片尺寸
+    //option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
     // 这里设置iCloud
     option.networkAccessAllowed = YES;
     option.synchronous = !isResize;
+    
+    /*
+     info字典提供请求状态信息:
+     PHImageResultIsInCloudKey：图像是否必须从iCloud请求
+     PHImageResultIsDegradedKey：当前UIImage是否是低质量的，这个可以实现给用户先显示一个预览图
+     PHImageResultRequestIDKey和PHImageCancelledKey：请求ID以及请求是否已经被取消
+     PHImageErrorKey：如果没有图像，字典内的错误信息
+     */
+
     
     // 下载进度监听
 //    if (!isResize) {
@@ -210,10 +224,13 @@
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
-        if (downloadFinined && result) {
-//            result = [self fixOrientation:result];
-            if (completion) completion(result,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+        
+        //不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
+        // && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]
+        if (downloadFinined && completion) {
+            completion(result, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
         }
+ 
         // Download image from iCloud / 从iCloud下载图片
         if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
 //            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
