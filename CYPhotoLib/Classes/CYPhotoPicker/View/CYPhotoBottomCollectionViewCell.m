@@ -14,8 +14,8 @@
     [super awakeFromNib];
     // Initialization code
 }
+
 - (IBAction)deleteItem:(UIButton *)sender forEvent:(UIEvent *)event {
-    
     if (self.deleteTapBlock) {
         self.deleteTapBlock(self.indexPath);
     }

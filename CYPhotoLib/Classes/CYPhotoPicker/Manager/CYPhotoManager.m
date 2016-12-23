@@ -238,8 +238,6 @@
 //            
 //            [option setProgressHandler:^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
 //                
-//                
-//                
 //            }];
 //            
             option.networkAccessAllowed = YES;

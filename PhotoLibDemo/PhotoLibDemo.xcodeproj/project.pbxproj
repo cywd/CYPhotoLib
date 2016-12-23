@@ -126,8 +126,8 @@
 		E743BD9B1DFA93BB001C4A35 /* CYPhotoBrowserFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBrowserFooter.h; sourceTree = "<group>"; };
 		E743BD9C1DFA93BB001C4A35 /* CYPhotoBrowserFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBrowserFooter.m; sourceTree = "<group>"; };
 		E743BD9D1DFA93BB001C4A35 /* CYPhotoBrowserFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYPhotoBrowserFooter.xib; sourceTree = "<group>"; };
-		E743BD9E1DFA93BB001C4A35 /* CYPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoPicker.h; sourceTree = "<group>"; };
-		E743BD9F1DFA93BB001C4A35 /* CYPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoPicker.m; sourceTree = "<group>"; };
+		E743BD9E1DFA93BB001C4A35 /* CYPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CYPhotoPicker.h; path = /Users/cyrill/MyGitHub/CYPhotoLib/CYPhotoLib/Classes/CYPhotoPicker.h; sourceTree = "<absolute>"; };
+		E743BD9F1DFA93BB001C4A35 /* CYPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CYPhotoPicker.m; path = /Users/cyrill/MyGitHub/CYPhotoLib/CYPhotoLib/Classes/CYPhotoPicker.m; sourceTree = "<absolute>"; };
 		E798647D1D17CD020074F8D2 /* PhotoLibDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79864811D17CD020074F8D2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E79864831D17CD020074F8D2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -186,8 +186,6 @@
 				E743BD601DFA93BB001C4A35 /* CYPhotoCommon.h */,
 				E743BD611DFA93BB001C4A35 /* CYPhotoLib.h */,
 				E743BD621DFA93BB001C4A35 /* CYPhotoPicker */,
-				E743BD9E1DFA93BB001C4A35 /* CYPhotoPicker.h */,
-				E743BD9F1DFA93BB001C4A35 /* CYPhotoPicker.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -195,13 +193,15 @@
 		E743BD621DFA93BB001C4A35 /* CYPhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
-				E743BD631DFA93BB001C4A35 /* Category */,
-				E743BD701DFA93BB001C4A35 /* Controller */,
 				E743BD7A1DFA93BB001C4A35 /* CYPhotoHeader.h */,
+				E743BD9E1DFA93BB001C4A35 /* CYPhotoPicker.h */,
+				E743BD9F1DFA93BB001C4A35 /* CYPhotoPicker.m */,
 				E743BD7B1DFA93BB001C4A35 /* Manager */,
+				E743BD701DFA93BB001C4A35 /* Controller */,
 				E743BD801DFA93BB001C4A35 /* Model */,
-				E743BD831DFA93BB001C4A35 /* Resource */,
 				E743BD921DFA93BB001C4A35 /* View */,
+				E743BD631DFA93BB001C4A35 /* Category */,
+				E743BD831DFA93BB001C4A35 /* Resource */,
 			);
 			path = CYPhotoPicker;
 			sourceTree = "<group>";
