@@ -156,7 +156,7 @@
 /** 获取资源对应的图片 */
 - (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock
 {
-    //请求大图界面，当切换图片时，取消上一张图片的请求，对于iCloud端的图片，可以节省流量
+    // 请求大图界面，当切换图片时，取消上一张图片的请求，对于iCloud端的图片，可以节省流量
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     /**
      resizeMode：对请求的图像怎样缩放。有三种选择：None，默认加载方式；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
@@ -164,7 +164,7 @@
      这个属性只有在 synchronous 为 true 时有效。
      */
     option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone; //控制照片尺寸
-    //option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
+    // option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
     // 这里设置iCloud
     option.networkAccessAllowed = YES;
     option.synchronous = !isResize;
@@ -181,10 +181,7 @@
     // 下载进度监听
 //    if (!isResize) {
 //        option.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
-//            
-//            
-//            
-//            
+//
 //        };
 //    }
     
@@ -193,8 +190,6 @@
         
         // 排除取消，错误，低清图三种情况，即已经获取到了高清图
 //        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
-        
-        
         
         if (completeBlock) completeBlock(result, info);
     }];
@@ -360,7 +355,7 @@
             //源图 -> 不压缩
             size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
             
-        }else {
+        } else {
             
             //压缩的图 －> 以最长边为屏幕分辨率压缩
             CGFloat scale = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
@@ -369,17 +364,17 @@
                 if (asset.pixelWidth < SCREEN_W) {
                     //最长边小于屏幕宽度时，采用原图
                     size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
-                }else {
+                } else {
                     //压缩
                     size = CGSizeMake(SCREEN_W, SCREEN_W / scale);
                 }
                 
-            }else {
+            } else {
                 
                 if (asset.pixelHeight < SCREEN_H) {
                     //最长边小于屏幕高度时，采用原图
                     size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
-                }else {
+                } else {
                     //压缩
                     size = CGSizeMake(SCREEN_H * scale, SCREEN_H);
                 }
