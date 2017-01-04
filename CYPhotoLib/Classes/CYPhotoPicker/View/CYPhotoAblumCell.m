@@ -17,7 +17,7 @@
     
     static NSString *cellID = @"CYPhotoAblumCell";
     
-    //表格列表不多，不选择重用机制
+    // 复用
     CYPhotoAblumCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     
     if (!cell) {
