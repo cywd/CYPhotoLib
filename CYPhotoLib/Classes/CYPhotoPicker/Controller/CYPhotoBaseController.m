@@ -59,6 +59,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+// 横屏
 - (BOOL)shouldAutorotate
 {
     return YES;

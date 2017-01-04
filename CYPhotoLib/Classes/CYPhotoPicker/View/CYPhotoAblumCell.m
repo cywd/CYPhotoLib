@@ -36,7 +36,7 @@
 //    line.backgroundColor = AblumsListLineColor;
 //    [cell.contentView addSubview:line];
     
-    //indicator
+    // indicator
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
