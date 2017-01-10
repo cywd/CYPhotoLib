@@ -29,7 +29,7 @@
 #pragma mark - 获取所有图片
 - (void)fetchAllAsset {
     [self clearInfos];
-    [[PHPhotoLibrary sharedPhotoLibrary]registerChangeObserver:self];
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     [self photoLibaryAuthorizationValid];
 }
 
@@ -117,9 +117,9 @@
                 });
             }
         }];
-    }else if (authoriation == AVAuthorizationStatusAuthorized) {
+    } else if (authoriation == AVAuthorizationStatusAuthorized) {
         if (handle) handle();
-    }else {
+    } else {
 //        UIAlertView * cameraNotice = [[UIAlertView alloc]initWithTitle:@"应用程序无访问相机权限" message:@"请在“设置\"-\"隐私\"-\"相机”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
 //        [cameraNotice show];
     }

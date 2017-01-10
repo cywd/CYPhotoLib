@@ -177,7 +177,6 @@
      PHImageErrorKey：如果没有图像，字典内的错误信息
      */
 
-    
     // 下载进度监听
 //    if (!isResize) {
 //        option.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
@@ -399,7 +398,5 @@
         }];
     }
 }
-
-
 
 @end
