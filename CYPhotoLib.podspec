@@ -38,8 +38,8 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  s.license      = "MIT"
-  # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
+  # s.license      = "MIT"
+  s.license      = { :type => "MIT", :file => "LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -90,7 +90,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "CYPhotoLib/Classes/**/*.{h,m}", "CYPhotoLib/Classes/*.{h,m}"
+  s.source_files  = "CYPhotoLib/Classes/*/*"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "CYPhotoLib/Classes/CYPhotoLib.h"
@@ -105,7 +105,7 @@ Pod::Spec.new do |s|
   #
 
   # s.resource  = "icon.png"
-  s.resources = "CYPhotoLib/CYPhotoPicker/Classes/Resource/*.png"
+  # s.resources = "CYPhotoLib/CYPhotoPicker/Classes/Resource/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
