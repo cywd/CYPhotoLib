@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "CYPhotoLib"
-  s.version      = "0.0.2"
+  s.version      = "0.0.1"
   s.summary      = "A photo selection framework used PhotoLib."
 
   # This description is used to generate tags and improve search results.
@@ -90,7 +90,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "CYPhotoLib/Classes/**/**"
+  s.source_files  = "CYPhotoLib/Classes/*/*"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "CYPhotoLib/Classes/CYPhotoLib.h"
