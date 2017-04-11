@@ -85,7 +85,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self refreshBottomView];
     [self.collectionView reloadData];
     
-    
     [self.toolBar addSubview:self.yixuanLabel];
     
     //!!!: Cyrill:这里是计数的样式
