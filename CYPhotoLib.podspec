@@ -105,7 +105,7 @@ Pod::Spec.new do |s|
   #
 
   # s.resource  = "icon.png"
-  # s.resources = "CYPhotoLib/CYPhotoPicker/Resource/*.png"
+  s.resources = "CYPhotoLib/Resource/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 

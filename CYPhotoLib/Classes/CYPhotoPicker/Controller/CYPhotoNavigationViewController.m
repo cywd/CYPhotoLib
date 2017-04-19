@@ -39,7 +39,11 @@
 {
     return YES;
 }
--(NSUInteger)supportedInterfaceOrientations
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
+- (NSUInteger)supportedInterfaceOrientations
+#else
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#endif
 {
     return [self.viewControllers.lastObject supportedInterfaceOrientations];
 }

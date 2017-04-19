@@ -247,10 +247,10 @@
 		E7C555851EA734E500BA5D8C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E7C555891EA734E500BA5D8C /* CYPhotoPicker */,
+				E7C555881EA734E500BA5D8C /* CYPhotoLib.h */,
 				E7C555861EA734E500BA5D8C /* CYPhotoCommon.h */,
 				E7C555871EA734E500BA5D8C /* CYPhotoHeader.h */,
-				E7C555881EA734E500BA5D8C /* CYPhotoLib.h */,
-				E7C555891EA734E500BA5D8C /* CYPhotoPicker */,
 				E7C555B51EA734E500BA5D8C /* CYPhotoPicker.h */,
 				E7C555B61EA734E500BA5D8C /* CYPhotoPicker.m */,
 			);
