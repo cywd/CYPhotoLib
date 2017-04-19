@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class PHAsset;
 @class UIImage;
 
 @interface CYPhotoCenter : NSObject
@@ -33,7 +34,7 @@
 /**
  *  选择的图片
  */
-@property (nonatomic, strong) NSMutableArray * selectedPhotos;
+@property (nonatomic, strong) NSMutableArray <PHAsset *> * selectedPhotos;
 
 /**
  *  选择完毕回调
@@ -49,6 +50,8 @@
  *  获取所有照片
  */
 - (void)fetchAllAsset;
+
+- (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock;
 
 /**
  *  获取相机权限

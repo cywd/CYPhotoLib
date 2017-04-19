@@ -6,8 +6,9 @@
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-@class UIViewController;
+#import <UIKit/UIKit.h>
+
+@class PHAsset;
 
 @interface CYPhotoPicker : NSObject
 
@@ -35,7 +36,8 @@
  *
  *  @param handle 回调（图片数组）
  */
-- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel handle:(void(^)(NSArray *photos))handle;
+
+- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel handle:(void(^)(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets))handle;
 
 
 /** 清除包括已选图片的信息等 */

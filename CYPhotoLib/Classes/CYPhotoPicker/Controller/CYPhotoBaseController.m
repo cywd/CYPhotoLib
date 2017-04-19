@@ -31,11 +31,6 @@
 //    [self setupNavbar];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - private methods
 //- (void)setupNavbar {
 //    self.navigationController.navigationBar.barTintColor = BTNCOLOR;
@@ -79,5 +74,10 @@
     return UIInterfaceOrientationPortrait;
 }
 
+#pragma mark - receive and dealloc
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end

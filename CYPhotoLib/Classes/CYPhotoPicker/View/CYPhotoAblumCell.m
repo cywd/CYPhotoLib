@@ -42,7 +42,7 @@
     return cell;
 }
 
-- (UIImageView *)ablumCover{
+- (UIImageView *)ablumCover {
     if (!_ablumCover) {
         UIImageView *groupImageView = [[UIImageView alloc] init];
         groupImageView.frame = CGRectMake(15, 5, 70, 70);
@@ -53,7 +53,7 @@
     return _ablumCover;
 }
 
-- (UILabel *)ablumName{
+- (UILabel *)ablumName {
     if (!_ablumName) {
         UILabel *groupNameLabel = [[UILabel alloc] init];
         groupNameLabel.frame = CGRectMake(95, 15, self.frame.size.width - 100, 20);
@@ -62,7 +62,7 @@
     return _ablumName;
 }
 
-- (UILabel *)ablumCount{
+- (UILabel *)ablumCount {
     if (!_ablumCount) {
         UILabel *groupPicCountLabel = [[UILabel alloc] init];
         groupPicCountLabel.font = [UIFont systemFontOfSize:13];

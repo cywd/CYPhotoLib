@@ -30,11 +30,6 @@
     [self setupUI];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.assetCollections.count;
@@ -62,13 +57,19 @@
     [self.navigationController pushViewController:browser animated:YES];
 }
 
+#pragma mark - event response
+- (void)cancelBtnAction {
+    [[CYPhotoCenter shareCenter] clearInfos];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - private methods
 - (void)setupUI {
     self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H - 64) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.showsHorizontalScrollIndicator = NO;
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     [self.view addSubview:self.tableView];
     
@@ -80,12 +81,10 @@
     self.navigationItem.rightBarButtonItem = item;
 }
 
-#pragma mark - event response
-- (void)cancelBtnAction {
-    [[CYPhotoCenter shareCenter] clearInfos];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - receive and dealloc
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - getters and setters
 
 @end

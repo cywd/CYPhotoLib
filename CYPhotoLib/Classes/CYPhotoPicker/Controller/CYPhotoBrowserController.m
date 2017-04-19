@@ -96,10 +96,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     //    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 #pragma mark - collectionView delegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -271,6 +267,21 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     return reusableView;
 }
 
+#pragma mark - event response
+- (void)cancelBtnAction {
+    [[CYPhotoCenter shareCenter] clearInfos];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)completeClick:(UIButton *)sneder {
+    
+    if ([CYPhotoCenter shareCenter].isReachMinSelectedCount) {
+        return;
+    }
+    
+    [[CYPhotoCenter shareCenter] endPick];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - private methods
 - (void)setupUI {
@@ -282,16 +293,16 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     layout.minimumInteritemSpacing = CELL_INTERRITEM_MARGIN;
     layout.minimumLineSpacing = CELL_LINE_MARGIN;
     layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 44 * 2);
-
+    
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H-64) collectionViewLayout:layout];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     [self.collectionView registerNib:[UINib nibWithNibName:@"CYPhotoBrowserCell" bundle:nil] forCellWithReuseIdentifier:@"browserCell"];
     
-     [self.collectionView registerClass:[CYPhotoBrowserFooter class]  forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier];
+    [self.collectionView registerClass:[CYPhotoBrowserFooter class]  forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier];
     
-//    [self.view insertSubview:self.collectionView belowSubview:self.bottomView];
+    //    [self.view insertSubview:self.collectionView belowSubview:self.bottomView];
     [self.view addSubview:self.collectionView];
     
     if (_isSingleSel) {
@@ -314,13 +325,13 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (void) setupButtonsSingle{
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleDone target:self action:@selector(completeClick:)];
+    //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleDone target:self action:@selector(completeClick:)];
 }
 
 - (void)loadAssetData
 {
     self.dataSource = [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO];
-//    [self.collectionView reloadData];
+    //    [self.collectionView reloadData];
 }
 
 - (void)refreshBottomView {
@@ -332,35 +343,19 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     
     if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
-//        self.bottomViewCover.hidden = YES;
+        //        self.bottomViewCover.hidden = YES;
         self.isOriginalBtn.selected = [CYPhotoCenter shareCenter].isOriginal;
-//        self.comBtn.text = [NSString stringWithFormat:@"完成(%zi)", [CYPhotoCenter shareCenter].selectedPhotos.count];
+        //        self.comBtn.text = [NSString stringWithFormat:@"完成(%zi)", [CYPhotoCenter shareCenter].selectedPhotos.count];
         
         self.completeBtn.hidden = NO;
         
     } else {
-//        self.bottomViewCover.hidden = NO;
+        //        self.bottomViewCover.hidden = NO;
         self.isOriginalBtn.selected = NO;
-//        self.comBtn.text = @"完成";
+        //        self.comBtn.text = @"完成";
         
         self.completeBtn.hidden = YES;
     }
-}
-
-#pragma mark - event response
-- (void)cancelBtnAction {
-    [[CYPhotoCenter shareCenter] clearInfos];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)completeClick:(UIButton *)sneder {
-    
-    if ([CYPhotoCenter shareCenter].isReachMinSelectedCount) {
-        return;
-    }
-    
-    [[CYPhotoCenter shareCenter] endPick];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -初始化底部ToorBar
@@ -462,8 +457,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     return _completeBtn;
 }
 
-- (UILabel *)yixuanLabel
-{
+- (UILabel *)yixuanLabel {
     if (!_yixuanLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, 35, 25)];
         label.text = @"已选";
@@ -474,8 +468,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     return _yixuanLabel;
 }
 
-- (UILabel *)numberLabel
-{
+- (UILabel *)numberLabel {
     if (!_numberLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 110, 25)];
         label.text = [NSString stringWithFormat:@"（%zd-%zd张）", [CYPhotoCenter shareCenter].minSelectedCount, [CYPhotoCenter shareCenter].maxSelectedCount];
@@ -487,8 +480,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     return _numberLabel;
 }
 
-- (UILabel *)allCountLabel
-{
+- (UILabel *)allCountLabel {
     if (!_allCountLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 110, 25)];
         label.text = [NSString stringWithFormat:@"/%zd张", [CYPhotoCenter shareCenter].maxSelectedCount];
@@ -501,7 +493,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 
-- (UICollectionView *)toolBarThumbCollectionView{
+- (UICollectionView *)toolBarThumbCollectionView {
     if (!_toolBarThumbCollectionView) {
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -532,6 +524,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         _dataSource = [NSArray array];
     }
     return _dataSource;
+}
+
+#pragma mark - receive and dealloc
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 @end

@@ -20,8 +20,7 @@
 }
 
 // 横屏
--(BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 #if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
@@ -32,11 +31,12 @@
 {
     return [self.viewControllers.lastObject supportedInterfaceOrientations];
 }
--(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return [self.viewControllers.lastObject preferredInterfaceOrientationForPresentation];
 }
 
+#pragma mark - receive and dealloc
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
