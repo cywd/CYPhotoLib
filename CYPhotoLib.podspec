@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "CYPhotoLib"
   s.version      = "0.0.4"
-  s.summary      = "A photo selection framework used PhotoLib."
+  s.summary      = "A photo selection framework used Photos."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   # s.description  = <<-DESC
-  #                 DESC
+  #                  DESC
 
   s.homepage     = "https://github.com/CoderCYLee/CYPhotoLib"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   #
 
   s.license      = "MIT"
-  # s.license      = { :type => "MIT", :file => "LICENSE" }
+  # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/CoderCYLee/CYPhotoLib.git", :tag => s.version }
+  s.source       = { :git => "https://github.com/CoderCYLee/CYPhotoLib.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -93,7 +93,7 @@ Pod::Spec.new do |s|
   s.source_files  = "CYPhotoLib/Classes/**/*"
   # s.exclude_files = "Classes/Exclude"
 
-  # s.public_header_files = "CYPhotoLib/Classes/CYPhotoLib.h"
+  # s.public_header_files = "Classes/**/*.h"
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -117,7 +117,7 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  s.frameworks = "Photos", "UIKit"
+  # s.frameworks = "SomeFramework", "AnotherFramework"
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
