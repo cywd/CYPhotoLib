@@ -87,6 +87,7 @@
 		E79864A11D17CD020074F8D2 /* PhotoLibDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoLibDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79864A51D17CD020074F8D2 /* PhotoLibDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLibDemoUITests.m; sourceTree = "<group>"; };
 		E79864A71D17CD020074F8D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7C5551D1EA71AAE00BA5D8C /* CYPhotoHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYPhotoHeader.h; sourceTree = "<group>"; };
 		E7FCA2BF1E70FCFC00F02A9F /* CYPhotoCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCommon.h; sourceTree = "<group>"; };
 		E7FCA2C01E70FCFC00F02A9F /* CYPhotoLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoLib.h; sourceTree = "<group>"; };
 		E7FCA2C31E70FCFC00F02A9F /* NSString+CYPHChineseName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CYPHChineseName.h"; sourceTree = "<group>"; };
@@ -110,7 +111,6 @@
 		E7FCA2D61E70FCFC00F02A9F /* CYPhotoBrowserController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYPhotoBrowserController.xib; sourceTree = "<group>"; };
 		E7FCA2D71E70FCFC00F02A9F /* CYPhotoNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoNavigationViewController.h; sourceTree = "<group>"; };
 		E7FCA2D81E70FCFC00F02A9F /* CYPhotoNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoNavigationViewController.m; sourceTree = "<group>"; };
-		E7FCA2D91E70FCFC00F02A9F /* CYPhotoHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoHeader.h; sourceTree = "<group>"; };
 		E7FCA2DB1E70FCFC00F02A9F /* CYPhotoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCenter.h; sourceTree = "<group>"; };
 		E7FCA2DC1E70FCFC00F02A9F /* CYPhotoCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoCenter.m; sourceTree = "<group>"; };
 		E7FCA2DD1E70FCFC00F02A9F /* CYPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoManager.h; sourceTree = "<group>"; };
@@ -241,6 +241,7 @@
 				E7FCA2C01E70FCFC00F02A9F /* CYPhotoLib.h */,
 				E7FCA2FD1E70FCFC00F02A9F /* CYPhotoPicker.h */,
 				E7FCA2FE1E70FCFC00F02A9F /* CYPhotoPicker.m */,
+				E7C5551D1EA71AAE00BA5D8C /* CYPhotoHeader.h */,
 				E7FCA2C11E70FCFC00F02A9F /* CYPhotoPicker */,
 			);
 			path = CYPhotoLib;
@@ -249,7 +250,6 @@
 		E7FCA2C11E70FCFC00F02A9F /* CYPhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
-				E7FCA2D91E70FCFC00F02A9F /* CYPhotoHeader.h */,
 				E7FCA2C21E70FCFC00F02A9F /* Category */,
 				E7FCA2DA1E70FCFC00F02A9F /* Manager */,
 				E7FCA2CF1E70FCFC00F02A9F /* Controller */,

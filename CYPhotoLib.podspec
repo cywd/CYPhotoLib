@@ -64,7 +64,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  # s.platform     = :ios, "5.0"
+  s.platform     = :ios, "8.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -90,7 +90,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "CYPhotoLib/*"
+  s.source_files  = "CYPhotoLib", "CYPhotoLib/*", "CYPhotoLib/**","CYPhotoLib/**/*"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "CYPhotoLib/Classes/CYPhotoLib.h"
@@ -117,7 +117,7 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  # s.frameworks = "SomeFramework", "AnotherFramework"
+  s.frameworks = "Photos", "UIKit"
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
