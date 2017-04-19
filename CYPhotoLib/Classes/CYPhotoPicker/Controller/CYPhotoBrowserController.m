@@ -101,7 +101,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 #pragma mark - collectionView delegate
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
@@ -327,7 +327,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     [self.toolBarThumbCollectionView reloadData];
     
-    self.allCountLabel.text = [NSString stringWithFormat:@"%ld/%ld张", [CYPhotoCenter shareCenter].selectedPhotos.count,[CYPhotoCenter shareCenter].maxSelectedCount];
+    self.allCountLabel.text = [NSString stringWithFormat:@"%zd/%zd张", [CYPhotoCenter shareCenter].selectedPhotos.count,[CYPhotoCenter shareCenter].maxSelectedCount];
     
     
     
@@ -478,7 +478,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 {
     if (!_numberLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 110, 25)];
-        label.text = [NSString stringWithFormat:@"（%ld-%ld张）", [CYPhotoCenter shareCenter].minSelectedCount, [CYPhotoCenter shareCenter].maxSelectedCount];
+        label.text = [NSString stringWithFormat:@"（%zd-%zd张）", [CYPhotoCenter shareCenter].minSelectedCount, [CYPhotoCenter shareCenter].maxSelectedCount];
         label.textColor = [UIColor colorWithRed:0.302 green:0.294 blue:0.298 alpha:1.000];
         label.textAlignment = NSTextAlignmentLeft;
         label.font = [UIFont systemFontOfSize:16];
@@ -491,7 +491,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 {
     if (!_allCountLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 110, 25)];
-        label.text = [NSString stringWithFormat:@"/%ld张", [CYPhotoCenter shareCenter].maxSelectedCount];
+        label.text = [NSString stringWithFormat:@"/%zd张", [CYPhotoCenter shareCenter].maxSelectedCount];
         label.textColor = [UIColor colorWithRed:0.302 green:0.294 blue:0.298 alpha:1.000];
         label.textAlignment = NSTextAlignmentLeft;
         label.font = [UIFont systemFontOfSize:16];
