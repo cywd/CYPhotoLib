@@ -90,7 +90,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "CYPhotoLib/*/*"
+  s.source_files  = "CYPhotoLib/**/*"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "CYPhotoLib/Classes/CYPhotoLib.h"
