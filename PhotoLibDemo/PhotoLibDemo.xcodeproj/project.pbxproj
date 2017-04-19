@@ -251,11 +251,11 @@
 			children = (
 				E7FCA2D91E70FCFC00F02A9F /* CYPhotoHeader.h */,
 				E7FCA2C21E70FCFC00F02A9F /* Category */,
-				E7FCA2CF1E70FCFC00F02A9F /* Controller */,
 				E7FCA2DA1E70FCFC00F02A9F /* Manager */,
+				E7FCA2CF1E70FCFC00F02A9F /* Controller */,
 				E7FCA2DF1E70FCFC00F02A9F /* Model */,
-				E7FCA2E21E70FCFC00F02A9F /* Resource */,
 				E7FCA2F11E70FCFC00F02A9F /* View */,
+				E7FCA2E21E70FCFC00F02A9F /* Resource */,
 			);
 			path = CYPhotoPicker;
 			sourceTree = "<group>";
@@ -298,10 +298,10 @@
 		E7FCA2DA1E70FCFC00F02A9F /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				E7FCA2DB1E70FCFC00F02A9F /* CYPhotoCenter.h */,
-				E7FCA2DC1E70FCFC00F02A9F /* CYPhotoCenter.m */,
 				E7FCA2DD1E70FCFC00F02A9F /* CYPhotoManager.h */,
 				E7FCA2DE1E70FCFC00F02A9F /* CYPhotoManager.m */,
+				E7FCA2DB1E70FCFC00F02A9F /* CYPhotoCenter.h */,
+				E7FCA2DC1E70FCFC00F02A9F /* CYPhotoCenter.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";

@@ -30,7 +30,7 @@
 - (void)fetchAllAsset {
     [self clearInfos];
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
-    [self photoLibaryAuthorizationValid];
+    [self requestPhotoLibaryAuthorizationValid];
 }
 
 - (void)reloadPhotos {
@@ -93,17 +93,33 @@
 }
 
 #pragma mark - 权限验证
-- (void)photoLibaryAuthorizationValid {
+- (void)requestPhotoLibaryAuthorizationValid {
+    [self requestPhotoLibaryAuthorizationValidAuthorized:nil denied:nil restricted:nil elseBlock:nil];
+}
+
+- (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock {
+    
     PHAuthorizationStatus authoriation = [PHPhotoLibrary authorizationStatus];
     if (authoriation == PHAuthorizationStatusNotDetermined) {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            //这里非主线程，选择完成后会出发相册变化代理方法
+            // 这里非主线程，选择完成后会出发相册变化代理方法
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self requestPhotoLibaryAuthorizationValidAuthorized:authorizedBlock denied:deniedBlock restricted:restrictedBlock elseBlock:elseBlock];
+            });
         }];
-    }else if (authoriation == PHAuthorizationStatusAuthorized) {
+    } else if (authoriation == PHAuthorizationStatusAuthorized) {
         [self reloadPhotos];
-    }else {
-//        UIAlertView * photoLibaryNotice = [[UIAlertView alloc]initWithTitle:@"不能预览图片" message:@"应用程序无访问照片权限, 请在“设置\"-\"隐私\"-\"照片”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
-//        [photoLibaryNotice show];
+        
+        if (authorizedBlock) authorizedBlock();
+        
+    } else if (authoriation == PHAuthorizationStatusDenied) {
+        printf("PHAuthorizationStatusDenied - 用户拒绝当前应用访问相册,我们需要提醒用户打开访问开关");
+        if (deniedBlock) deniedBlock();
+    } else if (authoriation == PHAuthorizationStatusRestricted) {
+        printf("PHAuthorizationStatusRestricted - 家长控制,不允许访问");
+        if (restrictedBlock) restrictedBlock();
+    } else {
+        if (elseBlock) elseBlock();
     }
 }
 
@@ -120,19 +136,8 @@
     } else if (authoriation == AVAuthorizationStatusAuthorized) {
         if (handle) handle();
     } else {
-//        UIAlertView * cameraNotice = [[UIAlertView alloc]initWithTitle:@"应用程序无访问相机权限" message:@"请在“设置\"-\"隐私\"-\"相机”中设置允许访问" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"设置", nil];
-//        [cameraNotice show];
+
     }
 }
-
-#pragma mark - AlertView代理
-//- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-//    if (buttonIndex) {
-//        NSURL * setting = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-//        if ([[UIApplication sharedApplication]canOpenURL:setting]) {
-//            [[UIApplication sharedApplication]openURL:setting];
-//        }
-//    }
-//}
 
 @end

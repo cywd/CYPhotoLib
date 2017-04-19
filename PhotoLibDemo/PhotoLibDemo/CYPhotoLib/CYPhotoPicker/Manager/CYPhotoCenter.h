@@ -51,6 +51,15 @@
 - (void)fetchAllAsset;
 
 /**
+ *  获取相册权限
+ */
+- (void)requestPhotoLibaryAuthorizationValid;
+/**
+ *  获取相册权限 Block
+ */
+- (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock;
+
+/**
  *  获取相机权限
  */
 - (void)cameraAuthoriationValidWithHandle:(void(^)())handle;

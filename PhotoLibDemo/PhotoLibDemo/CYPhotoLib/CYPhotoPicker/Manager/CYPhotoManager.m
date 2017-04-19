@@ -60,7 +60,6 @@
 //                [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:i];
 //            }
 //        }
-//        
 //    }];
     
     [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
