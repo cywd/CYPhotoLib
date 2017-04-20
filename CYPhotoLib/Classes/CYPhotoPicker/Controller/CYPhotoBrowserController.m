@@ -90,7 +90,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     //!!!: Cyrill:这里是计数的样式
     //    if (self.isCalendar) {
-    [self.toolBar addSubview:self.allCountLabel];
+        [self.toolBar addSubview:self.allCountLabel];
     //    } else {
     //        [self.toolBar addSubview:self.numberLabel];
     //    }
@@ -150,57 +150,69 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         cell.singleSelBtn.hidden = !_isSingleSel;
         
-        BOOL isLocal = [[CYPhotoManager manager] isInLocalAblumWithAsset:asset];
-        if (isLocal && (asset.mediaType == PHAssetMediaTypeImage)) {
-            [[CYPhotoManager manager] getImageDataLength:asset completeBlock:^(CGFloat length) {
-            
-                if (length < (102400 / 1000.0) ) {
-                    // YES
-                    cell.tanhao.hidden = NO;
-                } else if (width/height > 2 || height/width > 2) {
-                    // YES
-                    cell.tanhao.hidden = NO;
-                } else {
-                    // NO
-                    cell.tanhao.hidden = YES;
-                }
-
-                if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
-                    // YES
-                    cell.tanhao.hidden = YES;
-                    cell.coverBtn.hidden = NO;
-                    //            cell.selBtn.hidden = YES;
-                } else {
-                    // NO
-                    //            cell.tanhao.hidden = YES;
-                    cell.coverBtn.hidden = YES;
-                    //            cell.selBtn.hidden = NO;
-                }
-
-                cell.selBtn.hidden = !cell.coverBtn.hidden;
-                
-                if (!cell.singleSelBtn.hidden) {
-                    cell.selBtn.hidden = YES;
-                    cell.tanhao.hidden = YES;
-                }
-            }];
-
-        } else {
-            cell.selBtn.hidden = YES;
-            cell.tanhao.hidden = YES;
-            cell.coverBtn.hidden = NO;
-        }
+        cell.selBtn.hidden = YES;
+        cell.tanhao.hidden = YES;
+        cell.coverBtn.hidden = YES;
         
-        // 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
-        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.w * 2, cell.h * 2) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
-            cell.imageIV.image = image;
-        }];
+        dispatch_async(dispatch_queue_create("CYSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+        
+            // 耗时
+            BOOL isLocal = [[CYPhotoManager manager] isInLocalAblumWithAsset:asset];
+            if (isLocal && (asset.mediaType == PHAssetMediaTypeImage)) {
+                
+                [[CYPhotoManager manager] getImageDataLength:asset completeBlock:^(CGFloat length) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        if (length < (102400 / 1000.0) ) {
+                            // YES
+                            cell.tanhao.hidden = NO;
+                        } else if (width/height > 2 || height/width > 2) {
+                            // YES
+                            cell.tanhao.hidden = NO;
+                        } else {
+                            // NO
+                            cell.tanhao.hidden = YES;
+                        }
+                        
+                        if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
+                            // YES
+                            cell.tanhao.hidden = YES;
+                            cell.coverBtn.hidden = NO;
+                            //            cell.selBtn.hidden = YES;
+                        } else {
+                            // NO
+                            //            cell.tanhao.hidden = YES;
+                            cell.coverBtn.hidden = YES;
+                            //            cell.selBtn.hidden = NO;
+                        }
+                        
+                        cell.selBtn.hidden = !cell.coverBtn.hidden;
+                        
+                        if (!cell.singleSelBtn.hidden) {
+                            cell.selBtn.hidden = YES;
+                            cell.tanhao.hidden = YES;
+                        }
+                    });
+                }];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.coverBtn.hidden = NO;
+                });
+            }
+        });
 
-//        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(kScreenW, kScreenW) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
-//            cell.imageIV.image = image;
-//        }];
-//
-    
+        
+        dispatch_async(dispatch_queue_create("CYSetImageQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+            // 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
+            [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.w * 2, cell.h * 2) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.imageIV.image = image;
+                });
+            }];
+        });
+
         cell.selBtn.selected = [[CYPhotoCenter shareCenter].selectedPhotos containsObject:self.dataSource[indexPath.item]];
 
         __weak typeof(cell) weakCell = cell;
@@ -245,9 +257,8 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
             [[CYPhotoCenter shareCenter] endPick];
             [weakSelf.navigationController dismissViewControllerAnimated:YES completion:nil];
         }];
-    
+        
         return cell;
-
     }
 }
 
@@ -286,22 +297,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 #pragma mark - private methods
 - (void)setupUI {
     
-    CGFloat cellW = (SCREEN_W - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
-    
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(cellW, cellW);
-    layout.minimumInteritemSpacing = CELL_INTERRITEM_MARGIN;
-    layout.minimumLineSpacing = CELL_LINE_MARGIN;
-    layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 44 * 2);
-    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H-64) collectionViewLayout:layout];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
-    [self.collectionView registerNib:[UINib nibWithNibName:@"CYPhotoBrowserCell" bundle:nil] forCellWithReuseIdentifier:@"browserCell"];
-    
-    [self.collectionView registerClass:[CYPhotoBrowserFooter class]  forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier];
-    
     //    [self.view insertSubview:self.collectionView belowSubview:self.bottomView];
     [self.view addSubview:self.collectionView];
     
@@ -320,16 +315,15 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     }
 }
 
-- (void) setupButtons{
+- (void)setupButtons{
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelBtnAction)];
 }
 
-- (void) setupButtonsSingle{
+- (void)setupButtonsSingle{
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleDone target:self action:@selector(completeClick:)];
 }
 
-- (void)loadAssetData
-{
+- (void)loadAssetData {
     self.dataSource = [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO];
     //    [self.collectionView reloadData];
 }
@@ -361,21 +355,23 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 #pragma mark -初始化底部ToorBar
 - (void)setupToorBar {
     
-    UIToolbar *toorBar = [[UIToolbar alloc] init];
-    toorBar.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:toorBar];
-    self.toolBar = toorBar;
+    UIToolbar *toolBar = [[UIToolbar alloc] init];
+    toolBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:toolBar];
+    self.toolBar = toolBar;
     self.toolBar.barTintColor = [UIColor whiteColor];
     
     //!!!: 这里设置的toolBar
-    NSDictionary *views = NSDictionaryOfVariableBindings(toorBar);
-    NSString *widthVfl =  @"H:|-0-[toorBar]-0-|";
-    NSString *heightVfl = @"V:[toorBar(135)]-0-|";
+    NSDictionary *views = NSDictionaryOfVariableBindings(toolBar);
+    NSString *widthVfl =  @"H:|-0-[toolBar]-0-|";
+    NSString *heightVfl = @"V:[toolBar(135)]-0-|";
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:widthVfl options:0 metrics:0 views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:heightVfl options:0 metrics:0 views:views]];
     
+    
+    [self.toolBar addSubview:self.toolBarThumbCollectionView];
     [self.toolBar addSubview:self.completeBtn];
-//    [self.toolBar addSubview:self.toolBarThumbCollectionView];
+
     
     // 左视图 中间距 右视图
     //    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.tbLeftView];
@@ -386,12 +382,31 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
 }
 
-
 #pragma mark - getters and setters
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        
+        CGFloat cellW = (SCREEN_W - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
+        
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.itemSize = CGSizeMake(cellW, cellW);
+        layout.minimumInteritemSpacing = CELL_INTERRITEM_MARGIN;
+        layout.minimumLineSpacing = CELL_LINE_MARGIN;
+        layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 44 * 2);
+        
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H-64) collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        [_collectionView registerNib:[UINib nibWithNibName:@"CYPhotoBrowserCell" bundle:nil] forCellWithReuseIdentifier:@"browserCell"];
+        [_collectionView registerClass:[CYPhotoBrowserFooter class]  forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier];
+    }
+    return _collectionView;
+}
+
 - (UIView *)bottomView {
     if (!_bottomView) {
         _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_H-50, SCREEN_W, 50)];
-        
 //        [self.view addSubview:_bottomView];
     }
     return _bottomView;
@@ -492,29 +507,25 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     return _allCountLabel;
 }
 
-
 - (UICollectionView *)toolBarThumbCollectionView {
     if (!_toolBarThumbCollectionView) {
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake(72, 72);
+        flowLayout.itemSize = CGSizeMake(90, 90);
         flowLayout.minimumInteritemSpacing = 0;
-        flowLayout.minimumLineSpacing = 10;
+        flowLayout.minimumLineSpacing = 0;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         //FIXME:
         //!!!: toolBar上的collectionView
         // CGRectMake(0, 22, 300, 44)
-        UICollectionView *toolBarThumbCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 45, SCREEN_W-20, 90) collectionViewLayout:flowLayout];
+        UICollectionView *toolBarThumbCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 45, SCREEN_W, 90) collectionViewLayout:flowLayout];
         toolBarThumbCollectionView.backgroundColor = [UIColor clearColor];
         toolBarThumbCollectionView.scrollsToTop = NO;
         toolBarThumbCollectionView.dataSource = self;
         toolBarThumbCollectionView.delegate = self;
-//        [toolBarThumbCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:_identifier];
         [toolBarThumbCollectionView registerNib:[UINib nibWithNibName:@"CYPhotoBottomCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:_identifier];
         
-        [self.toolBar addSubview:toolBarThumbCollectionView];
-        
-        self.toolBarThumbCollectionView = toolBarThumbCollectionView;
+        _toolBarThumbCollectionView = toolBarThumbCollectionView;
     }
     return _toolBarThumbCollectionView;
 }

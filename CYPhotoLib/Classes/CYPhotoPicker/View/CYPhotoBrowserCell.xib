@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="pzf-Cm-gps" customClass="CYPhotoBrowserCell">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="browserCell" id="pzf-Cm-gps" customClass="CYPhotoBrowserCell">
             <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -16,14 +19,17 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AEQ-Q3-hkP">
+                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                         <gestureRecognizers/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xio-Ea-P95">
+                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                         <connections>
                             <action selector="imageTapAction:" destination="pzf-Cm-gps" eventType="touchUpInside" id="anS-ay-qeB"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SsD-9r-FSB">
+                        <rect key="frame" x="35" y="0.0" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="Za7-Xa-5jW"/>
                             <constraint firstAttribute="width" constant="40" id="gUf-oY-skD"/>
@@ -36,17 +42,27 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssy-oG-UMP">
+                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                         <connections>
                             <action selector="sigleSelectBtnAction:" destination="pzf-Cm-gps" eventType="touchUpInside" id="A2J-DY-4tw"/>
                         </connections>
                     </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="udA-i8-FXP">
+                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="CYPhoto_Tanhao.png" translatesAutoresizingMaskIntoConstraints="NO" id="9Jl-68-pYH">
-                        <frame key="frameInset" minX="5" minY="5" width="20" height="20"/>
+                        <rect key="frame" x="5" y="5" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="np8-Hk-dtc">
+                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="F0v-MK-c6I">
+                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </view>
+                        <blurEffect style="light"/>
+                    </visualEffectView>
                 </subviews>
             </view>
             <constraints>
@@ -55,28 +71,33 @@
                 <constraint firstAttribute="trailing" secondItem="AEQ-Q3-hkP" secondAttribute="trailing" id="844-GQ-EgP"/>
                 <constraint firstItem="SsD-9r-FSB" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="Bb2-hr-Jwz"/>
                 <constraint firstItem="xio-Ea-P95" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="Cbe-oP-aoc"/>
+                <constraint firstItem="np8-Hk-dtc" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="Dhq-R9-3XV"/>
+                <constraint firstAttribute="bottom" secondItem="np8-Hk-dtc" secondAttribute="bottom" id="EHt-aj-jlc"/>
                 <constraint firstItem="AEQ-Q3-hkP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="Fgf-EX-gRH"/>
                 <constraint firstItem="Ssy-oG-UMP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="Hll-zf-xDX"/>
                 <constraint firstAttribute="bottom" secondItem="Ssy-oG-UMP" secondAttribute="bottom" id="LpL-Za-LsO"/>
                 <constraint firstAttribute="trailing" secondItem="udA-i8-FXP" secondAttribute="trailing" id="MUe-J6-t75"/>
                 <constraint firstItem="udA-i8-FXP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="axz-4h-d1g"/>
+                <constraint firstItem="np8-Hk-dtc" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="bFU-SB-GGU"/>
                 <constraint firstItem="AEQ-Q3-hkP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="bTg-la-02n"/>
                 <constraint firstAttribute="trailing" secondItem="xio-Ea-P95" secondAttribute="trailing" id="eVC-Q1-mbo"/>
                 <constraint firstAttribute="bottom" secondItem="xio-Ea-P95" secondAttribute="bottom" id="gRH-4W-sBr"/>
                 <constraint firstItem="Ssy-oG-UMP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="jv0-E7-NFA"/>
                 <constraint firstItem="udA-i8-FXP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="mJ8-rH-pnW"/>
                 <constraint firstItem="xio-Ea-P95" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="mYh-1a-lHb"/>
+                <constraint firstAttribute="trailing" secondItem="np8-Hk-dtc" secondAttribute="trailing" id="nEc-VB-Siv"/>
                 <constraint firstAttribute="bottom" secondItem="AEQ-Q3-hkP" secondAttribute="bottom" id="paa-lm-Ebf"/>
                 <constraint firstAttribute="bottom" secondItem="udA-i8-FXP" secondAttribute="bottom" id="qdM-PV-Knt"/>
             </constraints>
             <connections>
+                <outlet property="blurView" destination="np8-Hk-dtc" id="Sqd-i1-MCp"/>
                 <outlet property="coverBtn" destination="udA-i8-FXP" id="7qZ-XG-moU"/>
                 <outlet property="imageIV" destination="AEQ-Q3-hkP" id="O0f-RD-x6X"/>
                 <outlet property="selBtn" destination="SsD-9r-FSB" id="RMi-6k-cyF"/>
                 <outlet property="singleSelBtn" destination="Ssy-oG-UMP" id="ho1-TN-8ai"/>
                 <outlet property="tanhao" destination="9Jl-68-pYH" id="Z3q-Pb-sBZ"/>
             </connections>
-            <point key="canvasLocation" x="180.5" y="227.5"/>
+            <point key="canvasLocation" x="183" y="191"/>
         </collectionViewCell>
     </objects>
     <resources>

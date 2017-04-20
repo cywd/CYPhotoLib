@@ -25,7 +25,6 @@
 		E7C555CC1EA734E500BA5D8C /* CYPhotoAblumListController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555991EA734E500BA5D8C /* CYPhotoAblumListController.m */; };
 		E7C555CD1EA734E500BA5D8C /* CYPhotoBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */; };
 		E7C555CE1EA734E500BA5D8C /* CYPhotoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */; };
-		E7C555CF1EA734E500BA5D8C /* CYPhotoBrowserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C5559E1EA734E500BA5D8C /* CYPhotoBrowserController.xib */; };
 		E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */; };
 		E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A31EA734E500BA5D8C /* CYPhotoCenter.m */; };
 		E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
@@ -111,7 +110,6 @@
 		E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBaseController.m; sourceTree = "<group>"; };
 		E7C5559C1EA734E500BA5D8C /* CYPhotoBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBrowserController.h; sourceTree = "<group>"; };
 		E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBrowserController.m; sourceTree = "<group>"; };
-		E7C5559E1EA734E500BA5D8C /* CYPhotoBrowserController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYPhotoBrowserController.xib; sourceTree = "<group>"; };
 		E7C5559F1EA734E500BA5D8C /* CYPhotoNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoNavigationViewController.h; sourceTree = "<group>"; };
 		E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoNavigationViewController.m; sourceTree = "<group>"; };
 		E7C555A21EA734E500BA5D8C /* CYPhotoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCenter.h; sourceTree = "<group>"; };
@@ -266,8 +264,8 @@
 			isa = PBXGroup;
 			children = (
 				E7C5558A1EA734E500BA5D8C /* Category */,
-				E7C555971EA734E500BA5D8C /* Controller */,
 				E7C555A11EA734E500BA5D8C /* Manager */,
+				E7C555971EA734E500BA5D8C /* Controller */,
 				E7C555A61EA734E500BA5D8C /* Model */,
 				E7C555A91EA734E500BA5D8C /* View */,
 			);
@@ -296,15 +294,14 @@
 		E7C555971EA734E500BA5D8C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E7C555981EA734E500BA5D8C /* CYPhotoAblumListController.h */,
-				E7C555991EA734E500BA5D8C /* CYPhotoAblumListController.m */,
-				E7C5559A1EA734E500BA5D8C /* CYPhotoBaseController.h */,
-				E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */,
-				E7C5559C1EA734E500BA5D8C /* CYPhotoBrowserController.h */,
-				E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */,
-				E7C5559E1EA734E500BA5D8C /* CYPhotoBrowserController.xib */,
 				E7C5559F1EA734E500BA5D8C /* CYPhotoNavigationViewController.h */,
 				E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */,
+				E7C5559A1EA734E500BA5D8C /* CYPhotoBaseController.h */,
+				E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */,
+				E7C555981EA734E500BA5D8C /* CYPhotoAblumListController.h */,
+				E7C555991EA734E500BA5D8C /* CYPhotoAblumListController.m */,
+				E7C5559C1EA734E500BA5D8C /* CYPhotoBrowserController.h */,
+				E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -334,12 +331,12 @@
 			children = (
 				E7C555AA1EA734E500BA5D8C /* CYPhotoAblumCell.h */,
 				E7C555AB1EA734E500BA5D8C /* CYPhotoAblumCell.m */,
-				E7C555AC1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.h */,
-				E7C555AD1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m */,
-				E7C555AE1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib */,
 				E7C555AF1EA734E500BA5D8C /* CYPhotoBrowserCell.h */,
 				E7C555B01EA734E500BA5D8C /* CYPhotoBrowserCell.m */,
 				E7C555B11EA734E500BA5D8C /* CYPhotoBrowserCell.xib */,
+				E7C555AC1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.h */,
+				E7C555AD1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m */,
+				E7C555AE1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib */,
 				E7C555B21EA734E500BA5D8C /* CYPhotoBrowserFooter.h */,
 				E7C555B31EA734E500BA5D8C /* CYPhotoBrowserFooter.m */,
 				E7C555B41EA734E500BA5D8C /* CYPhotoBrowserFooter.xib */,
@@ -489,7 +486,6 @@
 				E7C555DD1EA734E500BA5D8C /* CYBack@3x.png in Resources */,
 				E7C555E31EA734E500BA5D8C /* CYPhoto_selected@3x.png in Resources */,
 				E7C555E11EA734E500BA5D8C /* CYPhoto_selected.png in Resources */,
-				E7C555CF1EA734E500BA5D8C /* CYPhotoBrowserController.xib in Resources */,
 				E7C555E01EA734E500BA5D8C /* CYPhoto_delete@2x.png in Resources */,
 				E7C555DC1EA734E500BA5D8C /* CYBack@2x.png in Resources */,
 				E7C555E51EA734E500BA5D8C /* CYPhoto_Tanhao@2x.png in Resources */,
@@ -686,7 +682,7 @@
 				DEVELOPMENT_TEAM = 7ENE4DHQ7N;
 				INFOPLIST_FILE = PhotoLibDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Futurestar.PhotoLibDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cyrill.PhotoLibDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -699,7 +695,7 @@
 				DEVELOPMENT_TEAM = 7ENE4DHQ7N;
 				INFOPLIST_FILE = PhotoLibDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Futurestar.PhotoLibDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cyrill.PhotoLibDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

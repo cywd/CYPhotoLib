@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *coverBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *tanhao;
 @property (weak, nonatomic) IBOutlet UIButton *singleSelBtn;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *blurView;
 
 @property (copy, nonatomic) void(^sigleSelectedBlock)(BOOL isSelected);
 @property (nonatomic, copy) void(^selectedBlock)(BOOL isSelected);
