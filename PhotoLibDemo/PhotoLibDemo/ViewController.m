@@ -54,17 +54,6 @@
 #pragma mark - event response
 - (IBAction)btnClick:(UIButton *)sender {
     
-    [self gotoPhotos];
-}
-
-- (IBAction)clear:(UIButton *)sender {
-    [self.dataArray removeAllObjects];
-    [[CYPhotoCenter shareCenter] clearInfos];
-    [self.collectionView reloadData];
-}
-
-#pragma mark - private methods
-- (void)gotoPhotos {
     __weak typeof(self) weakSelf = self;
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     [picker showInSender:self isSingleSel:NO handle:^(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets) {
@@ -74,10 +63,16 @@
     }];
 }
 
+- (IBAction)clear:(UIButton *)sender {
+    [self.dataArray removeAllObjects];
+    [[CYPhotoCenter shareCenter] clearInfos];
+    [self.collectionView reloadData];
+}
+
 #pragma mark - getters and setters
 - (NSMutableArray *)dataArray {
     if (!_dataArray) {
-        _dataArray = [[NSMutableArray alloc] init];
+        _dataArray = [NSMutableArray array];
     }
     return _dataArray;
 }
