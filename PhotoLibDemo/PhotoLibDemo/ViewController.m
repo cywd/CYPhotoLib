@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 
 @end
 
@@ -31,6 +32,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    self.coverView.hidden = !(self.dataArray.count == 0);
     return self.dataArray.count;
 }
 
@@ -67,6 +69,11 @@
     [self.dataArray removeAllObjects];
     [[CYPhotoCenter shareCenter] clearInfos];
     [self.collectionView reloadData];
+}
+
+#pragma mark - private methods
+- (void)showEmptyView {
+    
 }
 
 #pragma mark - getters and setters
