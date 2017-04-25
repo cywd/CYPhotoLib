@@ -10,23 +10,11 @@
 
 @interface CYPhotoBrowserFooter()
 
-@property (weak, nonatomic) UILabel *footerLabel;
+@property (weak, nonatomic) IBOutlet UILabel *footerLabel;
 
 @end
 
 @implementation CYPhotoBrowserFooter
-
-- (UILabel *)footerLabel {
-    if (!_footerLabel) {
-        UILabel *footerLabel = [[UILabel alloc] init];
-        footerLabel.frame = self.bounds;
-        footerLabel.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:footerLabel];
-        self.footerLabel = footerLabel;
-    }
-    
-    return _footerLabel;
-}
 
 - (void)setCount:(NSInteger)count {
     _count = count;

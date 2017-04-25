@@ -32,8 +32,8 @@
     cell.ablumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
     
 //    //line
-//    UIView * line = [[UIView alloc]initWithFrame:CGRectMake(100, 61 - SINGLE_LINE_ADJUST_OFFSET, SCREEN_W - 100, SINGLE_LINE_WIDTH)];
-//    line.backgroundColor = AblumsListLineColor;
+//    UIView * line = [[UIView alloc]initWithFrame:CGRectMake(100, 61 - CYPHOTOLIB_SINGLE_LINE_ADJUST_OFFSET, CYPHOTOLIB_SCREEN_W - 100, CYPHOTOLIB_SINGLE_LINE_WIDTH)];
+//    line.backgroundColor = CYPHOTOLIB_AblumsListLineColor;
 //    [cell.contentView addSubview:line];
     
     // indicator

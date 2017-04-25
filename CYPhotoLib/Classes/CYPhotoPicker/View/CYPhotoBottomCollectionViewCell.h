@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CYPhotoBottomCollectionViewCell : UICollectionViewCell
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *delButton;
 

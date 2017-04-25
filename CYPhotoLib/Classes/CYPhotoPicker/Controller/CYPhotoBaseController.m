@@ -18,7 +18,7 @@
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = WHITECOLOR;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     // 将Navigationbar变成透明而不模糊

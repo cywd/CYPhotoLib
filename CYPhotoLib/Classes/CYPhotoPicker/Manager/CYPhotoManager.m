@@ -89,8 +89,8 @@
             //如果有资源
             if (result.count) {
                 
-                //创建此相册的信息集
-                CYAblumInfo * info = [CYAblumInfo infoFromResult:result collection:obj];
+                // 创建此相册的信息集
+                CYAblumInfo * info = [CYAblumInfo cy_AblumInfoFromResult:result collection:obj];
                 
                 //加入到数组中
                 [_ablumsList addObject:info];
@@ -360,22 +360,22 @@
             CGFloat scale = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
             if (scale > 1.0) {
                 
-                if (asset.pixelWidth < SCREEN_W) {
+                if (asset.pixelWidth < CYPHOTOLIB_SCREEN_W) {
                     //最长边小于屏幕宽度时，采用原图
                     size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
                 } else {
                     //压缩
-                    size = CGSizeMake(SCREEN_W, SCREEN_W / scale);
+                    size = CGSizeMake(CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_W / scale);
                 }
                 
             } else {
                 
-                if (asset.pixelHeight < SCREEN_H) {
+                if (asset.pixelHeight < CYPHOTOLIB_SCREEN_H) {
                     //最长边小于屏幕高度时，采用原图
                     size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
                 } else {
                     //压缩
-                    size = CGSizeMake(SCREEN_H * scale, SCREEN_H);
+                    size = CGSizeMake(CYPHOTOLIB_SCREEN_H * scale, CYPHOTOLIB_SCREEN_H);
                 }
                 
             }

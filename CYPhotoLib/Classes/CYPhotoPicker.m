@@ -10,6 +10,7 @@
 #import "CYPhotoHeader.h"
 #import "CYAblumInfo.h"
 #import "CYPhotoNavigationViewController.h"
+#import "CYPhotoCommon.h"
 
 @interface CYPhotoPicker()
 
@@ -73,36 +74,31 @@
 }
 
 - (void)deined {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // 跳转到 “设置\"-\"隐私\"-\"照片”
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
-    }];
-    [alert addAction:cancelAction];
-    [alert addAction:okAction];
-    
-    [self.sender presentViewController:alert animated:YES completion:nil];
+    // 无权限
+    [self setAlertControllerWithTitle:CY_DeinedPhotoLibirayText message:CY_GotoPhotoLibararySettingText];
     
     return;
 }
 
 - (void)restricted {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"由于开启了家长控制，应用程序无访问照片权限" message:@"请在“设置\"-\"隐私\"-\"照片”中设置允许访问" preferredStyle:UIAlertControllerStyleAlert];
+    // 家长模式
+    [self setAlertControllerWithTitle:CY_RestrictedPhotoLibirayText message:CY_GotoPhotoLibararySettingText];
+    
+    return;
+}
+
+- (void)setAlertControllerWithTitle:(NSString *)title message:(NSString *)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // 跳转到 “设置\"-\"隐私\"-\"照片”
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
-        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:CY_GotoPhotoLibrarySettingPath]];
     }];
     [alert addAction:cancelAction];
     [alert addAction:okAction];
     
     [self.sender presentViewController:alert animated:YES completion:nil];
-    
-    return;
 }
 
 @end

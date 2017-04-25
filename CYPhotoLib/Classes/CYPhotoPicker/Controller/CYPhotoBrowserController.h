@@ -16,6 +16,7 @@
 @property (nonatomic, strong) CYAblumInfo *info;
 
 @property (nonatomic, copy) NSString * collectionTitle;
+
 @property (nonatomic, strong) PHAssetCollection * assetCollection;
 
 @property (nonatomic, assign) BOOL isSingleSel;

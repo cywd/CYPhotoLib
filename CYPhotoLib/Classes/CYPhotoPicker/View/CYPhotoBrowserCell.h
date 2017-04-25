@@ -7,15 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@class PHAsset;
 
 @interface CYPhotoBrowserCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIButton *selBtn;
-@property (weak, nonatomic) IBOutlet UIImageView *imageIV;
-@property (weak, nonatomic) IBOutlet UIButton *coverBtn;
-@property (weak, nonatomic) IBOutlet UIImageView *tanhao;
+@property (nonatomic, strong) PHAsset *asset;
+
 @property (weak, nonatomic) IBOutlet UIButton *singleSelBtn;
-@property (weak, nonatomic) IBOutlet UIVisualEffectView *blurView;
+@property (weak, nonatomic) IBOutlet UIButton *selBtn;
 
 @property (copy, nonatomic) void(^sigleSelectedBlock)(BOOL isSelected);
 @property (nonatomic, copy) void(^selectedBlock)(BOOL isSelected);

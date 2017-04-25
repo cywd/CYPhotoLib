@@ -10,7 +10,7 @@
 
 @implementation CYAblumInfo
 
-+ (instancetype)infoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection
++ (instancetype)cy_AblumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection
 {
     CYAblumInfo *ablumInfo = [[CYAblumInfo alloc] init];
     ablumInfo.ablumName = collection.localizedTitle;

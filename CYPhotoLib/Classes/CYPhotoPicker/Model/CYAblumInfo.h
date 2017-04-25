@@ -11,14 +11,15 @@
 
 @interface CYAblumInfo : NSObject
 
-@property (nonatomic, copy) NSString * ablumName; //相册名字
+/** 相册名字 */
+@property (nonatomic, copy) NSString * ablumName;
+/** 总照片数 */
+@property (nonatomic, assign) NSInteger count;
+/** 相册 */
+@property (nonatomic, strong) PHAssetCollection * assetCollection;
+/** 封面 */
+@property (nonatomic, strong) PHAsset * coverAsset;
 
-@property (nonatomic, assign) NSInteger count; //总照片数
-
-@property (nonatomic, strong) PHAssetCollection * assetCollection; //相册
-
-@property (nonatomic, strong) PHAsset * coverAsset; //封面
-
-+ (instancetype)infoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection;
++ (instancetype)cy_AblumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection;
 
 @end

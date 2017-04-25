@@ -12,7 +12,7 @@
 #import "CYPhotoBrowserController.h"
 #import "CYAblumInfo.h"
 
-@interface CYPhotoAblumListController ()<UITableViewDataSource,UITableViewDelegate>
+@interface CYPhotoAblumListController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView * tableView;
 
@@ -26,8 +26,8 @@
     
     self.title = @"照片";
     
-//    [self setNavigationTitle:@"照片"];
-    [self setupUI];
+    [self.view addSubview:self.tableView];
+    [self setupCancelBtn];
 }
 
 #pragma mark - tableView delegate
@@ -49,7 +49,7 @@
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     
     browser.isSingleSel = self.isSingleSel;
-    CYAblumInfo *info = self.self.assetCollections[indexPath.row];
+    CYAblumInfo *info = self.assetCollections[indexPath.row];
     
     browser.info = info;
     browser.assetCollection = info.assetCollection;
@@ -64,27 +64,33 @@
 }
 
 #pragma mark - private methods
-- (void)setupUI {
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H - 64) style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.showsHorizontalScrollIndicator = NO;
-    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.tableFooterView = [[UIView alloc]init];
-    [self.view addSubview:self.tableView];
-    
-    [self setupCancelBtn];
-}
-
 - (void)setupCancelBtn {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
     self.navigationItem.rightBarButtonItem = item;
+}
+
+#pragma mark - getters and setters
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CYPHOTOLIB_NAVBAR_H, CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_H - CYPHOTOLIB_NAVBAR_H) style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.showsHorizontalScrollIndicator = NO;
+//        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.tableFooterView = [[UIView alloc]init];
+    }
+    return _tableView;
 }
 
 #pragma mark - receive and dealloc
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+//    self.tableView = nil;
+//    self.assetCollections = nil;
 }
 
 @end
