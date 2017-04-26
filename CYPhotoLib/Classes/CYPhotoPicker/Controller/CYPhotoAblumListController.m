@@ -91,6 +91,7 @@
 - (void)dealloc {
 //    self.tableView = nil;
 //    self.assetCollections = nil;
+    
 }
 
 @end

@@ -35,7 +35,7 @@
 
 - (void)reloadPhotos {
     self.allPhotos = [[CYPhotoManager manager] fetchAllAssets];
-    [[NSNotificationCenter defaultCenter] postNotificationName:CYPHOTOLIB_PhotoLibraryChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:CYPHOTOLIB_PhotoLibraryChangeNotification object:nil];
 }
 
 #pragma mark - 完成图片选择
@@ -138,6 +138,10 @@
     } else {
         
     }
+}
+
+- (void)dealloc {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
