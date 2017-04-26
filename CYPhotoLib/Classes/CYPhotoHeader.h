@@ -24,10 +24,15 @@
 #define CYPHOTOLIB_BGCOLOR    CYPHOTOLIB_RGBColor(237, 238, 242)
 #define CYPHOTOLIB_CLEARCOLOR [UIColor clearColor]
 
+#define CYPHOTOLIB_NAV_BAR_COLOR          [UIColor purpleColor]
+#define CYPHOTOLIB_COMPLETE_BTN_BG_COLOR  CYPHOTOLIB_NAV_BAR_COLOR
+
 #define CYPHOTOLIB_SINGLE_LINE_WIDTH           (1 / [UIScreen mainScreen].scale)
 #define CYPHOTOLIB_SINGLE_LINE_ADJUST_OFFSET   ((1 / [UIScreen mainScreen].scale) / 2)
 
 #define CYPHOTOLIB_PhotoLibraryChangeNotification  @"CYPHOTOLIB_PhotoLibraryChangeNotification"
+#define CYPHOTOLIB_LOADING_DID_END_NOTIFICATION @"CYPHOTOLIB_LOADING_DID_END_NOTIFICATION"
+#define CYPHOTOLIB_PROGRESS_NOTIFICATION @"CYPHOTOLIB_PROGRESS_NOTIFICATION"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

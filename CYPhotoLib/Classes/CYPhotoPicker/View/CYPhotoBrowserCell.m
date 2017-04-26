@@ -11,6 +11,7 @@
 #import "CYPhotoManager.h"
 #import "CYPhotoCenter.h"
 #import "UIView+CYRect.h"
+#import "CYPhotoHeader.h"
 
 @interface CYPhotoBrowserCell ()
 
@@ -30,10 +31,27 @@
     [super awakeFromNib];
     
     self.imageIV.image = nil;
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(setProgressFromNotification:)
+//                                                 name:CYPHOTOLIB_PROGRESS_NOTIFICATION
+//                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(handleCYPhotoLibLoadingDidEndNotification:)
+//                                                 name:CYPHOTOLIB_LOADING_DID_END_NOTIFICATION
+//                                               object:nil];
 }
 
 #pragma mark - public methods
 
+#pragma mark - nofitications
+- (void)setProgressFromNotification:(NSNotification *)notification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSDictionary *dict = [notification object];
+        float progress = [[dict valueForKey:@"progress"] floatValue];
+        NSLog(@"%f", progress);
+    });
+}
 
 #pragma mark - event response
 - (IBAction)selectBtnAction:(UIButton *)sender {
@@ -52,11 +70,11 @@
 
 #pragma mark - private methods
 - (void)showLoadingIndicator {
-    self.blurView.hidden = NO;
+    
 }
 
 - (void)hideLoadingIndicator {
-    self.blurView.hidden = YES;
+    
 }
 
 #pragma mark - getters and setters
@@ -128,7 +146,7 @@
     
     dispatch_async(dispatch_queue_create("CYPhotoLibSetImageQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
         // 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
-        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(self.w * 2, self.h * 2) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
+        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(self.w * 2, self.h * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.imageIV.image = image;
@@ -137,13 +155,11 @@
             });
         }];
     });
-    
-    
 }
 
 #pragma mark - receive and dealloc
 - (void)dealloc {
-    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

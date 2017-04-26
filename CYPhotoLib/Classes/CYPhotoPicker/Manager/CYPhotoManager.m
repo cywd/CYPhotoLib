@@ -164,11 +164,15 @@
      这个属性只有在 synchronous 为 true 时有效。
      */
     option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone; //控制照片尺寸
+    option.deliveryMode = isResize ? PHImageRequestOptionsDeliveryModeOpportunistic : PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    
+    // PHImageRequestOptionsDeliveryModeFastFormat 超级模糊
+    //
     // option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
     // 这里设置iCloud
     option.networkAccessAllowed = YES;
     option.synchronous = !isResize;
-    
+        
     /*
      info字典提供请求状态信息:
      PHImageResultIsInCloudKey：图像是否必须从iCloud请求
@@ -180,7 +184,10 @@
     // 下载进度监听
 //    if (!isResize) {
 //        option.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
-//
+//            NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                  [NSNumber numberWithDouble: progress], @"progress", nil];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:CYPHOTOLIB_PROGRESS_NOTIFICATION object:dict];
+//            
 //        };
 //    }
     

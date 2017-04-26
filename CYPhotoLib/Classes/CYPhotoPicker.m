@@ -39,7 +39,7 @@
         ablumsList.isSingleSel = isSingleSel;
         
         CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:ablumsList];
-        nav.navigationBar.barTintColor = [UIColor purpleColor];
+        nav.navigationBar.barTintColor = CYPHOTOLIB_NAV_BAR_COLOR;
         [nav.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor blackColor]}];
         nav.navigationBar.tintColor = [UIColor blackColor];
         nav.navigationItem.backBarButtonItem.title = @"照片";

@@ -392,7 +392,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         _completeBtn.layer.cornerRadius = 25/2;
         _completeBtn.layer.masksToBounds = YES;
-        [_completeBtn setBackgroundColor:[UIColor purpleColor]];
+        [_completeBtn setBackgroundColor:CYPHOTOLIB_COMPLETE_BTN_BG_COLOR];
         [_completeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_completeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
         _completeBtn.enabled = YES;

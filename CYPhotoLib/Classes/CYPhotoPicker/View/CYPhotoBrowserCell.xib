@@ -55,14 +55,6 @@
                         <rect key="frame" x="5" y="5" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="np8-Hk-dtc">
-                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
-                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="F0v-MK-c6I">
-                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </view>
-                        <blurEffect style="dark"/>
-                    </visualEffectView>
                 </subviews>
             </view>
             <constraints>
@@ -71,26 +63,21 @@
                 <constraint firstAttribute="trailing" secondItem="AEQ-Q3-hkP" secondAttribute="trailing" id="844-GQ-EgP"/>
                 <constraint firstItem="SsD-9r-FSB" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="Bb2-hr-Jwz"/>
                 <constraint firstItem="xio-Ea-P95" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="Cbe-oP-aoc"/>
-                <constraint firstItem="np8-Hk-dtc" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="Dhq-R9-3XV"/>
-                <constraint firstAttribute="bottom" secondItem="np8-Hk-dtc" secondAttribute="bottom" id="EHt-aj-jlc"/>
                 <constraint firstItem="AEQ-Q3-hkP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="Fgf-EX-gRH"/>
                 <constraint firstItem="Ssy-oG-UMP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="Hll-zf-xDX"/>
                 <constraint firstAttribute="bottom" secondItem="Ssy-oG-UMP" secondAttribute="bottom" id="LpL-Za-LsO"/>
                 <constraint firstAttribute="trailing" secondItem="udA-i8-FXP" secondAttribute="trailing" id="MUe-J6-t75"/>
                 <constraint firstItem="udA-i8-FXP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="axz-4h-d1g"/>
-                <constraint firstItem="np8-Hk-dtc" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="bFU-SB-GGU"/>
                 <constraint firstItem="AEQ-Q3-hkP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="bTg-la-02n"/>
                 <constraint firstAttribute="trailing" secondItem="xio-Ea-P95" secondAttribute="trailing" id="eVC-Q1-mbo"/>
                 <constraint firstAttribute="bottom" secondItem="xio-Ea-P95" secondAttribute="bottom" id="gRH-4W-sBr"/>
                 <constraint firstItem="Ssy-oG-UMP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="jv0-E7-NFA"/>
                 <constraint firstItem="udA-i8-FXP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="mJ8-rH-pnW"/>
                 <constraint firstItem="xio-Ea-P95" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="mYh-1a-lHb"/>
-                <constraint firstAttribute="trailing" secondItem="np8-Hk-dtc" secondAttribute="trailing" id="nEc-VB-Siv"/>
                 <constraint firstAttribute="bottom" secondItem="AEQ-Q3-hkP" secondAttribute="bottom" id="paa-lm-Ebf"/>
                 <constraint firstAttribute="bottom" secondItem="udA-i8-FXP" secondAttribute="bottom" id="qdM-PV-Knt"/>
             </constraints>
             <connections>
-                <outlet property="blurView" destination="np8-Hk-dtc" id="Sqd-i1-MCp"/>
                 <outlet property="coverBtn" destination="udA-i8-FXP" id="7qZ-XG-moU"/>
                 <outlet property="imageIV" destination="AEQ-Q3-hkP" id="O0f-RD-x6X"/>
                 <outlet property="selBtn" destination="SsD-9r-FSB" id="RMi-6k-cyF"/>
