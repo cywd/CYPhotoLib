@@ -1,0 +1,14 @@
+use_frameworks!
+platform :ios, '8.0'
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'PhotoLibDemo' do
+
+end
+
+target 'PhotoLibDemoTests' do
+  pod 'Specta'
+  pod 'Expecta'
+  pod 'FBSnapshotTestCase'
+  pod 'Expecta+Snapshots'
+end
