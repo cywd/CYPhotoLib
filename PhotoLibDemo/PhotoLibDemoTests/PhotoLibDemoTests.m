@@ -24,65 +24,42 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+//- (void)testExample {
+//    // This is an example of a functional test case.
+//    // Use XCTAssert and related functions to verify your tests produce the correct results.
+//    
+//    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);  
+//}
+
+- (void)testTrue2 {
+    NSLog(@"2222222222222222222222");
+    XCTAssert(1, @"Can not be zero");
+}
+
+- (void)testTrue1 {
+    NSLog(@"1111111111111111111111");
+    XCTAssert(1, @"Can not be zero");
+}
+
+- (void)testTrue3 {
+    NSLog(@"3333333333333333333333");
+    XCTAssert(1, @"Can not be zero");
+}
+
+- (void)testAtrue {
+    NSLog(@"0000000000000000000000");
+    XCTAssert(1, @"Can not be zero");
 }
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{
         // Put the code you want to measure the time of here.
+        
+        
+        
     }];
 }
 
 @end
 
-
-//#import <Specta/Specta.h>
-//#import <Expecta/Expecta.h>
-//#import <FBSnapshotTestCase/FBSnapshotTestCase.h>
-//#import <Expecta_Snapshots/Expecta+Snapshots-umbrella.h>
-//// https://github.com/Specta/Specta
-//
-//SpecBegin(InitialSpecs)
-//
-//describe(@"these will fail", ^{
-//    
-//    it(@"can do maths", ^{
-//        expect(1).to.equal(2);
-//    });
-//    
-//    it(@"can read", ^{
-//        expect(@"number").to.equal(@"string");
-//    });
-//    
-//    it(@"will wait for 10 seconds and fail", ^{
-//        waitUntil(^(DoneCallback done) {
-//            
-//        });
-//    });
-//});
-//
-//describe(@"these will pass", ^{
-//    
-//    it(@"can do maths", ^{
-//        expect(1).beLessThan(23);
-//    });
-//    
-//    it(@"can read", ^{
-//        expect(@"team").toNot.contain(@"I");
-//    });
-//    
-//    it(@"will wait and succeed", ^{
-//        waitUntil(^(DoneCallback done) {
-//            done();
-//        });
-//    });
-//});
-//
-//SpecEnd
-//
-//
-//
-//

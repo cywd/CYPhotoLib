@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "CYPhotoLib"
-  s.version      = "0.0.6"
+  s.version      = "0.0.7"
   s.summary      = "A photo selection framework used Photos."
   s.homepage     = "https://github.com/CoderCYLee/CYPhotoLib"
   s.license      = "MIT"
@@ -10,8 +10,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/CoderCYLee/CYPhotoLib.git", :tag => "#{s.version}" }
 
-  s.source_files  = "CYPhotoLib/Classes/**/*"
-  s.resources = "CYPhotoLib/Resource/*.png"
+  s.source_files  = "CYPhotoLib/Classes/**/*.{h,m}"
+  s.resources = "CYPhotoLib/Resource/*.png", "CYPhotoLib/Classes/CYPhotoPicker/View/*.xib"
 
   # s.frameworks = "SomeFramework", "AnotherFramework"
   s.requires_arc = true
