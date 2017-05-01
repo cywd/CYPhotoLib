@@ -22,7 +22,6 @@
 		E7C555C81EA734E500BA5D8C /* UIImage+CYCutDown.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555901EA734E500BA5D8C /* UIImage+CYCutDown.m */; };
 		E7C555C91EA734E500BA5D8C /* UIView+CY_1pxLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555921EA734E500BA5D8C /* UIView+CY_1pxLine.m */; };
 		E7C555CA1EA734E500BA5D8C /* UIView+CYAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555941EA734E500BA5D8C /* UIView+CYAnimation.m */; };
-		E7C555CB1EA734E500BA5D8C /* UIView+CYRect.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555961EA734E500BA5D8C /* UIView+CYRect.m */; };
 		E7C555CC1EA734E500BA5D8C /* CYPhotoAblumListController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555991EA734E500BA5D8C /* CYPhotoAblumListController.m */; };
 		E7C555CD1EA734E500BA5D8C /* CYPhotoBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */; };
 		E7C555CE1EA734E500BA5D8C /* CYPhotoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */; };
@@ -110,8 +109,6 @@
 		E7C555921EA734E500BA5D8C /* UIView+CY_1pxLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CY_1pxLine.m"; sourceTree = "<group>"; };
 		E7C555931EA734E500BA5D8C /* UIView+CYAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYAnimation.h"; sourceTree = "<group>"; };
 		E7C555941EA734E500BA5D8C /* UIView+CYAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYAnimation.m"; sourceTree = "<group>"; };
-		E7C555951EA734E500BA5D8C /* UIView+CYRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYRect.h"; sourceTree = "<group>"; };
-		E7C555961EA734E500BA5D8C /* UIView+CYRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYRect.m"; sourceTree = "<group>"; };
 		E7C555981EA734E500BA5D8C /* CYPhotoAblumListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoAblumListController.h; sourceTree = "<group>"; };
 		E7C555991EA734E500BA5D8C /* CYPhotoAblumListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoAblumListController.m; sourceTree = "<group>"; };
 		E7C5559A1EA734E500BA5D8C /* CYPhotoBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBaseController.h; sourceTree = "<group>"; };
@@ -317,8 +314,6 @@
 				E7C555921EA734E500BA5D8C /* UIView+CY_1pxLine.m */,
 				E7C555931EA734E500BA5D8C /* UIView+CYAnimation.h */,
 				E7C555941EA734E500BA5D8C /* UIView+CYAnimation.m */,
-				E7C555951EA734E500BA5D8C /* UIView+CYRect.h */,
-				E7C555961EA734E500BA5D8C /* UIView+CYRect.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -660,7 +655,6 @@
 				E7C555D41EA734E500BA5D8C /* CYPhotoAblumCell.m in Sources */,
 				E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */,
 				E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */,
-				E7C555CB1EA734E500BA5D8C /* UIView+CYRect.m in Sources */,
 				E79864821D17CD020074F8D2 /* main.m in Sources */,
 				E7C555D51EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m in Sources */,
 				E7C555D91EA734E500BA5D8C /* CYPhotoBrowserFooter.m in Sources */,

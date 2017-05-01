@@ -10,7 +10,6 @@
 #import <Photos/Photos.h>
 #import "CYPhotoManager.h"
 #import "CYPhotoCenter.h"
-#import "UIView+CYRect.h"
 #import "CYPhotoHeader.h"
 
 @interface CYPhotoBrowserCell ()
@@ -146,7 +145,7 @@
     
     dispatch_async(dispatch_queue_create("CYPhotoLibSetImageQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
         // 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
-        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(self.w * 2, self.h * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
+        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(self.bounds.size.width * 2, self.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.imageIV.image = image;

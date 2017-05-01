@@ -11,6 +11,11 @@
 #import "CYAblumInfo.h"
 #import "CYPhotoNavigationViewController.h"
 #import "CYPhotoCommon.h"
+#import "NSString+CYPHChineseName.h"
+#import "CYPhotoAblumListController.h"
+#import "CYPhotoBrowserController.h"
+#import "CYPhotoCenter.h"
+#import "CYPhotoManager.h"
 
 @interface CYPhotoPicker()
 

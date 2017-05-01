@@ -11,6 +11,8 @@
 #import "CYPhotoAblumCell.h"
 #import "CYPhotoBrowserController.h"
 #import "CYAblumInfo.h"
+#import "NSString+CYPHChineseName.h"
+#import "CYPhotoCenter.h"
 
 @interface CYPhotoAblumListController ()<UITableViewDataSource, UITableViewDelegate>
 

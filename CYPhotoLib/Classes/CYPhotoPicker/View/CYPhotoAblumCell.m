@@ -10,6 +10,7 @@
 #import "CYAblumInfo.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHeader.h"
+#import "NSString+CYPHChineseName.h"
 
 @implementation CYPhotoAblumCell
 

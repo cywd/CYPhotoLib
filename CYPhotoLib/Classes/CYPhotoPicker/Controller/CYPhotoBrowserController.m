@@ -13,6 +13,8 @@
 #import "CYPhotoManager.h"
 //#import "CYHeadImageToBig.h"
 #import "CYPhotoBottomCollectionViewCell.h"
+#import "UIView+CYAnimation.h"
+#import "CYPhotoCenter.h"
 
 static CGFloat CELL_ROW = 4;
 static CGFloat CELL_MARGIN = 5.0;
@@ -121,7 +123,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         cell.indexPath = indexPath;
         
-        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.w * 2, cell.h * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
+        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.bounds.size.width * 2, cell.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
             cell.imageView.image = image;
         }];
         

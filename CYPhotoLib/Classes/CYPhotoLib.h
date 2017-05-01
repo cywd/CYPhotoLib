@@ -12,5 +12,7 @@
 #import "CYPhotoHeader.h"
 #import "CYPhotoCommon.h"
 #import "CYPhotoPicker.h"
+#import "CYPhotoCenter.h"
+#import "CYPhotoManager.h"
 
 #endif /* CYPhotoLib_h */

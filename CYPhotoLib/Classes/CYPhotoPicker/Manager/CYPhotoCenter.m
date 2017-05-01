@@ -8,6 +8,7 @@
 
 #import "CYPhotoCenter.h"
 #import "CYPhotoHeader.h"
+#import "CYPhotoManager.h"
 
 @interface CYPhotoCenter () <PHPhotoLibraryChangeObserver, UIAlertViewDelegate>
 
