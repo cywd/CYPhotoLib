@@ -57,6 +57,7 @@
             browser.info = info;
             browser.assetCollection = info.assetCollection;
             browser.collectionTitle = [info.ablumName chineseName];
+//            browser.collectionTitle = NSLocalizedString(info.ablumName, @"");
         }
         
         [ablumsList.navigationController pushViewController:browser animated:NO];

@@ -56,6 +56,7 @@
     browser.info = info;
     browser.assetCollection = info.assetCollection;
     browser.collectionTitle = [info.ablumName chineseName];
+//    browser.collectionTitle = NSLocalizedString(info.ablumName, @"");
     [self.navigationController pushViewController:browser animated:YES];
 }
 
@@ -79,7 +80,7 @@
         _tableView.dataSource = self;
         _tableView.showsHorizontalScrollIndicator = NO;
 //        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.tableFooterView = [[UIView alloc]init];
+        _tableView.tableFooterView = [[UIView alloc] init];
     }
     return _tableView;
 }

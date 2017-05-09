@@ -30,6 +30,7 @@
         cell.ablumCover.image = image;
     }];
     cell.ablumName.text = [info.ablumName chineseName];
+//    cell.ablumName.text = NSLocalizedString(info.ablumName, @"");
     cell.ablumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
     
 //    //line
