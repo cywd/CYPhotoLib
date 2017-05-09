@@ -31,6 +31,35 @@
 }
 
 /*
+ enum PHAssetCollectionType : Int {
+ case Album //从 iTunes 同步来的相册，以及用户在 Photos 中自己建立的相册
+ case SmartAlbum //经由相机得来的相册
+ case Moment //Photos 为我们自动生成的时间分组的相册
+ }
+ 
+ enum PHAssetCollectionSubtype : Int {
+ case AlbumRegular //用户在 Photos 中创建的相册，也就是我所谓的逻辑相册
+ case AlbumSyncedEvent //使用 iTunes 从 Photos 照片库或者 iPhoto 照片库同步过来的事件。然而，在iTunes 12 以及iOS 9.0 beta4上，选用该类型没法获取同步的事件相册，而必须使用AlbumSyncedAlbum。
+ case AlbumSyncedFaces //使用 iTunes 从 Photos 照片库或者 iPhoto 照片库同步的人物相册。
+ case AlbumSyncedAlbum //做了 AlbumSyncedEvent 应该做的事
+ case AlbumImported //从相机或是外部存储导入的相册，完全没有这方面的使用经验，没法验证。
+ case AlbumMyPhotoStream //用户的 iCloud 照片流
+ case AlbumCloudShared //用户使用 iCloud 共享的相册
+ case SmartAlbumGeneric //文档解释为非特殊类型的相册，主要包括从 iPhoto 同步过来的相册。由于本人的 iPhoto 已被 Photos 替代，无法验证。不过，在我的 iPad mini 上是无法获取的，而下面类型的相册，尽管没有包含照片或视频，但能够获取到。
+ case SmartAlbumPanoramas //相机拍摄的全景照片
+ case SmartAlbumVideos //相机拍摄的视频
+ case SmartAlbumFavorites //收藏文件夹
+ case SmartAlbumTimelapses //延时视频文件夹，同时也会出现在视频文件夹中
+ case SmartAlbumAllHidden //包含隐藏照片或视频的文件夹
+ case SmartAlbumRecentlyAdded //相机近期拍摄的照片或视频
+ case SmartAlbumBursts //连拍模式拍摄的照片，在 iPad mini 上按住快门不放就可以了，但是照片依然没有存放在这个文件夹下，而是在相机相册里。
+ case SmartAlbumSlomoVideos //Slomo 是 slow motion 的缩写，高速摄影慢动作解析，在该模式下，iOS 设备以120帧拍摄。不过我的 iPad mini 不支持，没法验证。
+ case SmartAlbumUserLibrary //这个命名最神奇了，就是相机相册，所有相机拍摄的照片或视频都会出现在该相册中，而且使用其他应用保存的照片也会出现在这里。
+ case Any //包含所有类型
+ }
+ */
+
+/*
  * 获取所有相册
  */
 - (NSArray<CYAblumInfo *> *)getAllAblums
@@ -150,6 +179,14 @@
     [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [list addObject:obj];
     }];
+    
+    // 缓存
+//    PHCachingImageManager *cachingImageManager = [[PHCachingImageManager alloc] init];
+//    [cachingImageManager startCachingImagesForAssets:list
+//                                          targetSize:PHImageManagerMaximumSize
+//                                         contentMode:PHImageContentModeAspectFit
+//                                             options:nil];
+    
     return list;
 }
 
@@ -159,9 +196,11 @@
     // 请求大图界面，当切换图片时，取消上一张图片的请求，对于iCloud端的图片，可以节省流量
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     /**
-     resizeMode：对请求的图像怎样缩放。有三种选择：None，默认加载方式；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
+     synchronous：指定请求是否同步执行。
+     resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
      deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
      这个属性只有在 synchronous 为 true 时有效。
+     normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
      */
     option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone; //控制照片尺寸
     option.deliveryMode = isResize ? PHImageRequestOptionsDeliveryModeOpportunistic : PHImageRequestOptionsDeliveryModeHighQualityFormat;
@@ -171,6 +210,8 @@
     // option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
     // 这里设置iCloud
     option.networkAccessAllowed = YES;
+    
+    // 是否同步请求
     option.synchronous = !isResize;
         
     /*
@@ -194,6 +235,8 @@
     // PHImageContentModeAspectFit ？ PHImageContentModeAspectFill ?
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         
+        
+        // 这里是异步的
         // 排除取消，错误，低清图三种情况，即已经获取到了高清图
 //        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
         
@@ -358,30 +401,30 @@
         
         if (isOriginal) {
             
-            //源图 -> 不压缩
+            // 源图 -> 不压缩
             size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
             
         } else {
             
-            //压缩的图 －> 以最长边为屏幕分辨率压缩
+            // 压缩的图 －> 以最长边为屏幕分辨率压缩
             CGFloat scale = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
             if (scale > 1.0) {
                 
                 if (asset.pixelWidth < CYPHOTOLIB_SCREEN_W) {
-                    //最长边小于屏幕宽度时，采用原图
+                    // 最长边小于屏幕宽度时，采用原图
                     size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
                 } else {
-                    //压缩
+                    // 压缩
                     size = CGSizeMake(CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_W / scale);
                 }
                 
             } else {
                 
                 if (asset.pixelHeight < CYPHOTOLIB_SCREEN_H) {
-                    //最长边小于屏幕高度时，采用原图
+                    // 最长边小于屏幕高度时，采用原图
                     size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
                 } else {
-                    //压缩
+                    // 压缩
                     size = CGSizeMake(CYPHOTOLIB_SCREEN_H * scale, CYPHOTOLIB_SCREEN_H);
                 }
                 

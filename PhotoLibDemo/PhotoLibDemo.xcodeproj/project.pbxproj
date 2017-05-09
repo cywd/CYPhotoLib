@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		002D7847F2937C5CE7C28A67 /* Pods_PhotoLibDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BAB6479A9B63B10AABF1DE9 /* Pods_PhotoLibDemo.framework */; };
 		E74FC0291EA75300009BE8AD /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E74FC0281EA75300009BE8AD /* CollectionViewCell.m */; };
+		E752695B1EC18D5000E596FD /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
 		E79864821D17CD020074F8D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864811D17CD020074F8D2 /* main.m */; };
 		E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864841D17CD020074F8D2 /* AppDelegate.m */; };
 		E79864881D17CD020074F8D2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864871D17CD020074F8D2 /* ViewController.m */; };
@@ -667,6 +668,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E752695B1EC18D5000E596FD /* CYPhotoManager.m in Sources */,
 				E798649B1D17CD020074F8D2 /* PhotoLibDemoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

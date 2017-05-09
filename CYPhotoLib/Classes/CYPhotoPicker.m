@@ -79,6 +79,7 @@
         }
         
         NSMutableArray *assetArray = [CYPhotoCenter shareCenter].selectedPhotos;
+        
         handle(photos, assetArray);
         
     }];
