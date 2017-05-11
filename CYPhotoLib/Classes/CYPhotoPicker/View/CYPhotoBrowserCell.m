@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIVisualEffectView *blurView;
 
 
+@property (nonatomic, copy) NSString *representedAssetIdentifier;
+
 @end
 
 @implementation CYPhotoBrowserCell
@@ -69,11 +71,11 @@
 
 #pragma mark - private methods
 - (void)showLoadingIndicator {
-    
+    self.blurView.hidden = NO;
 }
 
 - (void)hideLoadingIndicator {
-    
+    self.blurView.hidden = YES;
 }
 
 #pragma mark - getters and setters
@@ -81,10 +83,12 @@
     _asset = asset;
     
     
+    self.representedAssetIdentifier = asset.localIdentifier;
+    
     CGFloat width = asset.pixelWidth;
     CGFloat height = asset.pixelHeight;
     
-    
+    [self showLoadingIndicator];
     
     self.selBtn.hidden = YES;
     self.tanhao.hidden = YES;
@@ -98,59 +102,71 @@
         if (isLocal && (asset.mediaType == PHAssetMediaTypeImage)) {
             
             [[CYPhotoManager manager] getImageDataLength:asset completeBlock:^(CGFloat length) {
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
+                // 这里要判断id一致再继续
+                if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
                     
-                    if (length < (102400 / 1000.0) ) {
-                        // YES
-                        self.tanhao.hidden = NO;
-                    } else if (width/height > 2 || height/width > 2) {
-                        // YES
-                        self.tanhao.hidden = NO;
-                    } else {
-                        // NO
-                        self.tanhao.hidden = YES;
-                    }
-                    
-                    if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
-                        // YES
-                        self.tanhao.hidden = YES;
-                        self.coverBtn.hidden = NO;
-                        //            cell.selBtn.hidden = YES;
-                    } else {
-                        // NO
-                        //            cell.tanhao.hidden = YES;
-                        self.coverBtn.hidden = YES;
-                        //            cell.selBtn.hidden = NO;
-                    }
-                    
-                    self.selBtn.hidden = !self.coverBtn.hidden;
-                    
-                    if (!self.singleSelBtn.hidden) {
-                        self.selBtn.hidden = YES;
-                        self.tanhao.hidden = YES;
-                    }
-                    
-                });
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        if (length < (102400 / 1000.0) ) {
+                            // YES
+                            self.tanhao.hidden = NO;
+                        } else if (width/height > 2 || height/width > 2) {
+                            // YES
+                            self.tanhao.hidden = NO;
+                        } else {
+                            // NO
+                            self.tanhao.hidden = YES;
+                        }
+                        
+                        if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
+                            // YES
+                            self.tanhao.hidden = YES;
+                            self.coverBtn.hidden = NO;
+                            //            cell.selBtn.hidden = YES;
+                        } else {
+                            // NO
+                            //            cell.tanhao.hidden = YES;
+                            self.coverBtn.hidden = YES;
+                            //            cell.selBtn.hidden = NO;
+                        }
+                        
+                        self.selBtn.hidden = !self.coverBtn.hidden;
+                        
+                        if (!self.singleSelBtn.hidden) {
+                            self.selBtn.hidden = YES;
+                            self.tanhao.hidden = YES;
+                        }
+                        
+                        
+                        [self hideLoadingIndicator];
+                    });
+                }
             }];
+            
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.coverBtn.hidden = NO;
+                
+                [self hideLoadingIndicator];
             });
         }
     });
     
     
-    [self showLoadingIndicator];
+//    [self showLoadingIndicator];
     
     dispatch_async(dispatch_queue_create("CYPhotoLibSetImageQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
         // 这里修改了 isResize 为 NO， 设置为YES会闪来闪去的
         [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(self.bounds.size.width * 2, self.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.imageIV.image = image;
                 
-                [self hideLoadingIndicator];
+                // 这里要判断id一致再继续
+                if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
+                    self.imageIV.image = image;
+                }
+                
+//                [self hideLoadingIndicator];
             });
         }];
     });

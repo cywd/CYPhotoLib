@@ -55,6 +55,17 @@
                         <rect key="frame" x="5" y="5" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JQR-zL-cXN">
+                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="90O-a3-z4Q">
+                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                        </view>
+                        <vibrancyEffect>
+                            <blurEffect style="light"/>
+                        </vibrancyEffect>
+                    </visualEffectView>
                 </subviews>
             </view>
             <constraints>
@@ -67,8 +78,12 @@
                 <constraint firstItem="Ssy-oG-UMP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="Hll-zf-xDX"/>
                 <constraint firstAttribute="bottom" secondItem="Ssy-oG-UMP" secondAttribute="bottom" id="LpL-Za-LsO"/>
                 <constraint firstAttribute="trailing" secondItem="udA-i8-FXP" secondAttribute="trailing" id="MUe-J6-t75"/>
+                <constraint firstAttribute="trailing" secondItem="JQR-zL-cXN" secondAttribute="trailing" id="NBv-kG-LbX"/>
+                <constraint firstItem="JQR-zL-cXN" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="TwY-p5-dwR"/>
                 <constraint firstItem="udA-i8-FXP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="axz-4h-d1g"/>
                 <constraint firstItem="AEQ-Q3-hkP" firstAttribute="top" secondItem="pzf-Cm-gps" secondAttribute="top" id="bTg-la-02n"/>
+                <constraint firstAttribute="bottom" secondItem="JQR-zL-cXN" secondAttribute="bottom" id="d37-7F-T6I"/>
+                <constraint firstItem="JQR-zL-cXN" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="dg6-8o-SWF"/>
                 <constraint firstAttribute="trailing" secondItem="xio-Ea-P95" secondAttribute="trailing" id="eVC-Q1-mbo"/>
                 <constraint firstAttribute="bottom" secondItem="xio-Ea-P95" secondAttribute="bottom" id="gRH-4W-sBr"/>
                 <constraint firstItem="Ssy-oG-UMP" firstAttribute="leading" secondItem="pzf-Cm-gps" secondAttribute="leading" id="jv0-E7-NFA"/>
@@ -78,6 +93,7 @@
                 <constraint firstAttribute="bottom" secondItem="udA-i8-FXP" secondAttribute="bottom" id="qdM-PV-Knt"/>
             </constraints>
             <connections>
+                <outlet property="blurView" destination="JQR-zL-cXN" id="5SU-Yv-OzA"/>
                 <outlet property="coverBtn" destination="udA-i8-FXP" id="7qZ-XG-moU"/>
                 <outlet property="imageIV" destination="AEQ-Q3-hkP" id="O0f-RD-x6X"/>
                 <outlet property="selBtn" destination="SsD-9r-FSB" id="RMi-6k-cyF"/>
