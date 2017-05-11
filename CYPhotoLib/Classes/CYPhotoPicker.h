@@ -12,11 +12,11 @@
 
 @interface CYPhotoPicker : NSObject
 
+@property (nonatomic, assign) NSInteger selectedCount;
+
 /*
  * 最大选择数,默认为20
  */
-@property (nonatomic, assign) NSInteger selectedCount;
-
 @property (nonatomic, assign) NSInteger maxSelectedCount;
 @property (nonatomic, assign) NSInteger minSelectedCount;
 
@@ -36,9 +36,7 @@
  *
  *  @param handle 回调（图片数组）
  */
-
 - (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel handle:(void(^)(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets))handle;
-
 
 /** 清除包括已选图片的信息等 */
 - (void)clearInfo;
