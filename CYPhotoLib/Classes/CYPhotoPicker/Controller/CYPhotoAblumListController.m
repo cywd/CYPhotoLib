@@ -16,7 +16,7 @@
 
 @interface CYPhotoAblumListController ()<UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -94,7 +94,6 @@
 - (void)dealloc {
 //    self.tableView = nil;
 //    self.assetCollections = nil;
-    
 }
 
 @end

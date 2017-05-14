@@ -34,7 +34,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 @property (strong, nonatomic) UIButton *completeBtn; //完成按钮
 
 // 已选
-@property (nonatomic, strong) UILabel *yixuanLabel;
+@property (nonatomic, strong) UILabel *haveSelectedLabel;
 @property (nonatomic, strong) UILabel *numberLabel;
 @property (nonatomic, strong) UILabel *allCountLabel;
 
@@ -88,7 +88,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self.collectionView reloadData];
     
     
-    [self.toolBar addSubview:self.yixuanLabel];
+    [self.toolBar addSubview:self.haveSelectedLabel];
     
     //!!!: Cyrill:这里是计数的样式
     //    if (self.isCalendar) {
@@ -408,15 +408,15 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     return _completeBtn;
 }
 
-- (UILabel *)yixuanLabel {
-    if (!_yixuanLabel) {
+- (UILabel *)haveSelectedLabel {
+    if (!_haveSelectedLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, 35, 25)];
         label.text = @"已选";
         label.textColor = [UIColor colorWithRed:0.302 green:0.294 blue:0.298 alpha:1.000];
         label.font = [UIFont systemFontOfSize:16];
-        self.yixuanLabel = label;
+        self.haveSelectedLabel = label;
     }
-    return _yixuanLabel;
+    return _haveSelectedLabel;
 }
 
 - (UILabel *)numberLabel {
