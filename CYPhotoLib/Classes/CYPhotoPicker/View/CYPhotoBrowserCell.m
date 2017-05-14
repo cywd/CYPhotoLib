@@ -82,7 +82,6 @@
 - (void)setAsset:(PHAsset *)asset {
     _asset = asset;
     
-    
     self.representedAssetIdentifier = asset.localIdentifier;
     
     CGFloat width = asset.pixelWidth;
@@ -93,7 +92,6 @@
     self.selBtn.hidden = YES;
     self.tanhao.hidden = YES;
     self.coverBtn.hidden = YES;
-    
     
     dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
         
@@ -151,7 +149,6 @@
             });
         }
     });
-    
     
 //    [self showLoadingIndicator];
     
