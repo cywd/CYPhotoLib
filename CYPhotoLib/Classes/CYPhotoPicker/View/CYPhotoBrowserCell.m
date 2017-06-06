@@ -135,7 +135,6 @@
                             self.tanhao.hidden = YES;
                         }
                         
-                        
                         [self hideLoadingIndicator];
                     });
                 }

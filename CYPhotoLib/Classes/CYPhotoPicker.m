@@ -37,7 +37,6 @@
     
     self.sender = sender;
     
-    
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
         CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc]init];
         ablumsList.assetCollections = [[CYPhotoManager manager] getAllAblums];
