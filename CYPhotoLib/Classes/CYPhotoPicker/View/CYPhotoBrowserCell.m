@@ -150,10 +150,12 @@
     });
     
 //    [self showLoadingIndicator];
+    CGFloat w1 = self.bounds.size.width * 2;
+    CGFloat h1 = self.bounds.size.height * 2;
     
     dispatch_async(dispatch_queue_create("CYPhotoLibSetImageQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
         
-        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(self.bounds.size.width * 2, self.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
+        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(w1, h1) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 

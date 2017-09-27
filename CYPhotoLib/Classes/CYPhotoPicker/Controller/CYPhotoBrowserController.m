@@ -42,7 +42,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 @property (nonatomic , weak  ) UILabel   *makeView;
 @property (nonatomic , strong) UIButton  *doneBtn;
 
-@property (nonatomic , weak  ) UIToolbar *toolBar;
+// UIToolbar 目测以后只能用 items了。上面盖了一层东西
+//@property (nonatomic , weak  ) UIToolbar *toolBar;
+@property (nonatomic , strong) UIView *toolBar;
 // 底部CollectionView
 @property (nonatomic , weak) UICollectionView *toolBarThumbCollectionView;
 
@@ -77,8 +79,18 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     // 消除导航条返回键带的title
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     
-    [self setupUI];
+//    if (@available(iOS 11, *)) {
+//        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
+//        [NSLayoutConstraint activateConstraints:@[[self.collectionView.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.collectionView.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
+//    } else {
+//        let standardSpacing: CGFloat = 8.0
+//        NSLayoutConstraint.activate([
+//                                     greenView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: standardSpacing),
+//                                     bottomLayoutGuide.topAnchor.constraint(equalTo: greenView.bottomAnchor, constant: standardSpacing)
+//                                     ])
+//    }
     
+    [self setupUI];
     [self loadAssetData];
 }
 
@@ -88,14 +100,14 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self.collectionView reloadData];
     
     
-    [self.toolBar addSubview:self.haveSelectedLabel];
-    
-    //!!!: Cyrill:这里是计数的样式
-    //    if (self.isCalendar) {
-        [self.toolBar addSubview:self.allCountLabel];
-    //    } else {
-    //        [self.toolBar addSubview:self.numberLabel];
-    //    }
+//    [self.toolBar addSubview:self.haveSelectedLabel];
+//
+//    //!!!: Cyrill:这里是计数的样式
+//    //    if (self.isCalendar) {
+//        [self.toolBar addSubview:self.allCountLabel];
+//    //    } else {
+//    //        [self.toolBar addSubview:self.numberLabel];
+//    //    }
 }
 
 #pragma mark - collectionView delegate
@@ -122,6 +134,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:_identifier forIndexPath:indexPath];
         
         cell.indexPath = indexPath;
+        cell.asset = asset;
         
         [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.bounds.size.width * 2, cell.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
             
@@ -130,13 +143,19 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         __weak typeof(self)weakSelf = self;
         
-        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath) {
-            
+        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, PHAsset *ast) {
+            __strong typeof(self)strongSelf = weakSelf;
             [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
             
-            [weakSelf.collectionView reloadData];
+//            [weakSelf.collectionView reloadData];
+            // delete 刷新
+            if ([strongSelf.dataSource containsObject:ast]) {
+                NSInteger ind = [_dataSource indexOfObject:ast];
+                NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
+                [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
+            }
             
-            [weakSelf refreshBottomView];
+            [strongSelf refreshBottomView];
         }];
         
         return cell;
@@ -200,17 +219,12 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    CYPhotoBrowserFooter *reusableView = nil;
-    if (kind == UICollectionElementKindSectionFooter) {
-        CYPhotoBrowserFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier forIndexPath:indexPath];
-        
-        footerView.count = self.info.count;
-        
-        reusableView = footerView;
-        self.footerView = footerView;
-    } else {
-        
-    }
+    CYPhotoBrowserFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier forIndexPath:indexPath];
+    
+    footerView.count = self.info.count;
+    
+    CYPhotoBrowserFooter *reusableView = footerView;
+    self.footerView = footerView;
     return reusableView;
 }
 
@@ -235,6 +249,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     //    [self.view insertSubview:self.collectionView belowSubview:self.bottomView];
     [self.view addSubview:self.collectionView];
+    
+//    if (@available(iOS 11, *)) {
+//        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
+//        [NSLayoutConstraint activateConstraints:@[[self.collectionView.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.collectionView.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
+//    }
     
     if (_isSingleSel) {
         self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
@@ -291,11 +310,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 #pragma mark -初始化底部ToorBar
 - (void)setupToorBar {
     
-    UIToolbar *toolBar = [[UIToolbar alloc] init];
+    UIView *toolBar = [[UIView alloc] init];
     toolBar.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:toolBar];
     self.toolBar = toolBar;
-    self.toolBar.barTintColor = [UIColor whiteColor];
+    self.toolBar.backgroundColor = [UIColor whiteColor];
     
     //!!!: 这里设置的toolBar
     NSDictionary *views = NSDictionaryOfVariableBindings(toolBar);
@@ -307,6 +326,23 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     [self.toolBar addSubview:self.toolBarThumbCollectionView];
     [self.toolBar addSubview:self.completeBtn];
+
+    
+    [self.toolBar addSubview:self.haveSelectedLabel];
+    
+    //!!!: Cyrill:这里是计数的样式
+    //    if (self.isCalendar) {
+    [self.toolBar addSubview:self.allCountLabel];
+    //    } else {
+    //        [self.toolBar addSubview:self.numberLabel];
+    //    }
+    
+    
+//    if (@available(iOS 11, *)) {
+//        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
+//
+//        [NSLayoutConstraint activateConstraints:@[[self.toolBar.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.toolBar.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
+//    }
 
     
     // 左视图 中间距 右视图
@@ -330,7 +366,8 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         layout.minimumLineSpacing = CELL_LINE_MARGIN;
         layout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 44 * 2);
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CYPHOTOLIB_NAVBAR_H, CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_H-CYPHOTOLIB_NAVBAR_H) collectionViewLayout:layout];
+//        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CYPHOTOLIB_NAVBAR_H, CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_H-CYPHOTOLIB_NAVBAR_H) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

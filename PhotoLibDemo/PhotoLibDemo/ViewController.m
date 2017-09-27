@@ -55,7 +55,6 @@
 
 #pragma mark - event response
 - (IBAction)btnClick:(UIButton *)sender {
-    
     __weak typeof(self) weakSelf = self;
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     [picker showInSender:self isSingleSel:NO handle:^(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets) {

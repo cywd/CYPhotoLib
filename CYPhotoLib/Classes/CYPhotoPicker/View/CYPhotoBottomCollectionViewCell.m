@@ -17,7 +17,7 @@
 
 - (IBAction)deleteItem:(UIButton *)sender forEvent:(UIEvent *)event {
     if (self.deleteTapBlock) {
-        self.deleteTapBlock(self.indexPath);
+        self.deleteTapBlock(self.indexPath, self.asset);
     }
 }
 
