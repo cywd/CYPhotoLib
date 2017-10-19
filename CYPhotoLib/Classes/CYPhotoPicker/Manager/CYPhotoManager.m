@@ -19,15 +19,20 @@
 
 @implementation CYPhotoManager
 
-+ (instancetype)manager
-{
-    static CYPhotoManager *manager = nil;
-    static dispatch_once_t onceToken;
+static CYPhotoManager *manager = nil;
+static dispatch_once_t onceToken;
+
++ (instancetype)manager {
     dispatch_once(&onceToken, ^{
         manager = [[CYPhotoManager alloc] init];
         manager.ablumsList = [NSMutableArray array];
     });
     return manager;
+}
+
++ (void)deallocManager {
+    onceToken = 0;
+    manager = nil;
 }
 
 /*
@@ -59,9 +64,7 @@
  }
  */
 
-/*
- * 获取所有相册
- */
+/** 获取所有相册 */
 - (NSArray<CYAblumInfo *> *)getAllAblums
 {
     //先清空数组
