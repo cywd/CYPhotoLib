@@ -67,16 +67,27 @@ static dispatch_once_t onceToken;
 /** 获取所有相册 */
 - (NSArray<CYAblumInfo *> *)getAllAblums
 {
-    //先清空数组
+    // 先清空数组
     [_ablumsList removeAllObjects];
     
-    //列出并加入所有智能相册 系统相册
-    PHFetchResult * smartAblums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-    [self fetchCollection:smartAblums];
+    // 列出并加入所有智能相册 系统相册
+    PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
+    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    PHFetchResult *topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+    PHFetchResult *syncedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
+    PHFetchResult *sharedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumCloudShared options:nil];
+    NSArray *allAlbums = @[myPhotoStreamAlbum, smartAlbums, topLevelUserCollections, syncedAlbums, sharedAlbums];
 
+    for (PHFetchResult *fetchResult in allAlbums) {
+        [self fetchCollection:fetchResult];
+    }
     
-    PHFetchResult * ablums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-    [self fetchCollection:ablums];
+//    注释了
+//    PHFetchResult *smartAblums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
+//    [self fetchCollection:smartAblums];
+//
+//    PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
+//    [self fetchCollection:myPhotoStreamAlbum];
     
     
     //列出列出并加入所有用户创建的相册
@@ -114,8 +125,8 @@ static dispatch_once_t onceToken;
         
         if ([obj isKindOfClass:[PHAssetCollection class]]) {
             
-            //返回此相册的资源集合
-            PHFetchResult * result = [self fetchResultInCollection:obj asending:NO];
+            // 返回此相册的资源集合
+            PHFetchResult *result = [self fetchResultInCollection:obj asending:NO];
             
             
             //如果有资源
@@ -136,18 +147,19 @@ static dispatch_once_t onceToken;
  */
 - (PHFetchResult *)fetchResultInCollection:(PHAssetCollection *)collection asending:(BOOL)asending {
     
-    PHFetchOptions * option = [[PHFetchOptions alloc] init];
+    PHFetchOptions *option = [[PHFetchOptions alloc] init];
     option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:asending]];
     // 一个过滤器，留下的类型，图片格式
     option.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
-    PHFetchResult * result;
-    //获取指定相册资源合集
+    
+    PHFetchResult *result;
+    // 获取指定相册资源合集
     if (collection) {
         
         result = [PHAsset fetchAssetsInAssetCollection:collection options:option];
         
     }
-    //获取所有相册资源合集
+    // 获取所有相册资源合集
     else {
 //        option.includeAssetSourceTypes = PHAssetSourceTypeNone;
         // 这里获取的是所有的资源合集?
