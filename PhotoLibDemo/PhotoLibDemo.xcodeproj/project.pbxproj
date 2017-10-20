@@ -10,6 +10,7 @@
 		002D7847F2937C5CE7C28A67 /* Pods_PhotoLibDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BAB6479A9B63B10AABF1DE9 /* Pods_PhotoLibDemo.framework */; };
 		E74FC0291EA75300009BE8AD /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E74FC0281EA75300009BE8AD /* CollectionViewCell.m */; };
 		E752695B1EC18D5000E596FD /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
+		E768E5EA1F99C6E400C9D511 /* CYLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E768E5E91F99C6E400C9D511 /* CYLocationManager.m */; };
 		E79864821D17CD020074F8D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864811D17CD020074F8D2 /* main.m */; };
 		E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864841D17CD020074F8D2 /* AppDelegate.m */; };
 		E79864881D17CD020074F8D2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864871D17CD020074F8D2 /* ViewController.m */; };
@@ -81,6 +82,8 @@
 		D4FC08E0CD8B373C70FC9CAA /* Pods-PhotoLibDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoLibDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoLibDemoTests/Pods-PhotoLibDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		E74FC0271EA752FF009BE8AD /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		E74FC0281EA75300009BE8AD /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		E768E5E81F99C6E400C9D511 /* CYLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYLocationManager.h; sourceTree = "<group>"; };
+		E768E5E91F99C6E400C9D511 /* CYLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYLocationManager.m; sourceTree = "<group>"; };
 		E798647D1D17CD020074F8D2 /* PhotoLibDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79864811D17CD020074F8D2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E79864831D17CD020074F8D2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -341,6 +344,8 @@
 				E7C555A31EA734E500BA5D8C /* CYPhotoCenter.m */,
 				E7C555A41EA734E500BA5D8C /* CYPhotoManager.h */,
 				E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */,
+				E768E5E81F99C6E400C9D511 /* CYLocationManager.h */,
+				E768E5E91F99C6E400C9D511 /* CYLocationManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -658,6 +663,7 @@
 				E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */,
 				E79864821D17CD020074F8D2 /* main.m in Sources */,
 				E7C555D51EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m in Sources */,
+				E768E5EA1F99C6E400C9D511 /* CYLocationManager.m in Sources */,
 				E7C555D91EA734E500BA5D8C /* CYPhotoBrowserFooter.m in Sources */,
 				E74FC0291EA75300009BE8AD /* CollectionViewCell.m in Sources */,
 				E7C555CA1EA734E500BA5D8C /* UIView+CYAnimation.m in Sources */,

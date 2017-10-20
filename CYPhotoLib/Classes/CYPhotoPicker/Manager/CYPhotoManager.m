@@ -106,21 +106,19 @@ static dispatch_once_t onceToken;
 //        
 //    }];
     
-    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.ablumName isEqualToString:@"All Photos"]) {
-            [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
-        }
-    }];
+//    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        if ([obj.ablumName isEqualToString:@"All Photos"]) {
+//            [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
+//        }
+//    }];
     
     return _ablumsList;
 }
 
-/*
- * 获取相册资源
- */
+/** 获取相册资源 */
 - (void)fetchCollection:(PHFetchResult *)obj {
     
-    //如果obj是所有相册的合集
+    // 如果obj是所有相册的合集
     [obj enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         if ([obj isKindOfClass:[PHAssetCollection class]]) {
@@ -129,22 +127,20 @@ static dispatch_once_t onceToken;
             PHFetchResult *result = [self fetchResultInCollection:obj asending:NO];
             
             
-            //如果有资源
+            // 如果有资源
             if (result.count) {
                 
                 // 创建此相册的信息集
                 CYAblumInfo * info = [CYAblumInfo cy_AblumInfoFromResult:result collection:obj];
                 
-                //加入到数组中
+                // 加入到数组中
                 [_ablumsList addObject:info];
             }
         }
     }];
 }
 
-/*
- * 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO
- */
+/** 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO */
 - (PHFetchResult *)fetchResultInCollection:(PHAssetCollection *)collection asending:(BOOL)asending {
     
     PHFetchOptions *option = [[PHFetchOptions alloc] init];
@@ -185,7 +181,7 @@ static dispatch_once_t onceToken;
     if (collection) {
         result = [self fetchResultInCollection:collection asending:asending];
     }
-    //获取所有相册资源
+    // 获取所有相册资源
     else {
         
         result = [self fetchResultInCollection:nil asending:asending];
@@ -268,46 +264,58 @@ static dispatch_once_t onceToken;
     }];
 }
 
-- (PHImageRequestID)getPhotoWithAsset:(id)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *, NSDictionary *, BOOL isDegraded))completion {
+- (int32_t)getPhotoWithAsset:(id)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *photo,NSDictionary *info,BOOL isDegraded))completion {
+    
+    return [self getPhotoWithAsset:asset photoWidth:photoWidth completion:completion progressHandler:nil networkAccessAllowed:NO];
+    
+}
 
+- (int32_t)getPhotoWithAsset:(id)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *photo,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     CGSize imageSize;
     PHAsset *phAsset = (PHAsset *)asset;
     CGFloat aspectRatio = phAsset.pixelWidth / (CGFloat)phAsset.pixelHeight;
-    CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale;
+    CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale * 1.5;
     CGFloat pixelHeight = pixelWidth / aspectRatio;
     imageSize = CGSizeMake(pixelWidth, pixelHeight);
-
+    
+    __block UIImage *image;
+    
     // 修复获取图片时出现的瞬间内存过高问题
     // 下面两行代码，来自hsjcom，他的github是：https://github.com/hsjcom 表示感谢
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        if (result) {
+            image = result;
+        }
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
         
-        //不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
+        // 不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
         // && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]
-        if (downloadFinined && completion) {
-            completion(result, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+        if (downloadFinined && result) {
+            if (completion) completion(result, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
         }
- 
         // Download image from iCloud / 从iCloud下载图片
-        if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
-//            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
-//            PHAssetImageProgressHandler dd = option.progressHandler;
-//            
-//            [option setProgressHandler:^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
-//                
-//            }];
-//            
-            option.networkAccessAllowed = YES;
-            option.resizeMode = PHImageRequestOptionsResizeModeFast;
-            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        if ([info objectForKey:PHImageResultIsInCloudKey] && !result &&  networkAccessAllowed) {
+            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+            options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"%f", progress);
+                    if (progressHandler) {
+                        progressHandler(progress, error, stop, info);
+                    }
+                });
+            };
+            options.networkAccessAllowed = YES;
+            options.resizeMode = PHImageRequestOptionsResizeModeFast;
+            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
                 UIImage *resultImage = [UIImage imageWithData:imageData scale:0.1];
 //                resultImage = [self scaleImage:resultImage toSize:imageSize];
-                if (resultImage) {
-//                    resultImage = [self fixOrientation:resultImage];
-                    if (completion) completion(resultImage,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+                if (!resultImage) {
+                    resultImage = image;
                 }
+//                    resultImage = [self fixOrientation:resultImage];
+                if (completion) completion(resultImage, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
             }];
         }
     }];
