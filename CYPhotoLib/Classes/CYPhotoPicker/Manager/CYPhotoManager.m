@@ -106,11 +106,11 @@ static dispatch_once_t onceToken;
 //        
 //    }];
     
-//    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if ([obj.ablumName isEqualToString:@"All Photos"]) {
-//            [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
-//        }
-//    }];
+    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.ablumName isEqualToString:@"All Photos"]) {
+            [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
+        }
+    }];
     
     return _ablumsList;
 }
