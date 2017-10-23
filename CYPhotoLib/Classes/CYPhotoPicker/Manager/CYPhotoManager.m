@@ -65,8 +65,7 @@ static dispatch_once_t onceToken;
  */
 
 /** 获取所有相册 */
-- (NSArray<CYAblumInfo *> *)getAllAblums
-{
+- (NSArray<CYAblumInfo *> *)getAllAblums {
     // 先清空数组
     [_ablumsList removeAllObjects];
     
@@ -166,14 +165,12 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取所有相册图片资源 */
-- (NSArray<PHAsset *> *)fetchAllAssets
-{
+- (NSArray<PHAsset *> *)fetchAllAssets {
     return [self fetchAssetsInCollection:nil asending:NO];
 }
 
 /** 获取指定相册图片资源 */
-- (NSArray<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending
-{
+- (NSArray<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending {
     NSMutableArray<PHAsset *> *list = [NSMutableArray array];
     
     PHFetchResult *result;
@@ -202,8 +199,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源对应的图片 */
-- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock
-{
+- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock {
     // 请求大图界面，当切换图片时，取消上一张图片的请求，对于iCloud端的图片，可以节省流量
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     /**
@@ -332,8 +328,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源对应的原图大小 */
-- (void)getImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock
-{
+- (void)getImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -360,8 +355,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源对应的原图大小 */
-- (void)getImageDataLength1:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock
-{
+- (void)getImageDataLength1:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -375,8 +369,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源对应的原图大小 */
-- (void)getImageDataLength2:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock
-{
+- (void)getImageDataLength2:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -399,8 +392,7 @@ static dispatch_once_t onceToken;
 
 
 /** 获取资源对应的原图data */
-- (void)getImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock
-{
+- (void)getImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -412,8 +404,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSMutableArray<PHAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock
-{
+- (void)fetchImagesWithAssetsArray:(NSMutableArray<PHAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock {
     
     NSMutableArray * images = [NSMutableArray array];
     
