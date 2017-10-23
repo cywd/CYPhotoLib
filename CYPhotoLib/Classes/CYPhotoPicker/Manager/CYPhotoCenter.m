@@ -16,8 +16,7 @@
 
 @implementation CYPhotoCenter
 
-+ (instancetype)shareCenter
-{
++ (instancetype)shareCenter {
     static CYPhotoCenter * center = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

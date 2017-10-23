@@ -12,36 +12,39 @@
 #import "CYPhotoHeader.h"
 #import "NSString+CYPHChineseName.h"
 
-@implementation CYPhotoAblumCell
+@interface CYPhotoAblumCell ()
 
-+ (instancetype)cellForTableView:(UITableView *)tableView info:(CYAblumInfo *)info {
-    
-    static NSString *cellID = @"CYPhotoAblumCell";
-    
-    // 复用
-    CYPhotoAblumCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    
-    if (!cell) {
-        cell = [[CYPhotoAblumCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-    }
+@property (strong, nonatomic) UIImageView *ablumCover;
+@property (strong, nonatomic) UILabel *ablumName;
+@property (strong, nonatomic) UILabel *ablumCount;
+
+@end
+
+@implementation CYPhotoAblumCell
+- (void)setInfo:(CYAblumInfo *)info {
+    _info = info;
     
     [[CYPhotoManager manager] fetchImageInAsset:info.coverAsset size:CGSizeMake(120, 120) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
         
-        cell.ablumCover.image = image;
+        self.ablumCover.image = image;
     }];
-    cell.ablumName.text = [info.ablumName chineseName];
-//    cell.ablumName.text = NSLocalizedString(info.ablumName, @"");
-    cell.ablumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
-    
-//    //line
-//    UIView * line = [[UIView alloc]initWithFrame:CGRectMake(100, 61 - CYPHOTOLIB_SINGLE_LINE_ADJUST_OFFSET, CYPHOTOLIB_SCREEN_W - 100, CYPHOTOLIB_SINGLE_LINE_WIDTH)];
-//    line.backgroundColor = CYPHOTOLIB_AblumsListLineColor;
-//    [cell.contentView addSubview:line];
-    
-    // indicator
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    return cell;
+    self.ablumName.text = [info.ablumName chineseName];
+    //    cell.ablumName.text = NSLocalizedString(info.ablumName, @"");
+    self.ablumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
+}
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
+
+- (void)layoutSublayersOfLayer:(CALayer *)layer {
+    [super layoutSublayersOfLayer:layer];
 }
 
 - (UIImageView *)ablumCover {
