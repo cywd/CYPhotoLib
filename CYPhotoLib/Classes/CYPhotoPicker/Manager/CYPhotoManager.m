@@ -81,30 +81,6 @@ static dispatch_once_t onceToken;
         [self fetchCollection:fetchResult];
     }
     
-//    注释了
-//    PHFetchResult *smartAblums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-//    [self fetchCollection:smartAblums];
-//
-//    PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-//    [self fetchCollection:myPhotoStreamAlbum];
-    
-    
-    //列出列出并加入所有用户创建的相册
-//    PHFetchResult * topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
-//    [self fetchCollection:topLevelUserCollections];
-    
-    // 不完美排序
-//    NSArray * engNameList = @[@"Camera Roll", @"My Photo Stream", @"Recently Added", @"Selfies", @"Favorites", @"Screenshots", @"Recently Deleted", @"Bursts", @"Videos"];
-//    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        
-//        for (NSUInteger i = 0; i<engNameList.count; i++) {
-//            if ([obj.ablumName isEqualToString:engNameList[i]]) {
-//                [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:i];
-//            }
-//        }
-//        
-//    }];
-    
     [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.ablumName isEqualToString:@"All Photos"]) {
             [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];

@@ -28,20 +28,21 @@
     
     self.title = @"照片";
     
-    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.tableView];
+    [self.tableView registerClass:[CYPhotoAblumCell class] forCellReuseIdentifier:NSStringFromClass([CYPhotoAblumCell class])];
+    
+    [self setupCancelBtn];
+}
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
     NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
     NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
     NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
     [self.view addConstraints:@[leftConstraint, topConstraint, rightConstraint, bottomConstraint]];
-    
-    
-//    CYPhotoAblumCell
-    [self.tableView registerClass:[CYPhotoAblumCell class] forCellReuseIdentifier:@"CYPhotoAblumCell"];
-    
-    [self setupCancelBtn];
 }
 
 #pragma mark - tableView delegate
@@ -51,7 +52,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CYPhotoAblumCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CYPhotoAblumCell"];
+    CYPhotoAblumCell * cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CYPhotoAblumCell class])];
     cell.info = self.assetCollections[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -63,8 +64,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     
+    CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     browser.isSingleSel = self.isSingleSel;
     CYAblumInfo *info = self.assetCollections[indexPath.row];
     

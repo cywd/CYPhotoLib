@@ -10,7 +10,7 @@
 
 @interface CYPhotoAblumListController : CYPhotoBaseController
 
-@property (nonatomic, strong) NSArray * assetCollections;   //相册列表
+@property (nonatomic, strong) NSArray *assetCollections;  // 相册列表
 
 @property (nonatomic, assign) BOOL isSingleSel;
 
