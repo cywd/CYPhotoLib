@@ -32,8 +32,11 @@
 //}
 
 - (void)testTrue2 {
+    
+    int a = 0;
+    
     NSLog(@"2222222222222222222222");
-    XCTAssert(1, @"Can not be zero");
+    XCTAssertEqual(a, 1, @"Can not be zero");
 }
 
 - (void)testTrue1 {
@@ -50,6 +53,7 @@
     NSLog(@"0000000000000000000000");
     XCTAssert(1, @"Can not be zero");
 }
+
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
