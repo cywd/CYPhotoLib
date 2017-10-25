@@ -12,7 +12,7 @@
 @interface CYAblumModel : NSObject
 
 /** 相册名字 */
-@property (nonatomic, copy) NSString * ablumName;
+@property (nonatomic, copy) NSString *name;
 /** 总照片数 */
 @property (nonatomic, assign) NSInteger count;
 /** 相册 */

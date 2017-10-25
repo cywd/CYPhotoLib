@@ -82,7 +82,7 @@ static dispatch_once_t onceToken;
     }
     
     [_ablumsList enumerateObjectsUsingBlock:^(CYAblumModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.ablumName isEqualToString:@"All Photos"]) {
+        if ([obj.name isEqualToString:@"All Photos"]) {
             [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
         }
     }];

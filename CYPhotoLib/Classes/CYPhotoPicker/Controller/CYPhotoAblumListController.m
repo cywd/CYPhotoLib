@@ -71,7 +71,7 @@
     
     browser.info = info;
     browser.assetCollection = info.assetCollection;
-    browser.collectionTitle = [info.ablumName chineseName];
+    browser.collectionTitle = [info.name chineseName];
 //    browser.collectionTitle = NSLocalizedString(info.ablumName, @"");
     [self.navigationController pushViewController:browser animated:YES];
 }
