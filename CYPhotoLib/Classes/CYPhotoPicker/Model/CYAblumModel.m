@@ -13,7 +13,7 @@
 + (instancetype)cy_AblumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection
 {
     CYAblumModel *ablumInfo = [[CYAblumModel alloc] init];
-    ablumInfo.ablumName = collection.localizedTitle;
+    ablumInfo.name = collection.localizedTitle;
     ablumInfo.count = result.count;
     ablumInfo.coverAsset = result[0];
     ablumInfo.assetCollection = collection;
