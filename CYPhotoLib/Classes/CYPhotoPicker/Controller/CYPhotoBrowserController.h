@@ -9,11 +9,11 @@
 #import "CYPhotoBaseController.h"
 @class PHAssetCollection;
 
-@class CYAblumInfo;
+@class CYAblumModel;
 
 @interface CYPhotoBrowserController : CYPhotoBaseController
 
-@property (nonatomic, strong) CYAblumInfo *info;
+@property (nonatomic, strong) CYAblumModel *info;
 
 @property (nonatomic, copy) NSString * collectionTitle;
 

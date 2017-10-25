@@ -10,7 +10,7 @@
 #import "CYPhotoHeader.h"
 #import "CYPhotoAblumCell.h"
 #import "CYPhotoBrowserController.h"
-#import "CYAblumInfo.h"
+#import "CYAblumModel.h"
 #import "NSString+CYPHChineseName.h"
 #import "CYPhotoCenter.h"
 
@@ -67,7 +67,7 @@
     
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     browser.isSingleSel = self.isSingleSel;
-    CYAblumInfo *info = self.assetCollections[indexPath.row];
+    CYAblumModel *info = self.assetCollections[indexPath.row];
     
     browser.info = info;
     browser.assetCollection = info.assetCollection;

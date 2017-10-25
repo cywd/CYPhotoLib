@@ -1,5 +1,5 @@
 //
-//  CYAblumInfo.h
+//  CYAblumModel.h
 //  PhotoLibDemo
 //
 //  Created by Cyrill on 16/7/18.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 
-@interface CYAblumInfo : NSObject
+@interface CYAblumModel : NSObject
 
 /** 相册名字 */
 @property (nonatomic, copy) NSString * ablumName;

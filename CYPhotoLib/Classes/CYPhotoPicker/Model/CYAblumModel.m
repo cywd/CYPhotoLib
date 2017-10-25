@@ -1,18 +1,18 @@
 //
-//  CYAblumInfo.m
+//  CYAblumModel.m
 //  PhotoLibDemo
 //
 //  Created by Cyrill on 16/7/18.
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "CYAblumInfo.h"
+#import "CYAblumModel.h"
 
-@implementation CYAblumInfo
+@implementation CYAblumModel
 
 + (instancetype)cy_AblumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection
 {
-    CYAblumInfo *ablumInfo = [[CYAblumInfo alloc] init];
+    CYAblumModel *ablumInfo = [[CYAblumModel alloc] init];
     ablumInfo.ablumName = collection.localizedTitle;
     ablumInfo.count = result.count;
     ablumInfo.coverAsset = result[0];

@@ -7,7 +7,7 @@
 //
 
 #import "CYPhotoAblumCell.h"
-#import "CYAblumInfo.h"
+#import "CYAblumModel.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHeader.h"
 #import "NSString+CYPHChineseName.h"
@@ -21,7 +21,7 @@
 @end
 
 @implementation CYPhotoAblumCell
-- (void)setInfo:(CYAblumInfo *)info {
+- (void)setInfo:(CYAblumModel *)info {
     _info = info;
     
     [[CYPhotoManager manager] fetchImageInAsset:info.coverAsset size:CGSizeMake(120, 120) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {

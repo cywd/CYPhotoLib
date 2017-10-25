@@ -8,7 +8,7 @@
 
 #import "CYPhotoPicker.h"
 #import "CYPhotoHeader.h"
-#import "CYAblumInfo.h"
+#import "CYAblumModel.h"
 #import "CYPhotoNavigationViewController.h"
 #import "CYPhotoCommon.h"
 #import "NSString+CYPHChineseName.h"
@@ -51,7 +51,7 @@
         CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
         browser.isSingleSel = isSingleSel;
         if (ablumsList.assetCollections) {
-            CYAblumInfo *info = [ablumsList.assetCollections firstObject];
+            CYAblumModel *info = [ablumsList.assetCollections firstObject];
             
             browser.info = info;
             browser.assetCollection = info.assetCollection;

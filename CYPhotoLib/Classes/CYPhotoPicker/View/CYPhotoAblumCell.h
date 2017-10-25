@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class CYAblumInfo;
+@class CYAblumModel;
 
 @interface CYPhotoAblumCell : UITableViewCell
 
-@property (nonatomic, strong) CYAblumInfo *info;
+@property (nonatomic, strong) CYAblumModel *info;
 
 @end

@@ -13,7 +13,7 @@
 
 @interface CYPhotoManager ()
 
-@property (nonatomic ,strong) NSMutableArray<CYAblumInfo *> * ablumsList;
+@property (nonatomic ,strong) NSMutableArray<CYAblumModel *> * ablumsList;
 
 @end
 
@@ -65,7 +65,7 @@ static dispatch_once_t onceToken;
  */
 
 /** 获取所有相册 */
-- (NSArray<CYAblumInfo *> *)getAllAblums {
+- (NSArray<CYAblumModel *> *)getAllAblums {
     // 先清空数组
     [_ablumsList removeAllObjects];
     
@@ -81,7 +81,7 @@ static dispatch_once_t onceToken;
         [self fetchCollection:fetchResult];
     }
     
-    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.ablumName isEqualToString:@"All Photos"]) {
             [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
         }
@@ -106,7 +106,7 @@ static dispatch_once_t onceToken;
             if (result.count) {
                 
                 // 创建此相册的信息集
-                CYAblumInfo * info = [CYAblumInfo cy_AblumInfoFromResult:result collection:obj];
+                CYAblumModel * info = [CYAblumModel cy_AblumInfoFromResult:result collection:obj];
                 
                 // 加入到数组中
                 [_ablumsList addObject:info];

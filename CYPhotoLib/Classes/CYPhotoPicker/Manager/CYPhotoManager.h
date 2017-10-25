@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CYAblumInfo.h"
+#import "CYAblumModel.h"
 
 @interface CYPhotoManager : NSObject
 
@@ -16,7 +16,7 @@
 + (void)deallocManager;
 
 /** 获取所有相册 */
-- (NSArray<CYAblumInfo *> *)getAllAblums;
+- (NSArray<CYAblumModel *> *)getAllAblums;
 
 /** 获取所有相册图片资源 */
 - (NSArray<PHAsset *> *)fetchAllAssets;
