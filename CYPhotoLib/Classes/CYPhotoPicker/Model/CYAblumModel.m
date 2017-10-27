@@ -10,8 +10,7 @@
 
 @implementation CYAblumModel
 
-+ (instancetype)cy_AblumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection
-{
++ (instancetype)cy_AblumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection {
     CYAblumModel *ablumInfo = [[CYAblumModel alloc] init];
     ablumInfo.name = collection.localizedTitle;
     ablumInfo.count = result.count;
