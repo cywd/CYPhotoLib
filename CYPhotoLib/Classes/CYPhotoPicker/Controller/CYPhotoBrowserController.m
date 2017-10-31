@@ -144,8 +144,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     width = self.view.bounds.size.width-insets.left-insets.right;
     
     
-    
-    
 //
 //    if (@available(iOS 11, *)) {
 //        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
@@ -454,11 +452,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         
-        CGFloat cellW = (self.view.bounds.size.width - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
-        
         _collectionLayout = [[UICollectionViewFlowLayout alloc] init];
-        
-//        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CYPHOTOLIB_NAVBAR_H, CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_H-CYPHOTOLIB_NAVBAR_H) collectionViewLayout:layout];
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:_collectionLayout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
