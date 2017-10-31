@@ -14,9 +14,19 @@
 #define CYPHOTOLIB_SCREEN_H    ([[UIScreen mainScreen] bounds].size.height)
 #define CYPHOTOLIB_SCREEN_B    [[UIScreen mainScreen] bounds]
 
-#define CYPHOTOLIB_TABBAR_H           49
-#define CYPHOTOLIB_NAVBAR_H           64
-#define CYPHOTOLIB_NAVBAR_H_NoSsatus  44
+// iPhone X
+#define  CYPHOTOLIB_IPHONEX (CYPHOTOLIB_SCREEN_W == 375.f && CYPHOTOLIB_SCREEN_H == 812.f ? YES : NO)
+
+// Status bar height.
+#define  CYPHOTOLIB_STATUS_H  (CYPHOTOLIB_IPHONEX ? 44.f : 20.f)
+#define  CYPHOTOLIB_TABBAR_H  (CYPHOTOLIB_IPHONEX ? (49.f+34.f) : 49.f)
+#define  CYPHOTOLIB_NAVBAR_H  (CYPHOTOLIB_IPHONEX ? 88.f : 64.f)
+#define  CYPHOTOLIB_NAVBAR_H_NoStatus  44.f
+
+#define  CYPHOTOLIB_TabbarSafeBottomMargin  (CYPHOTOLIB_IPHONEX ? 34.f : 0.f)
+
+#define CYPHOTOLIB_ViewSafeAreInsets(view) ({UIEdgeInsets insets; if(@available(iOS 11.0, *)) {insets = view.safeAreaInsets;} else {insets = UIEdgeInsetsZero;} insets;})
+
 
 #define CYPHOTOLIB_RGBColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 

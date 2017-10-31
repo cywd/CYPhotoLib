@@ -109,20 +109,75 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //    //    } else {
 //    //        [self.toolBar addSubview:self.numberLabel];
 //    //    }
+    
+//    CYPHOTOLIB_ViewSafeAreInsets
+//    CYPHOTOLIB_TabbarSafeBottomMargin
 }
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    CGFloat cellW = (self.view.bounds.size.width - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
+    UIEdgeInsets insets = CYPHOTOLIB_ViewSafeAreInsets(self.view);
+    
+    
+    CGFloat bottomH = 0;
+    
+    if (_isSingleSel) {
+        bottomH = 5.0;
+    } else {
+        bottomH = TOOLBAR_HEIGHT;
+        
+        self.toolBar.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:insets.left];
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-insets.right];
+        NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+        [self.view addConstraints:@[leftConstraint, rightConstraint, bottomConstraint]];
+        
+        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:TOOLBAR_HEIGHT];
+        [self.toolBar addConstraint:heightConstraint];
+    }
+    
+    self.collectionView.contentInset = UIEdgeInsetsMake(5, insets.left, bottomH, insets.right);
+    
+    CGFloat width = 0.0;
+
+    width = self.view.bounds.size.width-insets.left-insets.right;
+    
+    
+    
+    
+//
+//    if (@available(iOS 11, *)) {
+//        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
+//
+//        NSLog(@"guide - %@", guide);
+//
+//        width = guide.layoutFrame.size.width;
+//
+//        [NSLayoutConstraint activateConstraints:@[[self.collectionView.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.collectionView.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],[self.collectionView.leadingAnchor constraintEqualToSystemSpacingAfterAnchor:guide.leadingAnchor multiplier:1.0],[self.collectionView.trailingAnchor constraintEqualToSystemSpacingAfterAnchor:guide.trailingAnchor multiplier:1.0]]];
+//    } else {
+    
+//        width = self.view.bounds.size.width;
+    
+        NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+        NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+        [self.view addConstraints:@[leftConstraint, topConstraint, rightConstraint, bottomConstraint]];
+//    }
+    
+    CGFloat cellW = (width - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
     
     _collectionLayout = [[UICollectionViewFlowLayout alloc] init];
     _collectionLayout.itemSize = CGSizeMake(cellW, cellW);
     _collectionLayout.minimumInteritemSpacing = CELL_INTERRITEM_MARGIN;
     _collectionLayout.minimumLineSpacing = CELL_LINE_MARGIN;
-    _collectionLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 44 * 2);
+    _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
     
     [self.collectionView setCollectionViewLayout:_collectionLayout];
+    
+    
+    
     
     
 }
@@ -263,33 +318,23 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 #pragma mark - private methods
 - (void)setupUI {
-    
-    //    [self.view insertSubview:self.collectionView belowSubview:self.bottomView];
+
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.collectionView];
     
-    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-    [self.view addConstraints:@[leftConstraint, topConstraint, rightConstraint, bottomConstraint]];
     
-    
-//    if (@available(iOS 11, *)) {
-//        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
-//        [NSLayoutConstraint activateConstraints:@[[self.collectionView.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.collectionView.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
-//    }
+
     
     if (_isSingleSel) {
-        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
+//        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
         // 初始化按钮
-        [self setupButtonsSingle];
+//        [self setupButtonsSingle];
         
     } else {
-        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0,TOOLBAR_HEIGHT, 0);
+//        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0,TOOLBAR_HEIGHT, 0);
         
         // 初始化按钮
-        [self setupButtons];
+//        [self setupButtons];
         // 初始化底部ToorBar
         [self setupToorBar];
     }
