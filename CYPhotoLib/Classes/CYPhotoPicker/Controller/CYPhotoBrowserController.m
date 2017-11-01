@@ -122,22 +122,28 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     CGFloat bottomH = 0;
     
+    CGFloat bottomCons = 0;
+    
     if (_isSingleSel) {
         bottomH = 5.0;
     } else {
         bottomH = TOOLBAR_HEIGHT;
         
+        bottomCons = TOOLBAR_HEIGHT;
+        
         self.toolBar.translatesAutoresizingMaskIntoConstraints = NO;
         NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:insets.left];
         NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-insets.right];
-        NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+        NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-insets.bottom];
         [self.view addConstraints:@[leftConstraint, rightConstraint, bottomConstraint]];
         
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:TOOLBAR_HEIGHT];
         [self.toolBar addConstraint:heightConstraint];
     }
     
-    self.collectionView.contentInset = UIEdgeInsetsMake(5, insets.left, bottomH, insets.right);
+//    self.collectionView.contentInset = UIEdgeInsetsMake(5, insets.left, bottomH, insets.right);
+    
+    self.collectionView.contentInset = UIEdgeInsetsMake(5.0, insets.left, 5.0, insets.right);
     
     CGFloat width = 0.0;
 
@@ -160,8 +166,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
         NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
         NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
-        NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+        NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-bottomCons-insets.bottom];
         [self.view addConstraints:@[leftConstraint, topConstraint, rightConstraint, bottomConstraint]];
+    
+    
 //    }
     
     CGFloat cellW = (width - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
@@ -175,6 +183,23 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self.collectionView setCollectionViewLayout:_collectionLayout];
     
     
+    
+    
+    
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+}
+
+- (void)viewSafeAreaInsetsDidChange {
+    
+    
+    
+    
+    NSLog(@"%@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
+    
+    NSLog(@"dsd");
     
     
     
