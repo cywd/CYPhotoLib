@@ -114,27 +114,44 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //    CYPHOTOLIB_TabbarSafeBottomMargin
 }
 
+- (void)removeToolBarLayout {
+    [self.toolBar removeConstraints:self.toolBar.constraints];
+    for (NSLayoutConstraint *constraint in self.view.constraints) {
+        if ([constraint.firstItem isEqual:self.toolBar]) {
+            [self.view removeConstraint:constraint];
+        }
+    }
+}
+
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
+    
+    
+    
     
     UIEdgeInsets insets = CYPHOTOLIB_ViewSafeAreInsets(self.view);
     
     
     CGFloat bottomH = 0;
-    
     CGFloat bottomCons = 0;
     
     if (_isSingleSel) {
         bottomH = 5.0;
     } else {
         bottomH = TOOLBAR_HEIGHT;
-        
         bottomCons = TOOLBAR_HEIGHT;
         
+        [self removeToolBarLayout];
+        
+        CGFloat left = insets.left>0?insets.left:0.f;
+        CGFloat right = insets.right>0?insets.right:0.f;
+        
         self.toolBar.translatesAutoresizingMaskIntoConstraints = NO;
-        NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:insets.left];
-        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-insets.right];
+        NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:left];
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-right];
         NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-insets.bottom];
+        [self.view removeConstraints:@[leftConstraint, rightConstraint]];
+        
         [self.view addConstraints:@[leftConstraint, rightConstraint, bottomConstraint]];
         
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:TOOLBAR_HEIGHT];
@@ -149,6 +166,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         NSLayoutConstraint *heightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:90.0];
         [self.toolBarThumbCollectionView addConstraint:heightConstraint1];
+        
         
         NSLayoutConstraint *rightConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:-15.0];
         NSLayoutConstraint *topConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0];
@@ -173,9 +191,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         NSLayoutConstraint *widthConstraint4 = [NSLayoutConstraint constraintWithItem:self.allCountLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:110.f];
         NSLayoutConstraint *heightConstraint4 = [NSLayoutConstraint constraintWithItem:self.allCountLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:25.0];
         [self.allCountLabel addConstraints:@[widthConstraint4, heightConstraint4]];
-        
-        
-        
+
     }
     
 //    self.collectionView.contentInset = UIEdgeInsetsMake(5, insets.left, bottomH, insets.right);
