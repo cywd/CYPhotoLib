@@ -29,7 +29,6 @@
     
     [self addSubview:self.collectionView];
     
-    
     NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
     NSLayoutConstraint *rightConstraint1 = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
     NSLayoutConstraint *bottomConstraint1 = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
@@ -55,6 +54,8 @@
     [super layoutSubviews];
     
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    
     
     
 }
