@@ -20,6 +20,7 @@
 		E79864901D17CD020074F8D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E798648E1D17CD020074F8D2 /* LaunchScreen.storyboard */; };
 		E798649B1D17CD020074F8D2 /* PhotoLibDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E798649A1D17CD020074F8D2 /* PhotoLibDemoTests.m */; };
 		E79864A61D17CD020074F8D2 /* PhotoLibDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864A51D17CD020074F8D2 /* PhotoLibDemoUITests.m */; };
+		E7BB58DA1FB159B00026BFD9 /* CYPhotoBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7BB58D91FB159B00026BFD9 /* CYPhotoBottomView.m */; };
 		E7C555C61EA734E500BA5D8C /* NSString+CYPHChineseName.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5558C1EA734E500BA5D8C /* NSString+CYPHChineseName.m */; };
 		E7C555C71EA734E500BA5D8C /* UIButton+CYCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5558E1EA734E500BA5D8C /* UIButton+CYCreate.m */; };
 		E7C555C81EA734E500BA5D8C /* UIImage+CYCutDown.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555901EA734E500BA5D8C /* UIImage+CYCutDown.m */; };
@@ -103,6 +104,8 @@
 		E79864A11D17CD020074F8D2 /* PhotoLibDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoLibDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79864A51D17CD020074F8D2 /* PhotoLibDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLibDemoUITests.m; sourceTree = "<group>"; };
 		E79864A71D17CD020074F8D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7BB58D81FB159B00026BFD9 /* CYPhotoBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYPhotoBottomView.h; sourceTree = "<group>"; };
+		E7BB58D91FB159B00026BFD9 /* CYPhotoBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBottomView.m; sourceTree = "<group>"; };
 		E7C555861EA734E500BA5D8C /* CYPhotoCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCommon.h; sourceTree = "<group>"; };
 		E7C555871EA734E500BA5D8C /* CYPhotoHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoHeader.h; sourceTree = "<group>"; };
 		E7C555881EA734E500BA5D8C /* CYPhotoLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoLib.h; sourceTree = "<group>"; };
@@ -367,6 +370,8 @@
 		E7C555A91EA734E500BA5D8C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E7BB58D81FB159B00026BFD9 /* CYPhotoBottomView.h */,
+				E7BB58D91FB159B00026BFD9 /* CYPhotoBottomView.m */,
 				E7C555AA1EA734E500BA5D8C /* CYPhotoAblumCell.h */,
 				E7C555AB1EA734E500BA5D8C /* CYPhotoAblumCell.m */,
 				E7C555AF1EA734E500BA5D8C /* CYPhotoBrowserCell.h */,
@@ -654,6 +659,7 @@
 				E7C555CC1EA734E500BA5D8C /* CYPhotoAblumListController.m in Sources */,
 				E7C555D31EA734E500BA5D8C /* CYAblumModel.m in Sources */,
 				E7C555C71EA734E500BA5D8C /* UIButton+CYCreate.m in Sources */,
+				E7BB58DA1FB159B00026BFD9 /* CYPhotoBottomView.m in Sources */,
 				E7C555CD1EA734E500BA5D8C /* CYPhotoBaseController.m in Sources */,
 				E7C555CE1EA734E500BA5D8C /* CYPhotoBrowserController.m in Sources */,
 				E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */,

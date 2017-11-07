@@ -139,6 +139,43 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:TOOLBAR_HEIGHT];
         [self.toolBar addConstraint:heightConstraint];
+        
+        
+        
+        NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+        NSLayoutConstraint *rightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+        NSLayoutConstraint *bottomConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+        [self.toolBar addConstraints:@[leftConstraint1, rightConstraint1, bottomConstraint1]];
+        
+        NSLayoutConstraint *heightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:90.0];
+        [self.toolBarThumbCollectionView addConstraint:heightConstraint1];
+        
+        NSLayoutConstraint *rightConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:-15.0];
+        NSLayoutConstraint *topConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0];
+        [self.toolBar addConstraints:@[rightConstraint2, topConstraint2]];
+        
+        NSLayoutConstraint *widthConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:190*0.5];
+        NSLayoutConstraint *heightConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:25.0];
+        [self.completeBtn addConstraints:@[widthConstraint2, heightConstraint2]];
+        
+        NSLayoutConstraint *leftConstraint3 = [NSLayoutConstraint constraintWithItem:self.haveSelectedLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10.0];
+        NSLayoutConstraint *topConstraint3 = [NSLayoutConstraint constraintWithItem:self.haveSelectedLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0];
+        [self.toolBar addConstraints:@[leftConstraint3, topConstraint3]];
+        
+        NSLayoutConstraint *widthConstraint3 = [NSLayoutConstraint constraintWithItem:self.haveSelectedLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:35.f];
+        NSLayoutConstraint *heightConstraint3 = [NSLayoutConstraint constraintWithItem:self.haveSelectedLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:25.0];
+        [self.haveSelectedLabel addConstraints:@[widthConstraint3, heightConstraint3]];
+        
+        NSLayoutConstraint *leftConstraint4 = [NSLayoutConstraint constraintWithItem:self.allCountLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.haveSelectedLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0];
+        NSLayoutConstraint *topConstraint4 = [NSLayoutConstraint constraintWithItem:self.allCountLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0];
+        [self.toolBar addConstraints:@[leftConstraint4, topConstraint4]];
+        
+        NSLayoutConstraint *widthConstraint4 = [NSLayoutConstraint constraintWithItem:self.allCountLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:110.f];
+        NSLayoutConstraint *heightConstraint4 = [NSLayoutConstraint constraintWithItem:self.allCountLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:25.0];
+        [self.allCountLabel addConstraints:@[widthConstraint4, heightConstraint4]];
+        
+        
+        
     }
     
 //    self.collectionView.contentInset = UIEdgeInsetsMake(5, insets.left, bottomH, insets.right);
@@ -181,8 +218,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
     
     [self.collectionView setCollectionViewLayout:_collectionLayout];
-    
-    
     
     
     
@@ -407,14 +442,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self.view addSubview:toolBar];
     self.toolBar = toolBar;
     self.toolBar.backgroundColor = [UIColor whiteColor];
-    
-    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-    [self.view addConstraints:@[leftConstraint, rightConstraint, bottomConstraint]];
-    
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:TOOLBAR_HEIGHT];
-    [self.toolBar addConstraint:heightConstraint];
+   
     
 //    //!!!: 这里设置的toolBar
 //    NSDictionary *views = NSDictionaryOfVariableBindings(toolBar);
@@ -428,33 +456,27 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self.toolBar addSubview:self.toolBarThumbCollectionView];
     
     
-    NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-    NSLayoutConstraint *rightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
-    NSLayoutConstraint *bottomConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-    [self.toolBar addConstraints:@[leftConstraint1, rightConstraint1, bottomConstraint1]];
     
-    NSLayoutConstraint *heightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:90.0];
-    [self.toolBarThumbCollectionView addConstraint:heightConstraint1];
     
     self.completeBtn.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.completeBtn];
     
-    NSLayoutConstraint *rightConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:-15.0];
-    NSLayoutConstraint *topConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0];
-    [self.toolBar addConstraints:@[rightConstraint2, topConstraint2]];
     
-    NSLayoutConstraint *widthConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:190*0.5];
-    NSLayoutConstraint *heightConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:25.0];
-    [self.completeBtn addConstraints:@[widthConstraint2, heightConstraint2]];
     
+    self.haveSelectedLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.haveSelectedLabel];
+
+    
     
     //!!!: Cyrill:这里是计数的样式
     //    if (self.isCalendar) {
+    self.allCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.allCountLabel];
     //    } else {
     //        [self.toolBar addSubview:self.numberLabel];
     //    }
+    
+//    (45, 12, 110, 25)
     
     
 //    if (@available(iOS 11, *)) {
