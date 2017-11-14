@@ -54,10 +54,7 @@
     [super layoutSubviews];
     
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    
-    
-    
+
 }
 
 - (UICollectionView *)collectionView {
