@@ -87,7 +87,7 @@
     CGFloat width = asset.pixelWidth;
     CGFloat height = asset.pixelHeight;
     
-    [self showLoadingIndicator];
+//    [self showLoadingIndicator];
     
     self.selBtn.hidden = YES;
     self.tanhao.hidden = YES;
@@ -135,7 +135,7 @@
                             self.tanhao.hidden = YES;
                         }
                         
-                        [self hideLoadingIndicator];
+//                        [self hideLoadingIndicator];
                     });
                 }
             }];
@@ -144,7 +144,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.coverBtn.hidden = NO;
                 
-                [self hideLoadingIndicator];
+//                [self hideLoadingIndicator];
             });
         }
     });
@@ -168,6 +168,8 @@
             });
         }];
     });
+    
+    [self setNeedsLayout];
 }
 
 #pragma mark - receive and dealloc

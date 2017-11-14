@@ -60,7 +60,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 @implementation CYPhotoBrowserController
 
+
 #pragma mark - life cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -123,12 +125,22 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     }
 }
 
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    
-    
-    
-    
+- (BOOL)isContainLayout {
+    for (NSLayoutConstraint *constraint in self.view.constraints) {
+        if ([constraint.firstItem isEqual:self.toolBar]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+//- (void)viewWillLayoutSubviews {
+//    [super viewWillLayoutSubviews];
+//
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
     UIEdgeInsets insets = CYPHOTOLIB_ViewSafeAreInsets(self.view);
     
     
@@ -234,29 +246,17 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
     
     [self.collectionView setCollectionViewLayout:_collectionLayout];
-    
-    
-    
-}
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
 }
 
 - (void)viewSafeAreaInsetsDidChange {
-    
-    
-    
-    
+
     NSLog(@"%@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
-    
-    NSLog(@"dsd");
-    
-    
-    
 }
 
+
 #pragma mark - collectionView delegate
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
@@ -333,6 +333,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
                 [[CYPhotoCenter shareCenter].selectedPhotos removeObject:weakSelf.dataSource[indexPath.item]];
             }
             [weakSelf refreshBottomView];
+            
         }];
     
 //        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(kScreenW, kScreenH) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
@@ -396,9 +397,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.collectionView];
     
-    
 
-    
     if (_isSingleSel) {
 //        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
         // 初始化按钮
@@ -414,11 +413,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     }
 }
 
-- (void)setupButtons{
+- (void)setupButtons {
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelBtnAction)];
 }
 
-- (void)setupButtonsSingle{
+- (void)setupButtonsSingle {
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleDone target:self action:@selector(completeClick:)];
 }
 
@@ -428,6 +427,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (void)refreshBottomView {
+    
     
     [self.toolBarThumbCollectionView reloadData];
     
@@ -511,15 +511,18 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
 }
 
+
 #pragma mark - getters and setters
+
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         
         _collectionLayout = [[UICollectionViewFlowLayout alloc] init];
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:_collectionLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionLayout];
         _collectionView.backgroundColor = [UIColor whiteColor];
-        _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.alwaysBounceHorizontal = NO;
         [_collectionView registerNib:[UINib nibWithNibName:@"CYPhotoBrowserCell" bundle:nil] forCellWithReuseIdentifier:@"browserCell"];
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoBrowserFooter class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier];
     }
@@ -659,7 +662,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     return _dataSource;
 }
 
+
 #pragma mark - receive and dealloc
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
