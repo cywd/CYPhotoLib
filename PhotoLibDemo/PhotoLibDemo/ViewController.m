@@ -43,12 +43,12 @@
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat margin = 10;
-    CGFloat itemWidth = (width-3*margin-3)/2;
-    return CGSizeMake(itemWidth, itemWidth);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat margin = 10;
+//    CGFloat itemWidth = (width-3*margin-3)/2;
+//    return CGSizeMake(itemWidth, itemWidth);
+//}
 #pragma mark - custom delegate
 
 #pragma mark - reuseable methods

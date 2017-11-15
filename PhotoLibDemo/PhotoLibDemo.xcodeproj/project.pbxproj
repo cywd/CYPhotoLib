@@ -11,6 +11,11 @@
 		E74966AD1FA039600074408B /* CYAssetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E74966AC1FA039600074408B /* CYAssetModel.m */; };
 		E74FC0291EA75300009BE8AD /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E74FC0281EA75300009BE8AD /* CollectionViewCell.m */; };
 		E752695B1EC18D5000E596FD /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
+		E752BE4B1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = E752BE4A1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m */; };
+		E752BE4E1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E752BE4D1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m */; };
+		E752BE511FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = E752BE501FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.m */; };
+		E752BE541FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = E752BE531FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m */; };
+		E752BE571FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = E752BE561FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m */; };
 		E768E5EA1F99C6E400C9D511 /* CYLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E768E5E91F99C6E400C9D511 /* CYLocationManager.m */; };
 		E79864821D17CD020074F8D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864811D17CD020074F8D2 /* main.m */; };
 		E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864841D17CD020074F8D2 /* AppDelegate.m */; };
@@ -86,6 +91,16 @@
 		E74966AC1FA039600074408B /* CYAssetModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYAssetModel.m; sourceTree = "<group>"; };
 		E74FC0271EA752FF009BE8AD /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		E74FC0281EA75300009BE8AD /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		E752BE491FBC2AEA00AFE50D /* UIView+CYConstraintMatching.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+CYConstraintMatching.h"; sourceTree = "<group>"; };
+		E752BE4A1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYConstraintMatching.m"; sourceTree = "<group>"; };
+		E752BE4C1FBC2B1300AFE50D /* UIView+CYHierarchySupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+CYHierarchySupport.h"; sourceTree = "<group>"; };
+		E752BE4D1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYHierarchySupport.m"; sourceTree = "<group>"; };
+		E752BE4F1FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+CYViewHierarchy.h"; sourceTree = "<group>"; };
+		E752BE501FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CYViewHierarchy.m"; sourceTree = "<group>"; };
+		E752BE521FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+CYSelfInstall.h"; sourceTree = "<group>"; };
+		E752BE531FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CYSelfInstall.m"; sourceTree = "<group>"; };
+		E752BE551FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+CYConstraintMatching.h"; sourceTree = "<group>"; };
+		E752BE561FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CYConstraintMatching.m"; sourceTree = "<group>"; };
 		E768E5E81F99C6E400C9D511 /* CYLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYLocationManager.h; sourceTree = "<group>"; };
 		E768E5E91F99C6E400C9D511 /* CYLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYLocationManager.m; sourceTree = "<group>"; };
 		E798647D1D17CD020074F8D2 /* PhotoLibDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -324,6 +339,16 @@
 				E7C555921EA734E500BA5D8C /* UIView+CY_1pxLine.m */,
 				E7C555931EA734E500BA5D8C /* UIView+CYAnimation.h */,
 				E7C555941EA734E500BA5D8C /* UIView+CYAnimation.m */,
+				E752BE491FBC2AEA00AFE50D /* UIView+CYConstraintMatching.h */,
+				E752BE4A1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m */,
+				E752BE4C1FBC2B1300AFE50D /* UIView+CYHierarchySupport.h */,
+				E752BE4D1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m */,
+				E752BE4F1FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.h */,
+				E752BE501FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.m */,
+				E752BE521FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.h */,
+				E752BE531FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m */,
+				E752BE551FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.h */,
+				E752BE561FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -655,11 +680,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E752BE511FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.m in Sources */,
 				E7C555DB1EA734E500BA5D8C /* CYPhotoPicker.m in Sources */,
 				E7C555CC1EA734E500BA5D8C /* CYPhotoAblumListController.m in Sources */,
 				E7C555D31EA734E500BA5D8C /* CYAblumModel.m in Sources */,
 				E7C555C71EA734E500BA5D8C /* UIButton+CYCreate.m in Sources */,
+				E752BE541FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m in Sources */,
+				E752BE4E1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m in Sources */,
 				E7BB58DA1FB159B00026BFD9 /* CYPhotoBottomView.m in Sources */,
+				E752BE4B1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m in Sources */,
 				E7C555CD1EA734E500BA5D8C /* CYPhotoBaseController.m in Sources */,
 				E7C555CE1EA734E500BA5D8C /* CYPhotoBrowserController.m in Sources */,
 				E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */,
@@ -671,6 +700,7 @@
 				E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */,
 				E7C555C81EA734E500BA5D8C /* UIImage+CYCutDown.m in Sources */,
 				E7C555D41EA734E500BA5D8C /* CYPhotoAblumCell.m in Sources */,
+				E752BE571FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m in Sources */,
 				E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */,
 				E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */,
 				E79864821D17CD020074F8D2 /* main.m in Sources */,
