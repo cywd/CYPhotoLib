@@ -113,15 +113,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    UIEdgeInsets insets = CYPHOTOLIB_ViewSafeAreInsets(self.view);
-    
-    
-    
     [self refreshBottomView];
     [self.collectionView reloadData];
 }
 
-- (void)ttt {
+- (void)someLayout {
     UIEdgeInsets insets = CYPHOTOLIB_ViewSafeAreInsets(self.view);
     
     CGFloat bottomH = 0;
@@ -224,7 +220,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    [self ttt];
+    [self someLayout];
     
 }
 
