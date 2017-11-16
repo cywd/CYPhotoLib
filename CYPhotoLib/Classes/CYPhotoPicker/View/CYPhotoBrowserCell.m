@@ -99,7 +99,7 @@
         BOOL isLocal = [[CYPhotoManager manager] isInLocalAblumWithAsset:asset];
         if (isLocal && (asset.mediaType == PHAssetMediaTypeImage)) {
             
-            [[CYPhotoManager manager] getImageDataLength:asset completeBlock:^(CGFloat length) {
+            [[CYPhotoManager manager] fetchImageDataLength:asset completeBlock:^(CGFloat length) {
                 // 这里要判断id一致再继续
                 if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
                     

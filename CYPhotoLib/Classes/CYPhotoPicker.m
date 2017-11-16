@@ -39,7 +39,7 @@
     
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
         CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc]init];
-        ablumsList.assetCollections = [[CYPhotoManager manager] getAllAblums];
+        ablumsList.assetCollections = [[CYPhotoManager manager] fetchAllAblums];
         ablumsList.isSingleSel = isSingleSel;
         
         CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:ablumsList];

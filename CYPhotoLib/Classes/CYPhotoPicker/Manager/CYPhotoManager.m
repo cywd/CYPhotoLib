@@ -65,7 +65,7 @@ static dispatch_once_t onceToken;
  */
 
 /** 获取所有相册 */
-- (NSArray<CYAblumModel *> *)getAllAblums {
+- (NSArray<CYAblumModel *> *)fetchAllAblums {
     // 先清空数组
     [_ablumsList removeAllObjects];
     
@@ -227,9 +227,9 @@ static dispatch_once_t onceToken;
     }];
 }
 
-- (void)fetchImageWithLocalIdentifiers:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock {
+- (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock {
     __weak typeof(self) weakSelf = self;
-    [self fetchAssetWithLocalIdentifiers:localIdentifier completeBlock:^(PHAsset *asset) {
+    [self fetchAssetWithLocalIdentifier:localIdentifier completeBlock:^(PHAsset *asset) {
         
         [weakSelf fetchImageInAsset:asset size:size isResize:isResize completeBlock:completeBlock];
         
@@ -295,7 +295,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 根据localid获取资源对应的asset */
-- (void)fetchAssetWithLocalIdentifiers:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock {
+- (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock {
     // 需要localIdentifier
     PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
     PHFetchResult *fetchResult = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:fetchOptions];
@@ -304,7 +304,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源对应的原图大小 */
-- (void)getImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
+- (void)fetchImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -361,14 +361,14 @@ static dispatch_once_t onceToken;
 - (void)getImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
     
     __weak typeof(self) weakSelf = self;
-    [self fetchAssetWithLocalIdentifiers:localIdentifier completeBlock:^(PHAsset *asset) {
-        [weakSelf getImageDataWithAsset:asset completeBlock:completeBlock];
+    [self fetchAssetWithLocalIdentifier:localIdentifier completeBlock:^(PHAsset *asset) {
+        [weakSelf fetchImageDataWithAsset:asset completeBlock:completeBlock];
     }];
 }
 
 
 /** 获取资源对应的原图data */
-- (void)getImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
+- (void)fetchImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
