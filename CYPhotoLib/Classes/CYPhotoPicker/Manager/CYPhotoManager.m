@@ -35,6 +35,31 @@ static dispatch_once_t onceToken;
     manager = nil;
 }
 
+#pragma mark - 权限验证
++ (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock {
+    
+    PHAuthorizationStatus authoriation = [PHPhotoLibrary authorizationStatus];
+    if (authoriation == PHAuthorizationStatusNotDetermined) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            // 这里非主线程，选择完成后会出发相册变化代理方法
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.class requestPhotoLibaryAuthorizationValidAuthorized:authorizedBlock denied:deniedBlock restricted:restrictedBlock elseBlock:elseBlock];
+            });
+        }];
+    } else if (authoriation == PHAuthorizationStatusAuthorized) {
+        // 已经授权
+        if (authorizedBlock) authorizedBlock();
+    } else if (authoriation == PHAuthorizationStatusDenied) {
+        printf("PHAuthorizationStatusDenied - 用户拒绝当前应用访问相册,我们需要提醒用户打开访问开关");
+        if (deniedBlock) deniedBlock();
+    } else if (authoriation == PHAuthorizationStatusRestricted) {
+        printf("PHAuthorizationStatusRestricted - 家长控制,不允许访问");
+        if (restrictedBlock) restrictedBlock();
+    } else {
+        if (elseBlock) elseBlock();
+    }
+}
+
 /*
  enum PHAssetCollectionType : Int {
  case Album //从 iTunes 同步来的相册，以及用户在 Photos 中自己建立的相册
@@ -63,6 +88,33 @@ static dispatch_once_t onceToken;
  case Any //包含所有类型
  }
  */
+
+- (CYAblumModel *)fetchCameraRollAblum {
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+    PHFetchResult *smartAblums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    for (PHAssetCollection *collection in smartAblums) {
+        if (![collection isKindOfClass:[PHAssetCollection class]]) {
+            continue;
+        }
+        if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+            PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+            
+            // 如果有资源
+            if (fetchResult.count) {
+                
+                // 创建此相册的信息集
+                CYAblumModel * info = [CYAblumModel cy_AblumInfoFromResult:fetchResult collection:collection];
+                return info;
+                
+            }
+            
+        }
+    }
+    
+    return nil;
+}
 
 /** 获取所有相册 */
 - (NSArray<CYAblumModel *> *)fetchAllAblums {
@@ -118,23 +170,23 @@ static dispatch_once_t onceToken;
 /** 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO */
 - (PHFetchResult *)fetchResultInCollection:(PHAssetCollection *)collection asending:(BOOL)asending {
     
-    PHFetchOptions *option = [[PHFetchOptions alloc] init];
-    option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:asending]];
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:asending]];
     // 一个过滤器，留下的类型，图片格式
-    option.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
+    options.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
     
     PHFetchResult *result;
     // 获取指定相册资源合集
     if (collection) {
         
-        result = [PHAsset fetchAssetsInAssetCollection:collection options:option];
+        result = [PHAsset fetchAssetsInAssetCollection:collection options:options];
         
     }
     // 获取所有相册资源合集
     else {
 //        option.includeAssetSourceTypes = PHAssetSourceTypeNone;
         // 这里获取的是所有的资源合集?
-        result = [PHAsset fetchAssetsWithOptions:option];
+        result = [PHAsset fetchAssetsWithOptions:options];
         
     }
     return result;
@@ -331,7 +383,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源对应的原图大小 */
-- (void)getImageDataLength1:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
+- (void)fetchImageDataLength1:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -345,7 +397,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源对应的原图大小 */
-- (void)getImageDataLength2:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
+- (void)fetchImageDataLength2:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -358,7 +410,7 @@ static dispatch_once_t onceToken;
     }];
 }
 
-- (void)getImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
+- (void)fetchImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
     
     __weak typeof(self) weakSelf = self;
     [self fetchAssetWithLocalIdentifier:localIdentifier completeBlock:^(PHAsset *asset) {

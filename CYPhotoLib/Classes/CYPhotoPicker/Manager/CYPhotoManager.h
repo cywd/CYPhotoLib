@@ -5,6 +5,7 @@
 //  Created by Cyrill on 16/7/18.
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
+// 负责管理与Photo 相关的内容
 
 #import <Foundation/Foundation.h>
 #import "CYAblumModel.h"
@@ -13,7 +14,12 @@
 
 + (instancetype)manager;
 
+
++ (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock;
+
 + (void)deallocManager;
+
+- (CYAblumModel *)fetchCameraRollAblum;
 
 /** 获取所有相册 */
 - (NSArray<CYAblumModel *> *)fetchAllAblums;

@@ -5,6 +5,7 @@
 //  Created by Cyrill on 2016/9/28.
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
+// 负责管理CYPhotoPicker 的相关内容
 
 #import <Foundation/Foundation.h>
 
