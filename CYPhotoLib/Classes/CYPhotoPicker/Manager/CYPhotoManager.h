@@ -12,16 +12,50 @@
 
 @interface CYPhotoManager : NSObject
 
+/**
+ 单例
+
+ @return instancetype
+ */
 + (instancetype)manager;
+
+/**
+ dealloc 单例
+ */
 + (void)deallocManager;
 
+
+/**
+ 去请求照片库权限
+
+ @param authorizedBlock 已经授权
+ @param deniedBlock 用户拒绝
+ @param restrictedBlock 家长控制
+ @param elseBlock 其他
+ */
 + (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock;
+
+/**
+ 去请求相机权限
+
+ @param handle 回调
+ */
 + (void)cameraAuthoriationValidWithHandle:(void(^)())handle;
 
 
+/**
+ 拿到相册model
+
+ @param completion 回调相册model
+ */
 - (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion;
 
-/** 获取所有相册 */
+
+/**
+ 获取所有相册model的数组
+
+ @param completion 回调所有相册model的数组
+ */
 - (void)fetchAllAblums:(void (^)(NSArray<CYAblumModel *> *))completion;
 
 /** 获取所有相册图片资源 */
@@ -40,7 +74,6 @@
 
 /** 本地是否有这个图片 */
 - (BOOL)isInLocalAblumWithAsset:(PHAsset *)asset;
-
 
 /** 通过localIdentifier获取资源对应的原图data */
 - (void)fetchImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock;
