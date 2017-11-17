@@ -77,15 +77,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //    [self.view addSubview:_bottomView];
     
     self.title = self.collectionTitle ? self.collectionTitle : @"照片";
-    
-//    [self setNavigationTitle:self.collectionTitle ? self.collectionTitle : @"相机胶卷"];
-    
-    // 滑动的时候隐藏navigation bar
-//    self.navigationController.hidesBarsOnSwipe = YES;
-    
-    // 消除导航条返回键带的title
-//    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
-    
+
 //    if (@available(iOS 11, *)) {
 //        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
 //        [NSLayoutConstraint activateConstraints:@[[self.collectionView.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.collectionView.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
