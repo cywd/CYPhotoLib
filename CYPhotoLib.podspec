@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "CYPhotoLib"
-  s.version      = "1.2.4"
+  s.version      = "1.3.1"
   s.summary      = "A photo selection framework used Photos."
   s.homepage     = "https://github.com/cywd/CYPhotoLib"
   s.license      = "MIT"
