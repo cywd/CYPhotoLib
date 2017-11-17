@@ -13,8 +13,6 @@
 
 @interface CYPhotoManager ()
 
-@property (nonatomic ,strong) NSMutableArray<CYAblumModel *> * ablumsList;
-
 @end
 
 @implementation CYPhotoManager
@@ -25,7 +23,6 @@ static dispatch_once_t onceToken;
 + (instancetype)manager {
     dispatch_once(&onceToken, ^{
         manager = [[CYPhotoManager alloc] init];
-        manager.ablumsList = [NSMutableArray array];
     });
     return manager;
 }
@@ -89,7 +86,7 @@ static dispatch_once_t onceToken;
  }
  */
 
-- (CYAblumModel *)fetchCameraRollAblum {
+- (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion {
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
@@ -106,21 +103,15 @@ static dispatch_once_t onceToken;
                 
                 // 创建此相册的信息集
                 CYAblumModel * info = [CYAblumModel cy_AblumInfoFromResult:fetchResult collection:collection];
-                return info;
-                
+                if (completion) completion(info);
             }
             
         }
     }
-    
-    return nil;
 }
 
-/** 获取所有相册 */
-- (NSArray<CYAblumModel *> *)fetchAllAblums {
-    // 先清空数组
-    [_ablumsList removeAllObjects];
-    
+- (void)fetchAllAblums:(void (^)(NSArray<CYAblumModel *> *))completion {
+    NSMutableArray *ablumsArray = [NSMutableArray array];
     // 列出并加入所有智能相册 系统相册
     PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
@@ -128,43 +119,24 @@ static dispatch_once_t onceToken;
     PHFetchResult *syncedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
     PHFetchResult *sharedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumCloudShared options:nil];
     NSArray *allAlbums = @[myPhotoStreamAlbum, smartAlbums, topLevelUserCollections, syncedAlbums, sharedAlbums];
-
+    
     for (PHFetchResult *fetchResult in allAlbums) {
-        [self fetchCollection:fetchResult];
-    }
-    
-    [_ablumsList enumerateObjectsUsingBlock:^(CYAblumModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.name isEqualToString:@"All Photos"]) {
-            [_ablumsList exchangeObjectAtIndex:idx withObjectAtIndex:0];
-        }
-    }];
-    
-    return _ablumsList;
-}
-
-/** 获取相册资源 */
-- (void)fetchCollection:(PHFetchResult *)obj {
-    
-    // 如果obj是所有相册的合集
-    [obj enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        if ([obj isKindOfClass:[PHAssetCollection class]]) {
+        for (PHAssetCollection *collection in fetchResult) {
+            if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
+            PHFetchResult *result = [self fetchResultInCollection:collection asending:NO];
+            if (result.count < 1) continue;
             
-            // 返回此相册的资源集合
-            PHFetchResult *result = [self fetchResultInCollection:obj asending:NO];
+            CYAblumModel * info = [CYAblumModel cy_AblumInfoFromResult:result collection:collection];
             
-            
-            // 如果有资源
-            if (result.count) {
-                
-                // 创建此相册的信息集
-                CYAblumModel * info = [CYAblumModel cy_AblumInfoFromResult:result collection:obj];
-                
-                // 加入到数组中
-                [_ablumsList addObject:info];
+            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+                [ablumsArray insertObject:info atIndex:0];
+            } else {
+                [ablumsArray addObject:info];
             }
         }
-    }];
+    }
+    
+    if (completion) completion(ablumsArray);
 }
 
 /** 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO */

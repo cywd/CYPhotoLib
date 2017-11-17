@@ -57,7 +57,8 @@
 - (IBAction)btnClick:(UIButton *)sender {
     __weak typeof(self) weakSelf = self;
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
-    [picker showInSender:self isSingleSel:NO handle:^(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets) {
+
+    [picker showInSender:self isSingleSel:NO isPushToCameraRoll:YES handle:^(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets) {
         [weakSelf.dataArray removeAllObjects];
         [weakSelf.dataArray addObjectsFromArray:photos];
         [weakSelf.collectionView reloadData];

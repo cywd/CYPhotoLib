@@ -19,10 +19,10 @@
 
 + (void)deallocManager;
 
-- (CYAblumModel *)fetchCameraRollAblum;
+- (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion;
 
 /** 获取所有相册 */
-- (NSArray<CYAblumModel *> *)fetchAllAblums;
+- (void)fetchAllAblums:(void (^)(NSArray<CYAblumModel *> *))completion;
 
 /** 获取所有相册图片资源 */
 - (NSArray<PHAsset *> *)fetchAllAssets;

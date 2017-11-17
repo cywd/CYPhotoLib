@@ -30,7 +30,7 @@
     [[CYPhotoCenter shareCenter] clearInfos];
 }
 
-- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel handle:(void(^)(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets))handle {
+- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel isPushToCameraRoll:(BOOL)isPushToCameraRoll handle:(void(^)(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets))handle {
 
     [CYPhotoCenter shareCenter].maxSelectedCount = self.maxSelectedCount;
     [CYPhotoCenter shareCenter].minSelectedCount = self.minSelectedCount;
@@ -38,8 +38,12 @@
     self.sender = sender;
     
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
-        CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc]init];
-        ablumsList.assetCollections = [[CYPhotoManager manager] fetchAllAblums];
+        
+        CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc] init];
+        
+        [[CYPhotoManager manager] fetchAllAblums:^(NSArray<CYAblumModel *> *array) {
+            ablumsList.assetCollections = array;
+        }];
         ablumsList.isSingleSel = isSingleSel;
         
         CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:ablumsList];
@@ -47,20 +51,18 @@
         [nav.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor blackColor]}];
         nav.navigationBar.tintColor = [UIColor blackColor];
         nav.navigationItem.backBarButtonItem.title = @"照片";
-        //默认跳转到照片图册
-        CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
-        browser.isSingleSel = isSingleSel;
-        if (ablumsList.assetCollections) {
-            CYAblumModel *info = [ablumsList.assetCollections firstObject];
-            
-            browser.info = info;
-            browser.assetCollection = info.assetCollection;
-            browser.collectionTitle = [info.name chineseName];
-//            browser.collectionTitle = NSLocalizedString(info.ablumName, @"");
+       
+        if (isPushToCameraRoll) {
+            [[CYPhotoManager manager] fetchCameraRollAblum:^(CYAblumModel *info) {
+                CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
+                browser.isSingleSel = isSingleSel;
+                browser.info = info;
+                browser.assetCollection = info.assetCollection;
+                browser.collectionTitle = [info.name chineseName];
+                [ablumsList.navigationController pushViewController:browser animated:NO];
+            }];
         }
-        
-        [ablumsList.navigationController pushViewController:browser animated:NO];
-        
+
         [self.sender presentViewController:nav animated:YES completion:nil];
     } denied:^{
         [self deined];
@@ -103,8 +105,17 @@
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // 跳转到 “设置\"-\"隐私\"-\"照片”
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:CY_GotoPhotoLibrarySettingPath]];
+        
+        
+        if (@available(iOS 10, *)) {
+            // 跳转到 “设置\"-\"隐私\"-\"照片”
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:CY_GotoPhotoLibrarySettingPath] options:[NSDictionary dictionary] completionHandler:^(BOOL success) {
+                NSLog(@"%@", success ? @"success" : @"failure");
+            }];
+        } else {
+            // 跳转到 “设置\"-\"隐私\"-\"照片”
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:CY_GotoPhotoLibrarySettingPath]];
+        }
     }];
     [alert addAction:cancelAction];
     [alert addAction:okAction];
