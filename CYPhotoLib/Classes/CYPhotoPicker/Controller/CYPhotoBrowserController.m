@@ -96,12 +96,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
-//- (BOOL)prefersHomeIndicatorAutoHidden {
-//
-////    自动隐藏 HommeIndicator
-//    return YES;
-//}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -109,9 +103,27 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self.collectionView reloadData];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self someLayout];
+}
+
+- (void)viewSafeAreaInsetsDidChange {
+//    NSLog(@"old - safeAreaInserts ------------------ %@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
+//
+    [super viewSafeAreaInsetsDidChange];
+    
+//    NSLog(@"new - safeAreaInserts ------------------ %@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
+}
+
+//- (BOOL)prefersHomeIndicatorAutoHidden {
+//    // 自动隐藏 HommeIndicator
+//    return YES;
+//}
+
 - (void)someLayout {
     UIEdgeInsets insets = CYPHOTOLIB_ViewSafeAreInsets(self.view);
-    
     CGFloat bottomH = 0;
     CGFloat bottomCons = 0;
     
@@ -138,7 +150,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:TOOLBAR_HEIGHT];
         [self.toolBar addConstraint:heightConstraint];
         
-        
         NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
         NSLayoutConstraint *rightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
         NSLayoutConstraint *bottomConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
@@ -146,7 +157,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         NSLayoutConstraint *heightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:90.0];
         [self.toolBarThumbCollectionView addConstraint:heightConstraint1];
-        
         
         NSLayoutConstraint *rightConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:-15.0];
         NSLayoutConstraint *topConstraint2 = [NSLayoutConstraint constraintWithItem:self.completeBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeTop multiplier:1.0 constant:12.0];
@@ -174,8 +184,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
     }
     
-    self.collectionView.contentInset = UIEdgeInsetsMake(5.0, insets.left, 5.0, insets.right);
-    
     NSArray *collectionViewConstraints =  [self.view constraintsReferencingView:self.collectionView];
     [self.collectionView removeMatchingConstraints:collectionViewConstraints];
     
@@ -185,20 +193,15 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     NSLayoutConstraint *bottomConstraint5 = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-bottomCons-insets.bottom];
     [self.view addConstraints:@[leftConstraint5, topConstraint5, rightConstraint5, bottomConstraint5]];
     
+    self.collectionView.contentInset = UIEdgeInsetsMake(5.0, insets.left, 5.0, insets.right);
     
     CGFloat width = self.view.bounds.size.width-insets.left-insets.right;
-    
-    
     CGFloat cellW = (width - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
-
     _collectionLayout.itemSize = CGSizeMake(cellW, cellW);
     _collectionLayout.minimumInteritemSpacing = CELL_INTERRITEM_MARGIN;
     _collectionLayout.minimumLineSpacing = CELL_LINE_MARGIN;
     _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
-
     [self.collectionView setCollectionViewLayout:_collectionLayout];
-    
-    
     
     if (_offsetItemCount > 0) {
         CGFloat offsetY = _offsetItemCount * (_collectionLayout.itemSize.height + _collectionLayout.minimumLineSpacing);
@@ -206,26 +209,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         _offsetItemCount = 0;
     }
-
 }
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    [self someLayout];
-    
-}
-
-- (void)viewSafeAreaInsetsDidChange {
-    
-//    NSLog(@"old - safeAreaInserts ------------------ %@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
-//
-    [super viewSafeAreaInsetsDidChange];
-    
-//    NSLog(@"new - safeAreaInserts ------------------ %@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
-    
-}
-
 
 #pragma mark - collectionView delegate
 
@@ -234,7 +218,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
     if (collectionView == self.toolBarThumbCollectionView) {
         return [CYPhotoCenter shareCenter].selectedPhotos.count;
     }
@@ -242,11 +225,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     if (collectionView == self.toolBarThumbCollectionView) {
     
         NSMutableArray *arr = [CYPhotoCenter shareCenter].selectedPhotos;
-        
         PHAsset *asset = arr[indexPath.item];
         
         CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:_identifier forIndexPath:indexPath];
@@ -265,7 +246,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
             __strong typeof(self)strongSelf = weakSelf;
             [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
             
-//            [weakSelf.collectionView reloadData];
             // delete 刷新
             if ([strongSelf.dataSource containsObject:ast]) {
                 NSInteger ind = [_dataSource indexOfObject:ast];
@@ -277,10 +257,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         }];
         
         return cell;
-        
-        
     } else {
-    
         CYPhotoBrowserCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"browserCell" forIndexPath:indexPath];
         
         cell.asset = self.dataSource[indexPath.item];
@@ -320,8 +297,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //            UIImageView *lastView = [weakCell.contentView.subviews lastObject];
 //            [CYHeadImageToBig showImage:lastView withImage:weakCell.imageIV.image];
         }];
-    
-    
+        
         // 如果是单张图片选择
         [cell setSigleSelectedBlock:^(BOOL isSelected) {
             
@@ -358,7 +334,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (void)completeClick:(UIButton *)sneder {
-    
     if ([CYPhotoCenter shareCenter].isReachMinSelectedCount) {
         return;
     }
@@ -369,20 +344,15 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 #pragma mark - private methods
 - (void)setupUI {
-
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.collectionView];
-    
     
     CGFloat bottomCons = 0;
     if (_isSingleSel) {
 //        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
         // 初始化按钮
 //        [self setupButtonsSingle];
-        
     } else {
-//        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0,TOOLBAR_HEIGHT, 0);
-        
         bottomCons = TOOLBAR_HEIGHT;
         
         // 初始化按钮
@@ -402,25 +372,20 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 - (void)loadAssetData {
     self.dataSource = [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO];
-    //    [self.collectionView reloadData];
 }
 
 - (void)refreshBottomView {
     
-    
     [self.toolBarThumbCollectionView reloadData];
     
     self.allCountLabel.text = [NSString stringWithFormat:@"%zd/%zd张", [CYPhotoCenter shareCenter].selectedPhotos.count,[CYPhotoCenter shareCenter].maxSelectedCount];
-    
-    
-    
+
     if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
         //        self.bottomViewCover.hidden = YES;
         self.isOriginalBtn.selected = [CYPhotoCenter shareCenter].isOriginal;
         //        self.comBtn.text = [NSString stringWithFormat:@"完成(%zi)", [CYPhotoCenter shareCenter].selectedPhotos.count];
         
         self.completeBtn.hidden = NO;
-        
     } else {
         //        self.bottomViewCover.hidden = NO;
         self.isOriginalBtn.selected = NO;
@@ -438,7 +403,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     self.toolBar = toolBar;
     self.toolBar.backgroundColor = [UIColor whiteColor];
    
-    
 //    //!!!: 这里设置的toolBar
 //    NSDictionary *views = NSDictionaryOfVariableBindings(toolBar);
 //    NSString *widthVfl =  @"H:|-0-[toolBar]-0-|";
@@ -446,23 +410,15 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:widthVfl options:0 metrics:0 views:views]];
 //    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:heightVfl options:0 metrics:0 views:views]];
     
-    
     self.toolBarThumbCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.toolBarThumbCollectionView];
-    
-    
-    
-    
+
     self.completeBtn.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.completeBtn];
-    
-    
     
     self.haveSelectedLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.haveSelectedLabel];
 
-    
-    
     //!!!: Cyrill:这里是计数的样式
     //    if (self.isCalendar) {
     self.allCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -471,8 +427,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     //        [self.toolBar addSubview:self.numberLabel];
     //    }
     
-//    (45, 12, 110, 25)
-    
     
 //    if (@available(iOS 11, *)) {
 //        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
@@ -480,22 +434,18 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //        [NSLayoutConstraint activateConstraints:@[[self.toolBar.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.toolBar.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
 //    }
 
-    
     // 左视图 中间距 右视图
     //    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.tbLeftView];
     //    UIBarButtonItem *fiexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     //    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.tbRightView];
     //
     //    toorBar.items = @[leftItem,fiexItem,rightItem];
-    
 }
-
 
 #pragma mark - getters and setters
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
-        
         _collectionLayout = [[UICollectionViewFlowLayout alloc] init];
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionLayout];
         _collectionView.backgroundColor = [UIColor whiteColor];
@@ -555,7 +505,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 - (UIButton *)completeBtn {
     if (!_completeBtn) {
-        
         _completeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //        [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_zhizuo"] forState:UIControlStateNormal];
 //        [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_zhizuo_unsel"] forState:UIControlStateDisabled];
@@ -640,7 +589,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     }
     return _dataSource;
 }
-
 
 #pragma mark - receive and dealloc
 
