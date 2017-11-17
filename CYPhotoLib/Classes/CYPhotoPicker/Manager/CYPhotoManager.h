@@ -13,11 +13,11 @@
 @interface CYPhotoManager : NSObject
 
 + (instancetype)manager;
-
++ (void)deallocManager;
 
 + (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock;
++ (void)cameraAuthoriationValidWithHandle:(void(^)())handle;
 
-+ (void)deallocManager;
 
 - (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion;
 

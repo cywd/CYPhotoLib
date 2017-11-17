@@ -57,6 +57,23 @@ static dispatch_once_t onceToken;
     }
 }
 
++ (void)cameraAuthoriationValidWithHandle:(void(^)())handle {
+    AVAuthorizationStatus authoriation = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authoriation == AVAuthorizationStatusNotDetermined) {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            if (granted) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (handle) handle();
+                });
+            }
+        }];
+    } else if (authoriation == AVAuthorizationStatusAuthorized) {
+        if (handle) handle();
+    } else {
+        
+    }
+}
+
 /*
  enum PHAssetCollectionType : Int {
  case Album //从 iTunes 同步来的相册，以及用户在 Photos 中自己建立的相册

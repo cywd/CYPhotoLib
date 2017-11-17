@@ -81,9 +81,7 @@
     self.handle = nil;
     self.allPhotos = nil;
     [self.selectedPhotos removeAllObjects];
-    //    self.selectedPhotos = [NSMutableArray array];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 #pragma mark - 监听图片变化代理
@@ -113,20 +111,7 @@
 }
 
 - (void)cameraAuthoriationValidWithHandle:(void(^)())handle {
-    AVAuthorizationStatus authoriation = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (authoriation == AVAuthorizationStatusNotDetermined) {
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-            if (granted) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (handle) handle();
-                });
-            }
-        }];
-    } else if (authoriation == AVAuthorizationStatusAuthorized) {
-        if (handle) handle();
-    } else {
-        
-    }
+    [CYPhotoManager cameraAuthoriationValidWithHandle:handle];
 }
 
 - (void)dealloc {
