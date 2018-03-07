@@ -18,6 +18,6 @@
 
 @property (copy, nonatomic) void(^sigleSelectedBlock)(BOOL isSelected);
 @property (nonatomic, copy) void(^selectedBlock)(BOOL isSelected);
-@property (nonatomic, copy) void(^imgTapBlock)();
+@property (nonatomic, copy) void(^imgTapBlock)(void);
 
 @end

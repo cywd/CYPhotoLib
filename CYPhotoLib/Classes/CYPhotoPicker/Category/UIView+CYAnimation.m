@@ -21,7 +21,7 @@
 }
 
 #pragma mark - 底部消失动画
-- (void)dismissToBottomWithCompleteBlock:(void(^)())completeBlock {
+- (void)dismissToBottomWithCompleteBlock:(void(^)(void))completeBlock {
     [self executeAnimationWithFrame:BottomRect completeBlock:completeBlock];
 }
 
@@ -37,7 +37,7 @@
 }
 
 #pragma mark - 执行动画
-- (void)executeAnimationWithAlpha:(CGFloat)alpha completeBlock:(void(^)())completeBlock{
+- (void)executeAnimationWithAlpha:(CGFloat)alpha completeBlock:(void(^)(void))completeBlock{
     [UIView animateWithDuration:0.2 animations:^{
         self.alpha = alpha;
     } completion:^(BOOL finished) {
@@ -45,7 +45,7 @@
     }];
 }
 
-- (void)executeAnimationWithFrame:(CGRect)rect completeBlock:(void(^)())completeBlock{
+- (void)executeAnimationWithFrame:(CGRect)rect completeBlock:(void(^)(void))completeBlock{
     [UIView animateWithDuration:0.2 animations:^{
         self.frame = rect;
     } completion:^(BOOL finished) {

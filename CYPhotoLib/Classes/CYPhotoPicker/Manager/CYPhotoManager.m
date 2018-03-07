@@ -33,7 +33,7 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - 权限验证
-+ (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock {
++ (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)(void))authorizedBlock denied:(void (^)(void))deniedBlock restricted:(void (^)(void))restrictedBlock elseBlock:(void(^)(void))elseBlock {
     
     PHAuthorizationStatus authoriation = [PHPhotoLibrary authorizationStatus];
     if (authoriation == PHAuthorizationStatusNotDetermined) {
@@ -57,7 +57,7 @@ static dispatch_once_t onceToken;
     }
 }
 
-+ (void)cameraAuthoriationValidWithHandle:(void(^)())handle {
++ (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle {
     AVAuthorizationStatus authoriation = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authoriation == AVAuthorizationStatusNotDetermined) {
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {

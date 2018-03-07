@@ -33,14 +33,14 @@
  @param restrictedBlock 家长控制
  @param elseBlock 其他
  */
-+ (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock;
++ (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)(void))authorizedBlock denied:(void (^)(void))deniedBlock restricted:(void (^)(void))restrictedBlock elseBlock:(void(^)(void))elseBlock;
 
 /**
  去请求相机权限
 
  @param handle 回调
  */
-+ (void)cameraAuthoriationValidWithHandle:(void(^)())handle;
++ (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle;
 
 
 /**

@@ -18,7 +18,7 @@
 /**
  *  消失降到底部
  */
-- (void)dismissToBottomWithCompleteBlock:(void(^)())completeBlock;
+- (void)dismissToBottomWithCompleteBlock:(void(^)(void))completeBlock;
 
 /**
  *  从透明到不透明

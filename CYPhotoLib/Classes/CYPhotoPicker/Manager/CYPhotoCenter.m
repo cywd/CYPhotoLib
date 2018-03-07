@@ -95,7 +95,7 @@
     [self requestPhotoLibaryAuthorizationValidAuthorized:nil denied:nil restricted:nil elseBlock:nil];
 }
 
-- (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock {
+- (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)(void))authorizedBlock denied:(void (^)(void))deniedBlock restricted:(void (^)(void))restrictedBlock elseBlock:(void(^)(void))elseBlock {
     
     [CYPhotoManager requestPhotoLibaryAuthorizationValidAuthorized:^{
         [self reloadPhotos];
@@ -110,7 +110,7 @@
     }];
 }
 
-- (void)cameraAuthoriationValidWithHandle:(void(^)())handle {
+- (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle {
     [CYPhotoManager cameraAuthoriationValidWithHandle:handle];
 }
 

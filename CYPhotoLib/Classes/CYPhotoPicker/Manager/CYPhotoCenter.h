@@ -51,12 +51,12 @@
  */
 - (void)fetchAllAsset;
 
-- (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)())authorizedBlock denied:(void (^)())deniedBlock restricted:(void (^)())restrictedBlock elseBlock:(void(^)())elseBlock;
+- (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)(void))authorizedBlock denied:(void (^)(void))deniedBlock restricted:(void (^)(void))restrictedBlock elseBlock:(void(^)(void))elseBlock;
 
 /**
  *  获取相机权限
  */
-- (void)cameraAuthoriationValidWithHandle:(void(^)())handle;
+- (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle;
 
 /**
  *  判断是否达到最大选择数
