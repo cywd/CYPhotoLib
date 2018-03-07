@@ -506,7 +506,7 @@
 				TargetAttributes = {
 					E798647C1D17CD020074F8D2 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 7ENE4DHQ7N;
+						DevelopmentTeam = JXJV99SFC3;
 					};
 					E79864951D17CD020074F8D2 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -855,7 +855,7 @@
 			baseConfigurationReference = 0ED8E41C86E387A73074CE52 /* Pods-PhotoLibDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7ENE4DHQ7N;
+				DEVELOPMENT_TEAM = JXJV99SFC3;
 				INFOPLIST_FILE = PhotoLibDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cyrill.PhotoLibDemo;
@@ -869,7 +869,7 @@
 			baseConfigurationReference = 5B72BD244918A2EC1D7C5F27 /* Pods-PhotoLibDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7ENE4DHQ7N;
+				DEVELOPMENT_TEAM = JXJV99SFC3;
 				INFOPLIST_FILE = PhotoLibDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cyrill.PhotoLibDemo;

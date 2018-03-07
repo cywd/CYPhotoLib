@@ -93,8 +93,8 @@
     self.tanhao.hidden = YES;
     self.coverBtn.hidden = YES;
     
-    dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
-        
+//    dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+    
         // 耗时
         BOOL isLocal = [[CYPhotoManager manager] isInLocalAblumWithAsset:asset];
         if (isLocal && (asset.mediaType == PHAssetMediaTypeImage)) {
@@ -103,8 +103,8 @@
                 // 这里要判断id一致再继续
                 if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+                    
                         if (length < (102400 / 1000.0) ) {
                             // YES
                             self.tanhao.hidden = NO;
@@ -136,7 +136,7 @@
                         }
                         
 //                        [self hideLoadingIndicator];
-                    });
+//                    });
                 }
             }];
             
@@ -147,7 +147,7 @@
 //                [self hideLoadingIndicator];
             });
         }
-    });
+//    });
     
 //    [self showLoadingIndicator];
     CGFloat w1 = self.bounds.size.width * 2;
