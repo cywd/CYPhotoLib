@@ -43,7 +43,12 @@
 //    [self.navigationController.navigationBar findHairlineImageViewUnder].hidden = YES;
 //
 //    if (self.navigationController.viewControllers.count > 1) {
-//        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:[UIButton buttonWithFrame:CGRectMake(0, 0, 22, 22) Target:self Selector:@selector(backBtnAction) Image:@"CYBack.png" ImagePressed:@"CYBack.png"]];
+//        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [button setBackgroundImage:[UIImage imageNamed:@"CYBack.png"] forState:UIControlStateNormal];
+//        [button setBackgroundImage:[UIImage imageNamed:@"CYBack.png"] forState:UIControlStateHighlighted];
+//        [button setFrame:CGRectMake(0, 0, 22, 22)];
+//        [button addTarget:self action:@selector(backBtnAction) forControlEvents:UIControlEventTouchUpInside];
+//        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
 //        self.navigationItem.leftBarButtonItem = item;
 //    }
 //}

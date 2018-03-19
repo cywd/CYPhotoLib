@@ -1,0 +1,12 @@
+
+/* Class = "UINavigationItem"; title = "展示页"; ObjectID = "GyD-5P-GPf"; */
+"GyD-5P-GPf.title" = "展示页";
+
+/* Class = "UIButton"; normalTitle = "Select Photo"; ObjectID = "VMi-aD-AoI"; */
+"VMi-aD-AoI.normalTitle" = "Select Photo";
+
+/* Class = "UIButton"; normalTitle = "clear"; ObjectID = "iUF-Ni-wge"; */
+"iUF-Ni-wge.normalTitle" = "clear";
+
+/* Class = "UILabel"; text = "快去选择图片吧"; ObjectID = "of5-x0-8aO"; */
+"of5-x0-8aO.text" = "快去选择图片吧";

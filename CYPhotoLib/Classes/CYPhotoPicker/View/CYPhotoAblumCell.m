@@ -10,7 +10,6 @@
 #import "CYAblumModel.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHeader.h"
-#import "NSString+CYPHChineseName.h"
 
 @interface CYPhotoAblumCell ()
 
@@ -28,7 +27,7 @@
         
         self.ablumCover.image = image;
     }];
-    self.ablumName.text = [info.name chineseName];
+    self.ablumName.text = info.name;
     //    cell.ablumName.text = NSLocalizedString(info.ablumName, @"");
     self.ablumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
 }

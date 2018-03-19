@@ -26,8 +26,6 @@
 		E798649B1D17CD020074F8D2 /* PhotoLibDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E798649A1D17CD020074F8D2 /* PhotoLibDemoTests.m */; };
 		E79864A61D17CD020074F8D2 /* PhotoLibDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79864A51D17CD020074F8D2 /* PhotoLibDemoUITests.m */; };
 		E7BB58DA1FB159B00026BFD9 /* CYPhotoBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7BB58D91FB159B00026BFD9 /* CYPhotoBottomView.m */; };
-		E7C555C61EA734E500BA5D8C /* NSString+CYPHChineseName.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5558C1EA734E500BA5D8C /* NSString+CYPHChineseName.m */; };
-		E7C555C71EA734E500BA5D8C /* UIButton+CYCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5558E1EA734E500BA5D8C /* UIButton+CYCreate.m */; };
 		E7C555C81EA734E500BA5D8C /* UIImage+CYCutDown.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555901EA734E500BA5D8C /* UIImage+CYCutDown.m */; };
 		E7C555C91EA734E500BA5D8C /* UIView+CY_1pxLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555921EA734E500BA5D8C /* UIView+CY_1pxLine.m */; };
 		E7C555CA1EA734E500BA5D8C /* UIView+CYAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555941EA734E500BA5D8C /* UIView+CYAnimation.m */; };
@@ -119,15 +117,13 @@
 		E79864A11D17CD020074F8D2 /* PhotoLibDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoLibDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79864A51D17CD020074F8D2 /* PhotoLibDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLibDemoUITests.m; sourceTree = "<group>"; };
 		E79864A71D17CD020074F8D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7BA1059205F9A84001ADBAE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		E7BA105A205F9A84001ADBAE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		E7BB58D81FB159B00026BFD9 /* CYPhotoBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYPhotoBottomView.h; sourceTree = "<group>"; };
 		E7BB58D91FB159B00026BFD9 /* CYPhotoBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBottomView.m; sourceTree = "<group>"; };
 		E7C555861EA734E500BA5D8C /* CYPhotoCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCommon.h; sourceTree = "<group>"; };
 		E7C555871EA734E500BA5D8C /* CYPhotoHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoHeader.h; sourceTree = "<group>"; };
 		E7C555881EA734E500BA5D8C /* CYPhotoLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoLib.h; sourceTree = "<group>"; };
-		E7C5558B1EA734E500BA5D8C /* NSString+CYPHChineseName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CYPHChineseName.h"; sourceTree = "<group>"; };
-		E7C5558C1EA734E500BA5D8C /* NSString+CYPHChineseName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CYPHChineseName.m"; sourceTree = "<group>"; };
-		E7C5558D1EA734E500BA5D8C /* UIButton+CYCreate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+CYCreate.h"; sourceTree = "<group>"; };
-		E7C5558E1EA734E500BA5D8C /* UIButton+CYCreate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+CYCreate.m"; sourceTree = "<group>"; };
 		E7C5558F1EA734E500BA5D8C /* UIImage+CYCutDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+CYCutDown.h"; sourceTree = "<group>"; };
 		E7C555901EA734E500BA5D8C /* UIImage+CYCutDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+CYCutDown.m"; sourceTree = "<group>"; };
 		E7C555911EA734E500BA5D8C /* UIView+CY_1pxLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CY_1pxLine.h"; sourceTree = "<group>"; };
@@ -329,10 +325,6 @@
 		E7C5558A1EA734E500BA5D8C /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				E7C5558B1EA734E500BA5D8C /* NSString+CYPHChineseName.h */,
-				E7C5558C1EA734E500BA5D8C /* NSString+CYPHChineseName.m */,
-				E7C5558D1EA734E500BA5D8C /* UIButton+CYCreate.h */,
-				E7C5558E1EA734E500BA5D8C /* UIButton+CYCreate.m */,
 				E7C5558F1EA734E500BA5D8C /* UIImage+CYCutDown.h */,
 				E7C555901EA734E500BA5D8C /* UIImage+CYCutDown.m */,
 				E7C555911EA734E500BA5D8C /* UIView+CY_1pxLine.h */,
@@ -684,7 +676,6 @@
 				E7C555DB1EA734E500BA5D8C /* CYPhotoPicker.m in Sources */,
 				E7C555CC1EA734E500BA5D8C /* CYPhotoAblumListController.m in Sources */,
 				E7C555D31EA734E500BA5D8C /* CYAblumModel.m in Sources */,
-				E7C555C71EA734E500BA5D8C /* UIButton+CYCreate.m in Sources */,
 				E752BE541FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m in Sources */,
 				E752BE4E1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m in Sources */,
 				E7BB58DA1FB159B00026BFD9 /* CYPhotoBottomView.m in Sources */,
@@ -693,7 +684,6 @@
 				E7C555CE1EA734E500BA5D8C /* CYPhotoBrowserController.m in Sources */,
 				E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */,
 				E7C555D71EA734E500BA5D8C /* CYPhotoBrowserCell.m in Sources */,
-				E7C555C61EA734E500BA5D8C /* NSString+CYPHChineseName.m in Sources */,
 				E79864881D17CD020074F8D2 /* ViewController.m in Sources */,
 				E7C555C91EA734E500BA5D8C /* UIView+CY_1pxLine.m in Sources */,
 				E74966AD1FA039600074408B /* CYAssetModel.m in Sources */,
@@ -749,6 +739,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				E798648A1D17CD020074F8D2 /* Base */,
+				E7BA1059205F9A84001ADBAE /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -757,6 +748,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				E798648F1D17CD020074F8D2 /* Base */,
+				E7BA105A205F9A84001ADBAE /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -768,6 +760,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -820,6 +813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

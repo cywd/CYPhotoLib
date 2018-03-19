@@ -11,7 +11,6 @@
 #import "CYAblumModel.h"
 #import "CYPhotoNavigationViewController.h"
 #import "CYPhotoCommon.h"
-#import "NSString+CYPHChineseName.h"
 #import "CYPhotoAblumListController.h"
 #import "CYPhotoBrowserController.h"
 #import "CYPhotoCenter.h"
@@ -58,7 +57,7 @@
                 browser.isSingleSel = isSingleSel;
                 browser.info = info;
                 browser.assetCollection = info.assetCollection;
-                browser.collectionTitle = [info.name chineseName];
+                browser.collectionTitle = info.name;
                 [ablumsList.navigationController pushViewController:browser animated:NO];
             }];
         }

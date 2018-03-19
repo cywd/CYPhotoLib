@@ -11,7 +11,6 @@
 #import "CYPhotoAblumCell.h"
 #import "CYPhotoBrowserController.h"
 #import "CYAblumModel.h"
-#import "NSString+CYPHChineseName.h"
 #import "CYPhotoCenter.h"
 
 @interface CYPhotoAblumListController ()<UITableViewDataSource, UITableViewDelegate>
@@ -71,7 +70,7 @@
     
     browser.info = info;
     browser.assetCollection = info.assetCollection;
-    browser.collectionTitle = [info.name chineseName];
+    browser.collectionTitle = info.name;
 //    browser.collectionTitle = NSLocalizedString(info.ablumName, @"");
     [self.navigationController pushViewController:browser animated:YES];
 }
