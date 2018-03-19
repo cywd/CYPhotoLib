@@ -54,7 +54,6 @@
     [super layoutSubviews];
     
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-
 }
 
 - (UICollectionView *)collectionView {
@@ -63,6 +62,5 @@
     }
     return _collectionView;
 }
-
 
 @end
