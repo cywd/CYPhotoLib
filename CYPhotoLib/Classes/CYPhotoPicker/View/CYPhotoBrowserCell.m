@@ -14,6 +14,8 @@
 
 @interface CYPhotoBrowserCell ()
 
+@property (nonatomic, assign) int32_t imageRequestID;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageIV;
 @property (weak, nonatomic) IBOutlet UIButton *coverBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *tanhao;
@@ -93,7 +95,7 @@
     self.tanhao.hidden = YES;
     self.coverBtn.hidden = YES;
     
-//    dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+    dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
     
         // 耗时
         BOOL isLocal = [[CYPhotoManager manager] isInLocalAblumWithAsset:asset];
@@ -147,27 +149,48 @@
 //                [self hideLoadingIndicator];
             });
         }
-//    });
+    });
     
 //    [self showLoadingIndicator];
     CGFloat w1 = self.bounds.size.width * 2;
     CGFloat h1 = self.bounds.size.height * 2;
     
     dispatch_async(dispatch_queue_create("CYPhotoLibSetImageQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
-        
+    
+//        int32_t imageRequestID = [[CYPhotoManager manager] getPhotoWithAsset:asset photoWidth:self.bounds.size.width completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+//
+//            if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
+//                self.imageIV.image = photo;
+//            } else {
+//                [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
+//            }
+//
+//            if (!isDegraded) {
+//                self.imageRequestID = 0;
+//            }
+//
+//        } progressHandler:nil networkAccessAllowed:false];
+    
         [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(w1, h1) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
-            
+
             dispatch_async(dispatch_get_main_queue(), ^{
-                
+
                 // 这里要判断id一致再继续
                 if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
                     self.imageIV.image = image;
                 }
-                
+
 //                [self hideLoadingIndicator];
             });
         }];
     });
+    
+//    if (imageRequestID && self.imageRequestID && imageRequestID != self.imageRequestID) {
+//        [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
+//    }
+//    
+//    self.imageRequestID = imageRequestID;
+    
     
     [self setNeedsLayout];
 }

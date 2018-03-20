@@ -376,7 +376,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 - (void)refreshBottomView {
     
-    [self.toolBarThumbCollectionView reloadData];
+    // 取消隐式动画
+    [UIView performWithoutAnimation:^{
+        [self.toolBarThumbCollectionView reloadData];
+    }];
     
     self.allCountLabel.text = [NSString stringWithFormat:@"%zd/%zd张", [CYPhotoCenter shareCenter].selectedPhotos.count,[CYPhotoCenter shareCenter].maxSelectedCount];
 
