@@ -182,12 +182,12 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取所有相册图片资源 */
-- (NSArray<PHAsset *> *)fetchAllAssets {
-    return [self fetchAssetsInCollection:nil asending:NO];
+- (void)fetchAllAssets:(void (^)(NSArray<PHAsset *> *))completion {
+    [self fetchAssetsInCollection:nil asending:NO completion:completion];
 }
 
 /** 获取指定相册图片资源 */
-- (NSArray<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending {
+- (void)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending completion:(void (^)(NSArray<PHAsset *> *))completion {
     NSMutableArray<PHAsset *> *list = [NSMutableArray array];
     
     PHFetchResult *result;
@@ -211,8 +211,8 @@ static dispatch_once_t onceToken;
 //                                          targetSize:PHImageManagerMaximumSize
 //                                         contentMode:PHImageContentModeAspectFit
 //                                             options:nil];
-    
-    return list;
+
+    if (completion) completion(list);
 }
 
 /** 获取资源对应的图片 */

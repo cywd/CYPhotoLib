@@ -34,7 +34,9 @@
 }
 
 - (void)reloadPhotos {
-    self.allPhotos = [[CYPhotoManager manager] fetchAllAssets];
+    [[CYPhotoManager manager] fetchAllAssets:^(NSArray<PHAsset *> *assets) {
+        self.allPhotos = assets;
+    }];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:CYPHOTOLIB_PhotoLibraryChangeNotification object:nil];
 }
 

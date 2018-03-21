@@ -57,13 +57,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 @property (nonatomic , strong) CYPhotoBrowserFooter *footerView;
 
-
-@property (nonatomic, strong) NSArray * dataSource;
+@property (nonatomic, strong) NSArray *dataSource;
 
 @end
 
 @implementation CYPhotoBrowserController
-
 
 #pragma mark - life cycle
 
@@ -371,7 +369,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (void)loadAssetData {
-    self.dataSource = [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO];
+    
+    [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO completion:^(NSArray<PHAsset *> *assets) {
+        self.dataSource = assets;
+    }];
 }
 
 - (void)refreshBottomView {
@@ -464,7 +465,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (UIView *)bottomView {
     if (!_bottomView) {
         _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, CYPHOTOLIB_SCREEN_H-50, CYPHOTOLIB_SCREEN_W, 50)];
-//        [self.view addSubview:_bottomView];
     }
     return _bottomView;
 }
@@ -473,7 +473,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     if (!_bottomViewCover) {
         _bottomViewCover = [[UIView alloc] init];
         _bottomViewCover.frame = self.bottomView.frame;
-//        [self.view insertSubview:_bottomViewCover aboveSubview:self.bottomView];
     }
     return _bottomViewCover;
 }
@@ -481,7 +480,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (UIButton *)isOriginalBtn {
     if (!_isOriginalBtn) {
         _isOriginalBtn = [[UIButton alloc] init];
-        
     }
     return _isOriginalBtn;
 }

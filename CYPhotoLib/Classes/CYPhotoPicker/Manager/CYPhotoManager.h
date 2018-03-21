@@ -24,7 +24,7 @@
  */
 + (void)deallocManager;
 
-
+#pragma mark - 权限
 /**
  去请求照片库权限
 
@@ -42,14 +42,12 @@
  */
 + (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle;
 
-
 /**
  拿到相册model
 
  @param completion 回调相册model
  */
 - (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion;
-
 
 /**
  获取所有相册model的数组
@@ -59,10 +57,10 @@
 - (void)fetchAllAblums:(void (^)(NSArray<CYAblumModel *> *))completion;
 
 /** 获取所有相册图片资源 */
-- (NSArray<PHAsset *> *)fetchAllAssets;
+- (void)fetchAllAssets:(void (^)(NSArray<PHAsset *> *))completion;
 
 /** 获取指定相册图片资源 */
-- (NSArray<PHAsset *> *)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending;
+- (void)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending completion:(void (^)(NSArray<PHAsset *> *))completion;
 
 /** 获取资源对应的图片 */
 - (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
