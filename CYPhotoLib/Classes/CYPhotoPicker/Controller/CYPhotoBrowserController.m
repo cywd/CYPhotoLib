@@ -288,7 +288,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //                UIImageView *lastView = [weakCell.contentView.subviews lastObject];
 //                [CYHeadImageToBig showImage:lastView withImage:image];
 //            }];
-//            
 //        }];
 
         [cell setImgTapBlock:^{
