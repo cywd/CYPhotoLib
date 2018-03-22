@@ -307,6 +307,18 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
             [weakSelf.navigationController dismissViewControllerAnimated:YES completion:nil];
         }];
         
+        [cell setUnableTapBlock:^{
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"不可选择" message:@"图片不符合制作规定" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+        
+        [cell setLowInfoTapBlock:^{
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"图片不太清晰" message:@"会影响制作效果" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+        
         return cell;
     }
 }

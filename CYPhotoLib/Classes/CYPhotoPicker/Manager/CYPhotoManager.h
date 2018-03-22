@@ -12,19 +12,12 @@
 
 @interface CYPhotoManager : NSObject
 
-/**
- 单例
-
- @return instancetype
- */
+/** 单例 */
 + (instancetype)manager;
-
-/**
- dealloc 单例
- */
+/** dealloc 单例 */
 + (void)deallocManager;
 
-#pragma mark - 权限
+#pragma mark - 权限相关
 /**
  去请求照片库权限
 
@@ -42,6 +35,7 @@
  */
 + (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle;
 
+#pragma mark - Album 相关
 /**
  拿到相册model
 
@@ -56,34 +50,32 @@
  */
 - (void)fetchAllAblums:(void (^)(NSArray<CYAblumModel *> *))completion;
 
+#pragma mark - Asset 相关
 /** 获取所有相册图片资源 */
 - (void)fetchAllAssets:(void (^)(NSArray<PHAsset *> *))completion;
-
 /** 获取指定相册图片资源 */
 - (void)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending completion:(void (^)(NSArray<PHAsset *> *))completion;
-
-/** 获取资源对应的图片 */
-- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
-
-- (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
-
-/** 根据localid获取资源对应的asset */
+/** 根据localIdentifier获取资源对应的asset */
 - (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock;
-
-/** 本地是否有这个图片 */
+/** 本地是否有这个Asset */
 - (BOOL)isInLocalAblumWithAsset:(PHAsset *)asset;
 
+#pragma mark - Image 相关
+/** 获取资源对应的图片 */
+- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
+/** 通过localIdentifier获取资源对应的image */
+- (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
+/** 获取资源数组对应的图片数组 */
+- (void)fetchImagesWithAssetsArray:(NSMutableArray<PHAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock;
+
+#pragma mark - ImageData 相关
 /** 通过localIdentifier获取资源对应的原图data */
 - (void)fetchImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock;
-
 /** 获取资源对应的原图大小 */
 - (void)fetchImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock;
-
 /** 获取资源对应的原图data */
 - (void)fetchImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock;
 
-/** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSMutableArray<PHAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock;
 
 - (int32_t)getPhotoWithAsset:(id)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *photo,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 

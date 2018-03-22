@@ -102,7 +102,7 @@ static dispatch_once_t onceToken;
  case Any //包含所有类型
  }
  */
-
+#pragma mark - Ablum相关
 - (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion {
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
@@ -214,6 +214,30 @@ static dispatch_once_t onceToken;
 
     if (completion) completion(list);
 }
+
+/** 根据localid获取资源对应的asset */
+- (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock {
+    // 需要localIdentifier
+    PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
+    PHFetchResult *fetchResult = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:fetchOptions];
+    PHAsset *asset = [fetchResult firstObject];
+    if (completeBlock) completeBlock(asset);
+}
+
+- (BOOL)isInLocalAblumWithAsset:(PHAsset *)asset {
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.networkAccessAllowed = NO;
+    option.synchronous = YES;
+    
+    __block BOOL isInLocalAblum = YES;
+    
+    [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        isInLocalAblum = imageData ? YES : NO;
+    }];
+    return isInLocalAblum;
+}
+
+#pragma mark - Image相关 
 
 /** 获取资源对应的图片 */
 - (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock {
@@ -335,15 +359,6 @@ static dispatch_once_t onceToken;
     return imageRequestID;
 }
 
-/** 根据localid获取资源对应的asset */
-- (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock {
-    // 需要localIdentifier
-    PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
-    PHFetchResult *fetchResult = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:fetchOptions];
-    PHAsset *asset = [fetchResult firstObject];
-    if (completeBlock) completeBlock(asset);
-}
-
 /** 获取资源对应的原图大小 */
 - (void)fetchImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
@@ -354,47 +369,10 @@ static dispatch_once_t onceToken;
 //    option.synchronous = YES;
     
     [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        if (completeBlock) completeBlock(imageData.length / 1000.0);
-    }];
-}
-
-- (BOOL)isInLocalAblumWithAsset:(PHAsset *)asset {
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option.networkAccessAllowed = NO;
-    option.synchronous = YES;
-    
-    __block BOOL isInLocalAblum = YES;
-    
-    [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        isInLocalAblum = imageData ? YES : NO;
-    }];
-    return isInLocalAblum;
-}
-
-/** 获取资源对应的原图大小 */
-- (void)fetchImageDataLength1:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option.resizeMode = PHImageRequestOptionsResizeModeNone;
-    
-    // 这里设置iCloud
-    option.networkAccessAllowed = YES;
-//    option.synchronous = YES;
-    
-    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        if (completeBlock) completeBlock(imageData.length / 1000.0);
-    }];
-}
-
-/** 获取资源对应的原图大小 */
-- (void)fetchImageDataLength2:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option.resizeMode = PHImageRequestOptionsResizeModeNone;
-    
-    // 这里设置iCloud
-//    option.networkAccessAllowed = YES;
-//    option.synchronous = YES;
-    
-    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+//        CGImageSourceRef imageRef = CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
+//        NSDictionary *imageProperty = (NSDictionary*)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(imageRef,0, NULL));
+//        NSDictionary *ExifDictionary = [imageProperty valueForKey:(NSString*)kCGImagePropertyExifDictionary];
+        
         if (completeBlock) completeBlock(imageData.length / 1000.0);
     }];
 }
@@ -406,7 +384,6 @@ static dispatch_once_t onceToken;
         [weakSelf fetchImageDataWithAsset:asset completeBlock:completeBlock];
     }];
 }
-
 
 /** 获取资源对应的原图data */
 - (void)fetchImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {

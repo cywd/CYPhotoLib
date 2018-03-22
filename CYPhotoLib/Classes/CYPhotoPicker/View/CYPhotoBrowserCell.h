@@ -20,4 +20,7 @@
 @property (nonatomic, copy) void(^selectedBlock)(BOOL isSelected);
 @property (nonatomic, copy) void(^imgTapBlock)(void);
 
+@property (nonatomic, copy) void(^lowInfoTapBlock)(void);
+@property (nonatomic, copy) void(^unableTapBlock)(void);
+
 @end
