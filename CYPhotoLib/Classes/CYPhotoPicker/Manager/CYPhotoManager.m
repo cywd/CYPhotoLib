@@ -102,13 +102,13 @@ static dispatch_once_t onceToken;
  case Any //包含所有类型
  }
  */
-#pragma mark - Ablum相关
-- (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion {
+#pragma mark - Album相关
+- (void)fetchCameraRollAlbum:(void (^)(CYAlbumModel *))completion {
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
-    PHFetchResult *smartAblums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    for (PHAssetCollection *collection in smartAblums) {
+    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    for (PHAssetCollection *collection in smartAlbums) {
         if (![collection isKindOfClass:[PHAssetCollection class]]) {
             continue;
         }
@@ -119,7 +119,7 @@ static dispatch_once_t onceToken;
             if (fetchResult.count) {
                 
                 // 创建此相册的信息集
-                CYAblumModel * info = [CYAblumModel cy_AblumInfoFromResult:fetchResult collection:collection];
+                CYAlbumModel * info = [CYAlbumModel cy_AlbumInfoFromResult:fetchResult collection:collection];
                 if (completion) completion(info);
             }
             
@@ -127,8 +127,8 @@ static dispatch_once_t onceToken;
     }
 }
 
-- (void)fetchAllAblums:(void (^)(NSArray<CYAblumModel *> *))completion {
-    NSMutableArray *ablumsArray = [NSMutableArray array];
+- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *))completion {
+    NSMutableArray *albumsArray = [NSMutableArray array];
     // 列出并加入所有智能相册 系统相册
     PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
@@ -143,17 +143,17 @@ static dispatch_once_t onceToken;
             PHFetchResult *result = [self fetchResultInCollection:collection asending:NO];
             if (result.count < 1) continue;
             
-            CYAblumModel * info = [CYAblumModel cy_AblumInfoFromResult:result collection:collection];
+            CYAlbumModel * info = [CYAlbumModel cy_AlbumInfoFromResult:result collection:collection];
             
             if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-                [ablumsArray insertObject:info atIndex:0];
+                [albumsArray insertObject:info atIndex:0];
             } else {
-                [ablumsArray addObject:info];
+                [albumsArray addObject:info];
             }
         }
     }
     
-    if (completion) completion(ablumsArray);
+    if (completion) completion(albumsArray);
 }
 
 /** 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO */
@@ -224,17 +224,17 @@ static dispatch_once_t onceToken;
     if (completeBlock) completeBlock(asset);
 }
 
-- (BOOL)isInLocalAblumWithAsset:(PHAsset *)asset {
+- (BOOL)isInLocalAlbumWithAsset:(PHAsset *)asset {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.networkAccessAllowed = NO;
     option.synchronous = YES;
     
-    __block BOOL isInLocalAblum = YES;
+    __block BOOL isInLocalAlbum = YES;
     
     [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        isInLocalAblum = imageData ? YES : NO;
+        isInLocalAlbum = imageData ? YES : NO;
     }];
-    return isInLocalAblum;
+    return isInLocalAlbum;
 }
 
 #pragma mark - Image相关 

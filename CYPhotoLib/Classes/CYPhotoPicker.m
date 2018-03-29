@@ -8,10 +8,10 @@
 
 #import "CYPhotoPicker.h"
 #import "CYPhotoHeader.h"
-#import "CYAblumModel.h"
+#import "CYAlbumModel.h"
 #import "CYPhotoNavigationViewController.h"
 #import "CYPhotoCommon.h"
-#import "CYPhotoAblumListController.h"
+#import "CYPhotoAlbumListController.h"
 #import "CYPhotoBrowserController.h"
 #import "CYPhotoCenter.h"
 #import "CYPhotoManager.h"
@@ -38,27 +38,27 @@
     
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
         
-        CYPhotoAblumListController * ablumsList = [[CYPhotoAblumListController alloc] init];
+        CYPhotoAlbumListController * albumsList = [[CYPhotoAlbumListController alloc] init];
         
-        [[CYPhotoManager manager] fetchAllAblums:^(NSArray<CYAblumModel *> *array) {
-            ablumsList.assetCollections = array;
+        [[CYPhotoManager manager] fetchAllAlbums:^(NSArray<CYAlbumModel *> *array) {
+            albumsList.assetCollections = array;
         }];
-        ablumsList.isSingleSel = isSingleSel;
+        albumsList.isSingleSel = isSingleSel;
         
-        CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:ablumsList];
+        CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:albumsList];
         nav.navigationBar.barTintColor = CYPHOTOLIB_NAV_BAR_COLOR;
         [nav.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor blackColor]}];
         nav.navigationBar.tintColor = [UIColor blackColor];
         nav.navigationItem.backBarButtonItem.title = @"照片";
        
         if (isPushToCameraRoll) {
-            [[CYPhotoManager manager] fetchCameraRollAblum:^(CYAblumModel *info) {
+            [[CYPhotoManager manager] fetchCameraRollAlbum:^(CYAlbumModel *info) {
                 CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
                 browser.isSingleSel = isSingleSel;
                 browser.info = info;
                 browser.assetCollection = info.assetCollection;
                 browser.collectionTitle = info.name;
-                [ablumsList.navigationController pushViewController:browser animated:NO];
+                [albumsList.navigationController pushViewController:browser animated:NO];
             }];
         }
 

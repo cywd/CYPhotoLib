@@ -30,7 +30,7 @@
 
 #define CYPHOTOLIB_RGBColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 
-#define CYPHOTOLIB_AblumsListLineColor    CYPHOTOLIB_RGBColor(192, 192, 192)
+#define CYPHOTOLIB_AlbumsListLineColor    CYPHOTOLIB_RGBColor(192, 192, 192)
 #define CYPHOTOLIB_BGCOLOR                CYPHOTOLIB_RGBColor(237, 238, 242)
 #define CYPHOTOLIB_CLEARCOLOR             [UIColor clearColor]
 

@@ -109,7 +109,7 @@
     dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
     
         // 耗时
-        BOOL isLocal = [[CYPhotoManager manager] isInLocalAblumWithAsset:asset];
+        BOOL isLocal = [[CYPhotoManager manager] isInLocalAlbumWithAsset:asset];
         if (isLocal && (asset.mediaType == PHAssetMediaTypeImage)) {
             
             [[CYPhotoManager manager] fetchImageDataLength:asset completeBlock:^(CGFloat length) {

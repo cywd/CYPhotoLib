@@ -8,7 +8,7 @@
 // 负责管理与Photo 相关的内容
 
 #import <Foundation/Foundation.h>
-#import "CYAblumModel.h"
+#import "CYAlbumModel.h"
 
 @interface CYPhotoManager : NSObject
 
@@ -41,14 +41,14 @@
 
  @param completion 回调相册model
  */
-- (void)fetchCameraRollAblum:(void (^)(CYAblumModel *))completion;
+- (void)fetchCameraRollAlbum:(void (^)(CYAlbumModel *))completion;
 
 /**
  获取所有相册model的数组
 
  @param completion 回调所有相册model的数组
  */
-- (void)fetchAllAblums:(void (^)(NSArray<CYAblumModel *> *))completion;
+- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *))completion;
 
 #pragma mark - Asset 相关
 /** 获取所有相册图片资源 */
@@ -58,7 +58,7 @@
 /** 根据localIdentifier获取资源对应的asset */
 - (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock;
 /** 本地是否有这个Asset */
-- (BOOL)isInLocalAblumWithAsset:(PHAsset *)asset;
+- (BOOL)isInLocalAlbumWithAsset:(PHAsset *)asset;
 
 #pragma mark - Image 相关
 /** 获取资源对应的图片 */

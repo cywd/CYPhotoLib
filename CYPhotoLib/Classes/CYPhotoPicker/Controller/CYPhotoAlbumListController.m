@@ -1,25 +1,25 @@
 //
-//  CYPhotoAblumListController.m
+//  CYPhotoAlbumListController.m
 //  PhotoLibDemo
 //
 //  Created by Cyrill on 16/7/18.
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "CYPhotoAblumListController.h"
+#import "CYPhotoAlbumListController.h"
 #import "CYPhotoHeader.h"
-#import "CYPhotoAblumCell.h"
+#import "CYPhotoAlbumCell.h"
 #import "CYPhotoBrowserController.h"
-#import "CYAblumModel.h"
+#import "CYAlbumModel.h"
 #import "CYPhotoCenter.h"
 
-@interface CYPhotoAblumListController ()<UITableViewDataSource, UITableViewDelegate>
+@interface CYPhotoAlbumListController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
 
-@implementation CYPhotoAblumListController
+@implementation CYPhotoAlbumListController
 
 #pragma mark - life cycle
 - (void)viewDidLoad {
@@ -28,7 +28,7 @@
     self.title = @"照片";
     
     [self.view addSubview:self.tableView];
-    [self.tableView registerClass:[CYPhotoAblumCell class] forCellReuseIdentifier:NSStringFromClass([CYPhotoAblumCell class])];
+    [self.tableView registerClass:[CYPhotoAlbumCell class] forCellReuseIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
     
     [self setupCancelBtn];
 }
@@ -51,7 +51,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CYPhotoAblumCell * cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CYPhotoAblumCell class])];
+    CYPhotoAlbumCell * cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
     cell.info = self.assetCollections[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -66,12 +66,12 @@
     
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     browser.isSingleSel = self.isSingleSel;
-    CYAblumModel *info = self.assetCollections[indexPath.row];
+    CYAlbumModel *info = self.assetCollections[indexPath.row];
     
     browser.info = info;
     browser.assetCollection = info.assetCollection;
     browser.collectionTitle = info.name;
-//    browser.collectionTitle = NSLocalizedString(info.ablumName, @"");
+//    browser.collectionTitle = NSLocalizedString(info.albumName, @"");
     [self.navigationController pushViewController:browser animated:YES];
 }
 

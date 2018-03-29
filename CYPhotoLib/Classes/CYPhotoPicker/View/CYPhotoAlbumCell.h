@@ -1,5 +1,5 @@
 //
-//  CYPhotoAblumCell.h
+//  CYPhotoAlbumCell.h
 //  PhotoLibDemo
 //
 //  Created by Cyrill on 16/7/18.
@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class CYAblumModel;
+@class CYAlbumModel;
 
-@interface CYPhotoAblumCell : UITableViewCell
+@interface CYPhotoAlbumCell : UITableViewCell
 
-@property (nonatomic, strong) CYAblumModel *info;
+@property (nonatomic, strong) CYAlbumModel *info;
 
 @end

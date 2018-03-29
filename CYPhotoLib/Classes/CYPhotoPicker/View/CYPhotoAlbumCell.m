@@ -1,35 +1,35 @@
 //
-//  CYPhotoAblumCell.m
+//  CYPhotoAlbumCell.m
 //  PhotoLibDemo
 //
 //  Created by Cyrill on 16/7/18.
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "CYPhotoAblumCell.h"
-#import "CYAblumModel.h"
+#import "CYPhotoAlbumCell.h"
+#import "CYAlbumModel.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHeader.h"
 
-@interface CYPhotoAblumCell ()
+@interface CYPhotoAlbumCell ()
 
-@property (strong, nonatomic) UIImageView *ablumCover;
-@property (strong, nonatomic) UILabel *ablumName;
-@property (strong, nonatomic) UILabel *ablumCount;
+@property (strong, nonatomic) UIImageView *albumCover;
+@property (strong, nonatomic) UILabel *albumName;
+@property (strong, nonatomic) UILabel *albumCount;
 
 @end
 
-@implementation CYPhotoAblumCell
-- (void)setInfo:(CYAblumModel *)info {
+@implementation CYPhotoAlbumCell
+- (void)setInfo:(CYAlbumModel *)info {
     _info = info;
     
     [[CYPhotoManager manager] fetchImageInAsset:info.coverAsset size:CGSizeMake(120, 120) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
         
-        self.ablumCover.image = image;
+        self.albumCover.image = image;
     }];
-    self.ablumName.text = info.name;
-    //    cell.ablumName.text = NSLocalizedString(info.ablumName, @"");
-    self.ablumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
+    self.albumName.text = info.name;
+    //    cell.albumName.text = NSLocalizedString(info.albumName, @"");
+    self.albumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -46,35 +46,35 @@
     [super layoutSublayersOfLayer:layer];
 }
 
-- (UIImageView *)ablumCover {
-    if (!_ablumCover) {
+- (UIImageView *)albumCover {
+    if (!_albumCover) {
         UIImageView *groupImageView = [[UIImageView alloc] init];
         groupImageView.frame = CGRectMake(15, 5, 70, 70);
         groupImageView.clipsToBounds = YES;
         groupImageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.contentView addSubview:_ablumCover = groupImageView];
+        [self.contentView addSubview:_albumCover = groupImageView];
     }
-    return _ablumCover;
+    return _albumCover;
 }
 
-- (UILabel *)ablumName {
-    if (!_ablumName) {
+- (UILabel *)albumName {
+    if (!_albumName) {
         UILabel *groupNameLabel = [[UILabel alloc] init];
         groupNameLabel.frame = CGRectMake(95, 15, self.frame.size.width - 100, 20);
-        [self.contentView addSubview:_ablumName = groupNameLabel];
+        [self.contentView addSubview:_albumName = groupNameLabel];
     }
-    return _ablumName;
+    return _albumName;
 }
 
-- (UILabel *)ablumCount {
-    if (!_ablumCount) {
+- (UILabel *)albumCount {
+    if (!_albumCount) {
         UILabel *groupPicCountLabel = [[UILabel alloc] init];
         groupPicCountLabel.font = [UIFont systemFontOfSize:13];
         groupPicCountLabel.textColor = [UIColor lightGrayColor];
         groupPicCountLabel.frame = CGRectMake(95, 40, self.frame.size.width - 100, 20);
-        [self.contentView addSubview:_ablumCount = groupPicCountLabel];
+        [self.contentView addSubview:_albumCount = groupPicCountLabel];
     }
-    return _ablumCount;
+    return _albumCount;
 }
 
 @end

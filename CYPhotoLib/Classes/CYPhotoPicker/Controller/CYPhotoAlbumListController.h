@@ -1,5 +1,5 @@
 //
-//  CYPhotoAblumListController.h
+//  CYPhotoAlbumListController.h
 //  PhotoLibDemo
 //
 //  Created by Cyrill on 16/7/18.
@@ -8,7 +8,7 @@
 
 #import "CYPhotoBaseController.h"
 
-@interface CYPhotoAblumListController : CYPhotoBaseController
+@interface CYPhotoAlbumListController : CYPhotoBaseController
 
 @property (nonatomic, strong) NSArray *assetCollections;  // 相册列表
 @property (nonatomic, assign) BOOL isSingleSel;
