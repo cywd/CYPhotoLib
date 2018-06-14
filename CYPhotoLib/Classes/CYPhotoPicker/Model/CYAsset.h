@@ -20,11 +20,14 @@
  - CYAssetMassTypeFreakRatio: 不符合的比例
  */
 typedef NS_ENUM(NSUInteger, CYAssetMassType) {
+    CYAssetMassTypeTooLarge,
     CYAssetMassTypeLarge,
     CYAssetMassTypeNormal,
+    CYAssetMassTypeTooSmall,
     CYAssetMassTypeSmall,
     CYAssetMassTypeLowDpi,
     CYAssetMassTypeFreakRatio,  //
+    CYAssetMassTypeUnknow,
 };
 
 /**

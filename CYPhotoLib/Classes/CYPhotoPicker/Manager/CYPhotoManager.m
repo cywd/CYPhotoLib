@@ -193,10 +193,10 @@ static dispatch_once_t onceToken;
 - (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAsset *> *array))completion {
     NSMutableArray *assets = [NSMutableArray array];
     [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        CYAsset *model = [self assetModelWithAsset:obj allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
+        CYAsset *asset = [self assetModelWithAsset:obj allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
         
-        if (model) {
-            [assets addObject:model];
+        if (asset) {
+            [assets addObject:asset];
         }
     }];
     if (completion) completion(assets);
