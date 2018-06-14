@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
-@property (nonatomic, copy) void (^successBlock)(CLLocation *location, CLLocation *oldLocation);
+@property (nonatomic, copy) void (^successBlock)(NSArray<CLLocation *> *);
 @property (nonatomic, copy) void (^geocodeBlock)(NSArray *geocodeArray);
 @property (nonatomic, copy) void (^failureBlock)(NSError *error);
 
@@ -37,7 +37,7 @@
     [self startLocationWithSuccessBlock:nil failureBlock:nil geocoderBlock:nil];
 }
 
-- (void)startLocationWithSuccessBlock:(void (^)(CLLocation *location,CLLocation *oldLocation))successBlock failureBlock:(void (^)(NSError *error))failureBlock {
+- (void)startLocationWithSuccessBlock:(void (^)(NSArray<CLLocation *> *))successBlock failureBlock:(void (^)(NSError *error))failureBlock {
     [self startLocationWithSuccessBlock:successBlock failureBlock:failureBlock geocoderBlock:nil];
 }
 
@@ -45,7 +45,7 @@
     [self startLocationWithSuccessBlock:nil failureBlock:nil geocoderBlock:geocoderBlock];
 }
 
-- (void)startLocationWithSuccessBlock:(void (^)(CLLocation *location,CLLocation *oldLocation))successBlock failureBlock:(void (^)(NSError *error))failureBlock geocoderBlock:(void (^)(NSArray *geocoderArray))geocoderBlock {
+- (void)startLocationWithSuccessBlock:(void (^)(NSArray<CLLocation *> *))successBlock failureBlock:(void (^)(NSError *error))failureBlock geocoderBlock:(void (^)(NSArray *geocoderArray))geocoderBlock {
     [self.locationManager startUpdatingLocation];
     _successBlock = successBlock;
     _geocodeBlock = geocoderBlock;
@@ -54,21 +54,23 @@
 
 #pragma mark - CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+/// 地理位置发生改变时触发
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     [manager stopUpdatingLocation];
     
     if (_successBlock) {
-        _successBlock(newLocation,oldLocation);
+        _successBlock(locations);
     }
     
-    if (_geocodeBlock) {
+    if (_geocodeBlock && locations.count) {
         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-        [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *array, NSError *error) {
-            _geocodeBlock(array);
+        [geocoder reverseGeocodeLocation:[locations firstObject] completionHandler:^(NSArray *array, NSError *error) {
+            self.geocodeBlock(array);
         }];
     }
 }
 
+/// 定位失败回调方法
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     NSLog(@"定位失败, 错误: %@",error);
     switch([error code]) {

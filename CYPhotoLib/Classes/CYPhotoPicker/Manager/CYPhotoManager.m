@@ -35,22 +35,23 @@ static dispatch_once_t onceToken;
 #pragma mark - 权限验证
 + (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)(void))authorizedBlock denied:(void (^)(void))deniedBlock restricted:(void (^)(void))restrictedBlock elseBlock:(void(^)(void))elseBlock {
     
-    PHAuthorizationStatus authoriation = [PHPhotoLibrary authorizationStatus];
-    if (authoriation == PHAuthorizationStatusNotDetermined) {
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    
+    if (status == PHAuthorizationStatusNotDetermined) {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
             // 这里非主线程，选择完成后会出发相册变化代理方法
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.class requestPhotoLibaryAuthorizationValidAuthorized:authorizedBlock denied:deniedBlock restricted:restrictedBlock elseBlock:elseBlock];
             });
         }];
-    } else if (authoriation == PHAuthorizationStatusAuthorized) {
+    } else if (status == PHAuthorizationStatusAuthorized) {
         // 已经授权
         if (authorizedBlock) authorizedBlock();
-    } else if (authoriation == PHAuthorizationStatusDenied) {
-        printf("PHAuthorizationStatusDenied - 用户拒绝当前应用访问相册,我们需要提醒用户打开访问开关");
+    } else if (status == PHAuthorizationStatusDenied) {
+        NSLog(@"PHAuthorizationStatusDenied - 用户拒绝当前应用访问相册,我们需要提醒用户打开访问开关");
         if (deniedBlock) deniedBlock();
-    } else if (authoriation == PHAuthorizationStatusRestricted) {
-        printf("PHAuthorizationStatusRestricted - 家长控制,不允许访问");
+    } else if (status == PHAuthorizationStatusRestricted) {
+        NSLog(@"PHAuthorizationStatusRestricted - 家长控制,不允许访问");
         if (restrictedBlock) restrictedBlock();
     } else {
         if (elseBlock) elseBlock();
@@ -58,8 +59,9 @@ static dispatch_once_t onceToken;
 }
 
 + (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle {
-    AVAuthorizationStatus authoriation = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (authoriation == AVAuthorizationStatusNotDetermined) {
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (status == AVAuthorizationStatusNotDetermined) {
+        // 还未授权
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
             if (granted) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -67,8 +69,16 @@ static dispatch_once_t onceToken;
                 });
             }
         }];
-    } else if (authoriation == AVAuthorizationStatusAuthorized) {
+    } else if (status == AVAuthorizationStatusAuthorized) {
+        // 已经授权
         if (handle) handle();
+    } else if (status == AVAuthorizationStatusRestricted) {
+        // 家长模式
+        NSLog(@"PHAuthorizationStatusRestricted - 家长控制,不允许访问");
+        
+    } else if (status == AVAuthorizationStatusDenied) {
+        // 用户拒绝
+        NSLog(@"PHAuthorizationStatusDenied - 用户拒绝当前应用访问相册,我们需要提醒用户打开访问开关");
     } else {
         
     }
@@ -103,31 +113,27 @@ static dispatch_once_t onceToken;
  }
  */
 #pragma mark - Album相关
-- (void)fetchCameraRollAlbum:(void (^)(CYAlbumModel *))completion {
-    PHFetchOptions *options = [[PHFetchOptions alloc] init];
-    options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(CYAlbumModel *model))completion {
+    
+    PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:NO ascending:YES];
+    
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection *collection in smartAlbums) {
-        if (![collection isKindOfClass:[PHAssetCollection class]]) {
-            continue;
-        }
+        if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
+        // 过滤空相册
+        if (collection.estimatedAssetCount <= 0) continue;
+        
         if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
             PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             
-            // 如果有资源
-            if (fetchResult.count) {
-                
-                // 创建此相册的信息集
-                CYAlbumModel * info = [CYAlbumModel cy_AlbumInfoFromResult:fetchResult collection:collection];
-                if (completion) completion(info);
-            }
-            
+            // 创建此相册的信息集
+            CYAlbumModel * model = [CYAlbumModel cy_AlbumInfoFromResult:fetchResult collection:collection];
+            if (completion) completion(model);
         }
     }
 }
 
-- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *))completion {
+- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *albumsArray))completion {
     NSMutableArray *albumsArray = [NSMutableArray array];
     // 列出并加入所有智能相册 系统相册
     PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
@@ -154,6 +160,26 @@ static dispatch_once_t onceToken;
     }
     
     if (completion) completion(albumsArray);
+}
+
+- (PHFetchOptions *)optionsAllowPickingVideo:(BOOL)isAllowPickingVideo allowPickingImage:(BOOL)isAllowPickingImage sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending {
+    
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    if (!isAllowPickingVideo) {
+        options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    }
+    if (!isAllowPickingImage) {
+        options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
+    }
+    
+    // 有两种排序 1:creationDate   2:modificationDate
+    if (isSortByModificationDate) {
+        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:ascending]];
+    } else {
+        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:ascending]];
+    }
+    
+    return options;
 }
 
 /** 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO */

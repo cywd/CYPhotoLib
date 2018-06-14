@@ -52,12 +52,13 @@
         nav.navigationItem.backBarButtonItem.title = @"照片";
        
         if (isPushToCameraRoll) {
-            [[CYPhotoManager manager] fetchCameraRollAlbum:^(CYAlbumModel *info) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES completion:^(CYAlbumModel *model) {
+                
                 CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
                 browser.isSingleSel = isSingleSel;
-                browser.info = info;
-                browser.assetCollection = info.assetCollection;
-                browser.collectionTitle = info.name;
+                browser.info = model;
+                browser.assetCollection = model.assetCollection;
+                browser.collectionTitle = model.name;
                 [albumsList.navigationController pushViewController:browser animated:NO];
             }];
         }

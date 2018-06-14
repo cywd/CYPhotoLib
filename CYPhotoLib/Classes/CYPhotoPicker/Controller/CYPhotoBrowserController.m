@@ -246,7 +246,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
             
             // delete 刷新
             if ([strongSelf.dataSource containsObject:ast]) {
-                NSInteger ind = [_dataSource indexOfObject:ast];
+                NSInteger ind = [strongSelf.dataSource indexOfObject:ast];
                 NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
                 [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
             }

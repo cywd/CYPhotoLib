@@ -39,16 +39,18 @@
 /**
  拿到相册model
 
+ @param allowPickingVideo 是否允许选择video
+ @param allowPickingImage 是否允许选择image
  @param completion 回调相册model
  */
-- (void)fetchCameraRollAlbum:(void (^)(CYAlbumModel *))completion;
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(CYAlbumModel *model))completion;
 
 /**
  获取所有相册model的数组
 
  @param completion 回调所有相册model的数组
  */
-- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *))completion;
+- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *albumsArray))completion;
 
 #pragma mark - Asset 相关
 /** 获取所有相册图片资源 */
