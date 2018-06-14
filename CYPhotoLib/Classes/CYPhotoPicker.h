@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class PHAsset;
+@class CYAsset;
 
 @interface CYPhotoPicker : NSObject
 
@@ -33,7 +34,7 @@
  @param isPushToCameraRoll 是否一进来就跳转到所有照片
  @param handle 回调
  */
-- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel isPushToCameraRoll:(BOOL)isPushToCameraRoll handle:(void(^)(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets))handle;
+- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel isPushToCameraRoll:(BOOL)isPushToCameraRoll handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle;
 
 /** 清除包括已选图片的信息等 */
 - (void)clearInfo;

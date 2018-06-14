@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		002D7847F2937C5CE7C28A67 /* Pods_PhotoLibDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BAB6479A9B63B10AABF1DE9 /* Pods_PhotoLibDemo.framework */; };
-		E74966AD1FA039600074408B /* CYAssetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E74966AC1FA039600074408B /* CYAssetModel.m */; };
+		E74966AD1FA039600074408B /* CYAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = E74966AC1FA039600074408B /* CYAsset.m */; };
 		E74FC0291EA75300009BE8AD /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E74FC0281EA75300009BE8AD /* CollectionViewCell.m */; };
 		E752695B1EC18D5000E596FD /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
 		E752BE4B1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = E752BE4A1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m */; };
@@ -35,7 +35,7 @@
 		E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */; };
 		E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A31EA734E500BA5D8C /* CYPhotoCenter.m */; };
 		E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
-		E7C555D31EA734E500BA5D8C /* CYAlbumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A81EA734E500BA5D8C /* CYAlbumModel.m */; };
+		E7C555D31EA734E500BA5D8C /* CYAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A81EA734E500BA5D8C /* CYAlbum.m */; };
 		E7C555D41EA734E500BA5D8C /* CYPhotoAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555AB1EA734E500BA5D8C /* CYPhotoAlbumCell.m */; };
 		E7C555D51EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555AD1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m */; };
 		E7C555D61EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C555AE1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib */; };
@@ -85,8 +85,8 @@
 		42C34FA90C839E26B6D4322D /* Pods-PhotoLibDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoLibDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoLibDemoTests/Pods-PhotoLibDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5B72BD244918A2EC1D7C5F27 /* Pods-PhotoLibDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoLibDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoLibDemo/Pods-PhotoLibDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D4FC08E0CD8B373C70FC9CAA /* Pods-PhotoLibDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoLibDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoLibDemoTests/Pods-PhotoLibDemoTests.release.xcconfig"; sourceTree = "<group>"; };
-		E74966AB1FA039600074408B /* CYAssetModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYAssetModel.h; sourceTree = "<group>"; };
-		E74966AC1FA039600074408B /* CYAssetModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYAssetModel.m; sourceTree = "<group>"; };
+		E74966AB1FA039600074408B /* CYAsset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYAsset.h; sourceTree = "<group>"; };
+		E74966AC1FA039600074408B /* CYAsset.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYAsset.m; sourceTree = "<group>"; };
 		E74FC0271EA752FF009BE8AD /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		E74FC0281EA75300009BE8AD /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		E752BE491FBC2AEA00AFE50D /* UIView+CYConstraintMatching.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+CYConstraintMatching.h"; sourceTree = "<group>"; };
@@ -142,8 +142,8 @@
 		E7C555A31EA734E500BA5D8C /* CYPhotoCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoCenter.m; sourceTree = "<group>"; };
 		E7C555A41EA734E500BA5D8C /* CYPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoManager.h; sourceTree = "<group>"; };
 		E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoManager.m; sourceTree = "<group>"; };
-		E7C555A71EA734E500BA5D8C /* CYAlbumModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlbumModel.h; sourceTree = "<group>"; };
-		E7C555A81EA734E500BA5D8C /* CYAlbumModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAlbumModel.m; sourceTree = "<group>"; };
+		E7C555A71EA734E500BA5D8C /* CYAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlbum.h; sourceTree = "<group>"; };
+		E7C555A81EA734E500BA5D8C /* CYAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAlbum.m; sourceTree = "<group>"; };
 		E7C555AA1EA734E500BA5D8C /* CYPhotoAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoAlbumCell.h; sourceTree = "<group>"; };
 		E7C555AB1EA734E500BA5D8C /* CYPhotoAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoAlbumCell.m; sourceTree = "<group>"; };
 		E7C555AC1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBottomCollectionViewCell.h; sourceTree = "<group>"; };
@@ -376,10 +376,10 @@
 		E7C555A61EA734E500BA5D8C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E7C555A71EA734E500BA5D8C /* CYAlbumModel.h */,
-				E7C555A81EA734E500BA5D8C /* CYAlbumModel.m */,
-				E74966AB1FA039600074408B /* CYAssetModel.h */,
-				E74966AC1FA039600074408B /* CYAssetModel.m */,
+				E7C555A71EA734E500BA5D8C /* CYAlbum.h */,
+				E7C555A81EA734E500BA5D8C /* CYAlbum.m */,
+				E74966AB1FA039600074408B /* CYAsset.h */,
+				E74966AC1FA039600074408B /* CYAsset.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -675,7 +675,7 @@
 				E752BE511FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.m in Sources */,
 				E7C555DB1EA734E500BA5D8C /* CYPhotoPicker.m in Sources */,
 				E7C555CC1EA734E500BA5D8C /* CYPhotoAlbumListController.m in Sources */,
-				E7C555D31EA734E500BA5D8C /* CYAlbumModel.m in Sources */,
+				E7C555D31EA734E500BA5D8C /* CYAlbum.m in Sources */,
 				E752BE541FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m in Sources */,
 				E752BE4E1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m in Sources */,
 				E7BB58DA1FB159B00026BFD9 /* CYPhotoBottomView.m in Sources */,
@@ -686,7 +686,7 @@
 				E7C555D71EA734E500BA5D8C /* CYPhotoBrowserCell.m in Sources */,
 				E79864881D17CD020074F8D2 /* ViewController.m in Sources */,
 				E7C555C91EA734E500BA5D8C /* UIView+CY_1pxLine.m in Sources */,
-				E74966AD1FA039600074408B /* CYAssetModel.m in Sources */,
+				E74966AD1FA039600074408B /* CYAsset.m in Sources */,
 				E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */,
 				E7C555C81EA734E500BA5D8C /* UIImage+CYCutDown.m in Sources */,
 				E7C555D41EA734E500BA5D8C /* CYPhotoAlbumCell.m in Sources */,

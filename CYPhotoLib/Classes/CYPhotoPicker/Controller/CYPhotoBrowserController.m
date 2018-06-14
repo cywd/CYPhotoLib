@@ -16,6 +16,7 @@
 #import "UIView+CYAnimation.h"
 #import "CYPhotoCenter.h"
 #import "UIView+CYConstraintMatching.h"
+#import "CYAsset.h"
 
 static CGFloat CELL_ROW = 4;
 static CGFloat CELL_MARGIN = 5.0;
@@ -57,7 +58,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 @property (nonatomic , strong) CYPhotoBrowserFooter *footerView;
 
-@property (nonatomic, strong) NSArray *dataSource;
+@property (nonatomic, strong) NSArray<CYAsset *> *dataSource;
 
 @end
 
@@ -89,7 +90,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     [self setupUI];
     
-    [self loadAssetData];
+    self.dataSource = self.assets;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
@@ -226,21 +227,21 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     if (collectionView == self.toolBarThumbCollectionView) {
     
         NSMutableArray *arr = [CYPhotoCenter shareCenter].selectedPhotos;
-        PHAsset *asset = arr[indexPath.item];
+        CYAsset *asset = arr[indexPath.item];
         
         CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:_identifier forIndexPath:indexPath];
         
         cell.indexPath = indexPath;
         cell.asset = asset;
         
-        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(cell.bounds.size.width * 2, cell.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
+        [[CYPhotoManager manager] fetchImageInAsset:asset.asset size:CGSizeMake(cell.bounds.size.width * 2, cell.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
             
             cell.imageView.image = image;
         }];
         
         __weak typeof(self)weakSelf = self;
         
-        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, PHAsset *ast) {
+        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, CYAsset *ast) {
             __strong typeof(self)strongSelf = weakSelf;
             [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
             
@@ -258,7 +259,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     } else {
         CYPhotoBrowserCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"browserCell" forIndexPath:indexPath];
         
-        cell.asset = self.dataSource[indexPath.item];
+        cell.asset = self.dataSource[indexPath.item].asset;
         
         cell.singleSelBtn.hidden = !_isSingleSel;
 
@@ -379,12 +380,12 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleDone target:self action:@selector(completeClick:)];
 }
 
-- (void)loadAssetData {
-    
-    [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO completion:^(NSArray<PHAsset *> *assets) {
-        self.dataSource = assets;
-    }];
-}
+//- (void)loadAssetData {
+//
+//    [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO completion:^(NSArray<PHAsset *> *assets) {
+//        self.dataSource = assets;
+//    }];
+//}
 
 - (void)refreshBottomView {
     
@@ -593,13 +594,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         _toolBarThumbCollectionView = toolBarThumbCollectionView;
     }
     return _toolBarThumbCollectionView;
-}
-
-- (NSArray *)dataSource {
-    if (!_dataSource) {
-        _dataSource = [NSArray array];
-    }
-    return _dataSource;
 }
 
 #pragma mark - receive and dealloc

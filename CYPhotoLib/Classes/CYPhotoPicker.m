@@ -8,13 +8,14 @@
 
 #import "CYPhotoPicker.h"
 #import "CYPhotoHeader.h"
-#import "CYAlbumModel.h"
+#import "CYAlbum.h"
 #import "CYPhotoNavigationViewController.h"
 #import "CYPhotoCommon.h"
 #import "CYPhotoAlbumListController.h"
 #import "CYPhotoBrowserController.h"
 #import "CYPhotoCenter.h"
 #import "CYPhotoManager.h"
+#import "CYAsset.h"
 
 @interface CYPhotoPicker()
 
@@ -29,7 +30,7 @@
     [[CYPhotoCenter shareCenter] clearInfos];
 }
 
-- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel isPushToCameraRoll:(BOOL)isPushToCameraRoll handle:(void(^)(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets))handle {
+- (void)showInSender:(UIViewController *)sender isSingleSel:(BOOL)isSingleSel isPushToCameraRoll:(BOOL)isPushToCameraRoll handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle {
 
     [CYPhotoCenter shareCenter].maxSelectedCount = self.maxSelectedCount;
     [CYPhotoCenter shareCenter].minSelectedCount = self.minSelectedCount;
@@ -40,8 +41,9 @@
         
         CYPhotoAlbumListController * albumsList = [[CYPhotoAlbumListController alloc] init];
         
-        [[CYPhotoManager manager] fetchAllAlbums:^(NSArray<CYAlbumModel *> *array) {
-            albumsList.assetCollections = array;
+        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<CYAlbum *> *albumsArray) {
+            
+            albumsList.assetCollections = albumsArray;
         }];
         albumsList.isSingleSel = isSingleSel;
         
@@ -52,12 +54,12 @@
         nav.navigationItem.backBarButtonItem.title = @"照片";
        
         if (isPushToCameraRoll) {
-            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES completion:^(CYAlbumModel *model) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES completion:^(CYAlbum *model) {
                 
                 CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
                 browser.isSingleSel = isSingleSel;
                 browser.info = model;
-                browser.assetCollection = model.assetCollection;
+                browser.assets = model.assets;
                 browser.collectionTitle = model.name;
                 [albumsList.navigationController pushViewController:browser animated:NO];
             }];

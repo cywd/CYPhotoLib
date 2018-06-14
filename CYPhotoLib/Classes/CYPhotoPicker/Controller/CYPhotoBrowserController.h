@@ -8,13 +8,14 @@
 
 #import "CYPhotoBaseController.h"
 @class PHAssetCollection;
-@class CYAlbumModel;
+@class CYAlbum;
+@class CYAsset;
 
 @interface CYPhotoBrowserController : CYPhotoBaseController
 
-@property (nonatomic, strong) CYAlbumModel *info;
+@property (nonatomic, strong) CYAlbum *info;
 @property (nonatomic, copy) NSString * collectionTitle;
-@property (nonatomic, strong) PHAssetCollection * assetCollection;
+@property (nonatomic, strong) NSArray<CYAsset *> *assets;
 @property (nonatomic, assign) BOOL isSingleSel;
 
 @end

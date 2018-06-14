@@ -7,7 +7,7 @@
 //
 
 #import "CYPhotoAlbumCell.h"
-#import "CYAlbumModel.h"
+#import "CYAlbum.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHeader.h"
 
@@ -20,7 +20,7 @@
 @end
 
 @implementation CYPhotoAlbumCell
-- (void)setInfo:(CYAlbumModel *)info {
+- (void)setInfo:(CYAlbum *)info {
     _info = info;
     
     [[CYPhotoManager manager] fetchImageInAsset:info.coverAsset size:CGSizeMake(120, 120) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {

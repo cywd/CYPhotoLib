@@ -113,7 +113,7 @@ static dispatch_once_t onceToken;
  }
  */
 #pragma mark - Album相关
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(CYAlbumModel *model))completion {
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(CYAlbum *model))completion {
     
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:NO ascending:YES];
     
@@ -127,14 +127,17 @@ static dispatch_once_t onceToken;
             PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             
             // 创建此相册的信息集
-            CYAlbumModel * model = [CYAlbumModel cy_AlbumInfoFromResult:fetchResult collection:collection];
+            CYAlbum * model = [CYAlbum cy_AlbumInfoFromResult:fetchResult collection:collection];
             if (completion) completion(model);
         }
     }
 }
 
-- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *albumsArray))completion {
+- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion {
     NSMutableArray *albumsArray = [NSMutableArray array];
+    
+    PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:NO ascending:YES];
+    
     // 列出并加入所有智能相册 系统相册
     PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
@@ -146,11 +149,15 @@ static dispatch_once_t onceToken;
     for (PHFetchResult *fetchResult in allAlbums) {
         for (PHAssetCollection *collection in fetchResult) {
             if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
-            PHFetchResult *result = [self fetchResultInCollection:collection asending:NO];
+            // 过滤空相册
+            if (collection.estimatedAssetCount <= 0) continue;
+            PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             if (result.count < 1) continue;
             
-            CYAlbumModel * info = [CYAlbumModel cy_AlbumInfoFromResult:result collection:collection];
-            
+            if ([collection.localizedTitle containsString:@"Hidden"] || [collection.localizedTitle isEqualToString:@"已隐藏"]) continue;
+            if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
+
+            CYAlbum * info = [CYAlbum cy_AlbumInfoFromResult:result collection:collection];
             if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
                 [albumsArray insertObject:info atIndex:0];
             } else {
@@ -161,6 +168,7 @@ static dispatch_once_t onceToken;
     
     if (completion) completion(albumsArray);
 }
+
 
 - (PHFetchOptions *)optionsAllowPickingVideo:(BOOL)isAllowPickingVideo allowPickingImage:(BOOL)isAllowPickingImage sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending {
     
@@ -180,6 +188,31 @@ static dispatch_once_t onceToken;
     }
     
     return options;
+}
+
+- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAsset *> *array))completion {
+    NSMutableArray *assets = [NSMutableArray array];
+    [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CYAsset *model = [self assetModelWithAsset:obj allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
+        
+        if (model) {
+            [assets addObject:model];
+        }
+    }];
+    if (completion) completion(assets);
+    
+}
+
+- (CYAsset *)assetModelWithAsset:(PHAsset *)asset allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage {
+    
+    PHAssetMediaType type = asset.mediaType;
+
+    if (!allowPickingVideo && type == PHAssetMediaTypeVideo) return nil;
+    if (!allowPickingImage && type == PHAssetMediaTypeImage) return nil;
+ 
+    CYAsset *model = [CYAsset modelWithAsset:asset];
+    
+    return model;
 }
 
 /** 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO */
@@ -424,13 +457,13 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSMutableArray<PHAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock {
+- (void)fetchImagesWithAssetsArray:(NSMutableArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock {
     
     NSMutableArray * images = [NSMutableArray array];
     
     for (int i = 0; i < assetsArray.count; i ++) {
         
-        PHAsset * asset = assetsArray[i];
+        PHAsset * asset = assetsArray[i].asset;
         CGSize size;
         
         if (isOriginal) {

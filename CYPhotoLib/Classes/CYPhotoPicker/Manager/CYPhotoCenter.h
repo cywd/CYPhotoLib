@@ -11,6 +11,7 @@
 
 @class PHAsset;
 @class UIImage;
+@class CYAsset;
 
 @interface CYPhotoCenter : NSObject
 
@@ -34,7 +35,7 @@
 /**
  *  选择的图片
  */
-@property (nonatomic, strong) NSMutableArray <PHAsset *> * selectedPhotos;
+@property (nonatomic, strong) NSMutableArray <CYAsset *> * selectedPhotos;
 
 /**
  *  选择完毕回调

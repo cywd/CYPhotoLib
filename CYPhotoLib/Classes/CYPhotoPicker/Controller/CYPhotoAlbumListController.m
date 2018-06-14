@@ -10,7 +10,7 @@
 #import "CYPhotoHeader.h"
 #import "CYPhotoAlbumCell.h"
 #import "CYPhotoBrowserController.h"
-#import "CYAlbumModel.h"
+#import "CYAlbum.h"
 #import "CYPhotoCenter.h"
 
 @interface CYPhotoAlbumListController ()<UITableViewDataSource, UITableViewDelegate>
@@ -66,10 +66,10 @@
     
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     browser.isSingleSel = self.isSingleSel;
-    CYAlbumModel *info = self.assetCollections[indexPath.row];
+    CYAlbum *info = self.assetCollections[indexPath.row];
     
     browser.info = info;
-    browser.assetCollection = info.assetCollection;
+    browser.assets = info.assets;
     browser.collectionTitle = info.name;
 //    browser.collectionTitle = NSLocalizedString(info.albumName, @"");
     [self.navigationController pushViewController:browser animated:YES];

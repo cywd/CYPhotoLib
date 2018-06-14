@@ -8,7 +8,8 @@
 // 负责管理与Photo 相关的内容
 
 #import <Foundation/Foundation.h>
-#import "CYAlbumModel.h"
+#import "CYAlbum.h"
+#import "CYAsset.h"
 
 @interface CYPhotoManager : NSObject
 
@@ -43,14 +44,15 @@
  @param allowPickingImage 是否允许选择image
  @param completion 回调相册model
  */
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(CYAlbumModel *model))completion;
-
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(CYAlbum *model))completion;
 /**
  获取所有相册model的数组
 
+ @param allowPickingVideo 是否允许选择video
+ @param allowPickingImage 是否允许选择image
  @param completion 回调所有相册model的数组
  */
-- (void)fetchAllAlbums:(void (^)(NSArray<CYAlbumModel *> *albumsArray))completion;
+- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion;
 
 #pragma mark - Asset 相关
 /** 获取所有相册图片资源 */
@@ -61,6 +63,8 @@
 - (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock;
 /** 本地是否有这个Asset */
 - (BOOL)isInLocalAlbumWithAsset:(PHAsset *)asset;
+
+- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAsset *> *array))completion;
 
 #pragma mark - Image 相关
 /** 获取资源对应的图片 */

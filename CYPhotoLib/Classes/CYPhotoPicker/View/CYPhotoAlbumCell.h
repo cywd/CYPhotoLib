@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class CYAlbumModel;
+@class CYAlbum;
 
 @interface CYPhotoAlbumCell : UITableViewCell
 
-@property (nonatomic, strong) CYAlbumModel *info;
+@property (nonatomic, strong) CYAlbum *info;
 
 @end

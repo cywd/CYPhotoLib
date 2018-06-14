@@ -1,24 +1,35 @@
 //
-//  CYAlbumModel.m
+//  CYAlbum.m
 //  PhotoLibDemo
 //
 //  Created by Cyrill on 16/7/18.
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "CYAlbumModel.h"
+#import "CYAlbum.h"
+#import "CYPhotoManager.h"
 
-@implementation CYAlbumModel
+@implementation CYAlbum
 
 + (instancetype)cy_AlbumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection {
-    CYAlbumModel *albumInfo = [[CYAlbumModel alloc] init];
+    CYAlbum *albumInfo = [[CYAlbum alloc] init];
     albumInfo.albumId = collection.localIdentifier;
     albumInfo.name = collection.localizedTitle;
     albumInfo.count = result.count;
-    albumInfo.result = result;
+    [albumInfo setResult:result needFetchAssets:YES];
     albumInfo.coverAsset = result[0];
     albumInfo.assetCollection = collection;
     return albumInfo;
+}
+
+- (void)setResult:(PHFetchResult *)result needFetchAssets:(BOOL)needFetchAssets {
+    _result = result;
+    
+    if (needFetchAssets) {
+        [[CYPhotoManager manager] fetchAssetsFromFetchResult:result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<CYAsset *> *array) {
+            self.assets = array;
+        }];
+    }
 }
 
 - (PHAsset *)assetOfIndex:(NSInteger)index {
