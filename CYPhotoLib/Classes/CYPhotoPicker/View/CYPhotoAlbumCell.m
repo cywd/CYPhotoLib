@@ -29,7 +29,8 @@
     }];
     self.albumName.text = info.name;
     //    cell.albumName.text = NSLocalizedString(info.albumName, @"");
-    self.albumCount.text = [NSString stringWithFormat:@"(%zi)",info.count];
+    
+    self.albumCount.text = @(info.count).stringValue;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {

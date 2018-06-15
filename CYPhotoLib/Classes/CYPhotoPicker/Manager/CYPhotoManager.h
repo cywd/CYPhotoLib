@@ -72,7 +72,7 @@
 /** 通过localIdentifier获取资源对应的image */
 - (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
 /** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSMutableArray<PHAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock;
+- (void)fetchImagesWithAssetsArray:(NSMutableArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock;
 
 #pragma mark - ImageData 相关
 /** 通过localIdentifier获取资源对应的原图data */

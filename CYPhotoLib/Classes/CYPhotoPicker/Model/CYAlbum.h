@@ -11,9 +11,7 @@
 
 @class CYAsset;
 
-/**
- 相册model
- */
+/** 相册model */
 @interface CYAlbum : NSObject
 
 /** 相册id */

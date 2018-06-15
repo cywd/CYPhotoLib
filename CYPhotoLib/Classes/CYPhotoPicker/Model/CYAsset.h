@@ -44,11 +44,14 @@ typedef NS_ENUM(NSUInteger, CYAssetMassStatus) {
 };
 
 
+/** 自定义Asset */
 @interface CYAsset : NSObject
 
+/** 原始asset */
 @property (nonatomic, strong) PHAsset *asset;
-
+/** 按照给定标准所处于的类型 */
 @property (nonatomic, assign) CYAssetMassType massType;
+/** 显示的状态 */
 @property (nonatomic, assign) CYAssetMassStatus massStatus;
 
 + (instancetype)modelWithAsset:(PHAsset *)asset;
