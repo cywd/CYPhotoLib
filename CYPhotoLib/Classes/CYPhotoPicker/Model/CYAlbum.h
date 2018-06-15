@@ -28,7 +28,7 @@
 
 @property (nonatomic, strong) NSArray<CYAsset *> *assets;
 
-+ (instancetype)cy_AlbumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection;
++ (instancetype)cy_AlbumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection needFetchAssets:(BOOL)needFetchAssets;
 
 - (PHAsset *)assetOfIndex:(NSInteger)index;
 - (void)stopICloudActivity;

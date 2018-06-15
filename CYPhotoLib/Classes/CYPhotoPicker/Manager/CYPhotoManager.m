@@ -113,7 +113,7 @@ static dispatch_once_t onceToken;
  }
  */
 #pragma mark - Album相关
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(CYAlbum *model))completion {
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets completion:(void (^)(CYAlbum *model))completion {
     
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:NO ascending:YES];
     
@@ -127,13 +127,13 @@ static dispatch_once_t onceToken;
             PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             
             // 创建此相册的信息集
-            CYAlbum * model = [CYAlbum cy_AlbumInfoFromResult:fetchResult collection:collection];
+            CYAlbum * model = [CYAlbum cy_AlbumInfoFromResult:fetchResult collection:collection needFetchAssets:needFetchAssets];
             if (completion) completion(model);
         }
     }
 }
 
-- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion {
+- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion {
     NSMutableArray *albumsArray = [NSMutableArray array];
     
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:NO ascending:YES];
@@ -157,11 +157,11 @@ static dispatch_once_t onceToken;
             if ([collection.localizedTitle containsString:@"Hidden"] || [collection.localizedTitle isEqualToString:@"已隐藏"]) continue;
             if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
 
-            CYAlbum * info = [CYAlbum cy_AlbumInfoFromResult:result collection:collection];
+            CYAlbum *album = [CYAlbum cy_AlbumInfoFromResult:result collection:collection needFetchAssets:needFetchAssets];
             if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-                [albumsArray insertObject:info atIndex:0];
+                [albumsArray insertObject:album atIndex:0];
             } else {
-                [albumsArray addObject:info];
+                [albumsArray addObject:album];
             }
         }
     }
@@ -188,6 +188,10 @@ static dispatch_once_t onceToken;
     }
     
     return options;
+}
+
+- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYAsset *> *array))completion {
+    [self fetchAssetsFromFetchResult:fetchResult allowPickingVideo:NO allowPickingImage:YES completion:completion];
 }
 
 - (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAsset *> *array))completion {
@@ -232,7 +236,7 @@ static dispatch_once_t onceToken;
     }
     // 获取所有相册资源合集
     else {
-//        option.includeAssetSourceTypes = PHAssetSourceTypeNone;
+        //        option.includeAssetSourceTypes = PHAssetSourceTypeNone;
         // 这里获取的是所有的资源合集?
         result = [PHAsset fetchAssetsWithOptions:options];
         
@@ -457,13 +461,20 @@ static dispatch_once_t onceToken;
 }
 
 /** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSMutableArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock {
+- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock {
     
     NSMutableArray * images = [NSMutableArray array];
     
-    for (int i = 0; i < assetsArray.count; i ++) {
+    NSMutableArray *assets = [NSMutableArray array];
+    
+    for (int i = 0; i < assetsArray.count; i++) {
         
-        PHAsset * asset = assetsArray[i].asset;
+        [assets addObject:assetsArray[i].asset];
+    }
+    
+    for (int i = 0; i < assets.count; i++) {
+        
+        PHAsset * asset = assets[i];
         CGSize size;
         
         if (isOriginal) {
@@ -506,7 +517,7 @@ static dispatch_once_t onceToken;
                 [images addObject:image];
                 
                 //全部图片读取完毕
-                if (images.count == assetsArray.count) {
+                if (images.count == assets.count) {
                     
                     //执行block
                     if (completeBlock) completeBlock(images);

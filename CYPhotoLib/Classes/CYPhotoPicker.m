@@ -41,7 +41,7 @@
         
         CYPhotoAlbumListController * albumsList = [[CYPhotoAlbumListController alloc] init];
         
-        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<CYAlbum *> *albumsArray) {
+        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:YES completion:^(NSArray<CYAlbum *> *albumsArray) {
             
             albumsList.assetCollections = albumsArray;
         }];
@@ -54,7 +54,7 @@
         nav.navigationItem.backBarButtonItem.title = @"照片";
        
         if (isPushToCameraRoll) {
-            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES completion:^(CYAlbum *model) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:YES completion:^(CYAlbum *model) {
                 
                 CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
                 browser.isSingleSel = isSingleSel;

@@ -11,12 +11,12 @@
 
 @implementation CYAlbum
 
-+ (instancetype)cy_AlbumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection {
++ (instancetype)cy_AlbumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection needFetchAssets:(BOOL)needFetchAssets {
     CYAlbum *albumInfo = [[CYAlbum alloc] init];
     albumInfo.albumId = collection.localIdentifier;
     albumInfo.name = collection.localizedTitle;
     albumInfo.count = result.count;
-    [albumInfo setResult:result needFetchAssets:YES];
+    [albumInfo setResult:result needFetchAssets:needFetchAssets];
     albumInfo.coverAsset = result[0];
     albumInfo.assetCollection = collection;
     return albumInfo;

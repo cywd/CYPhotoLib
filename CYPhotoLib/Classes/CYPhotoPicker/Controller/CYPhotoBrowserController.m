@@ -262,8 +262,15 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         cell.asset = self.dataSource[indexPath.item].asset;
         
         cell.singleSelBtn.hidden = !_isSingleSel;
+        
+        BOOL isContent = NO;
+        for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
+            if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
+                isContent = YES;
+            }
+        }
 
-        cell.selBtn.selected = [[CYPhotoCenter shareCenter].selectedPhotos containsObject:self.dataSource[indexPath.item]];
+        cell.selBtn.selected = isContent;
         
         __weak typeof(cell) weakCell = cell;
         __weak typeof(self) weakSelf = self;
