@@ -468,7 +468,7 @@ static dispatch_once_t onceToken;
     NSMutableArray *assets = [NSMutableArray array];
     
     for (int i = 0; i < assetsArray.count; i++) {
-        
+
         [assets addObject:assetsArray[i].asset];
     }
     

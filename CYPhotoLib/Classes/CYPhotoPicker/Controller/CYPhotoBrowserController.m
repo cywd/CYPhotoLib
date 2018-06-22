@@ -246,11 +246,21 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
             [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
             
             // delete 刷新
-            if ([strongSelf.dataSource containsObject:ast]) {
-                NSInteger ind = [strongSelf.dataSource indexOfObject:ast];
-                NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
-                [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
+//            BOOL isContent = NO;
+            for (CYAsset *model in strongSelf.dataSource) {
+                if ([model.asset.localIdentifier isEqualToString:ast.asset.localIdentifier]) {
+//                    isContent = YES;
+                    
+                    NSInteger ind = [strongSelf.dataSource indexOfObject:model];
+                    NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
+                    [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
+                }
             }
+//            if (isContent) {
+//                NSInteger ind = [strongSelf.dataSource indexOfObject:ast];
+//                NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
+//                [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
+//            }
             
             [strongSelf refreshBottomView];
         }];
