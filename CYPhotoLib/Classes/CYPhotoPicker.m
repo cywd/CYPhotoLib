@@ -54,13 +54,20 @@
         nav.navigationItem.backBarButtonItem.title = @"照片";
        
         if (isPushToCameraRoll) {
-            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:YES completion:^(CYAlbum *model) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO completion:^(CYAlbum *model) {
+                
+                CYAlbum *album;
+                for (CYAlbum *mm in albumsList.assetCollections) {
+                    if ([model.albumId isEqualToString:mm.albumId]) {
+                        album = mm;
+                    }
+                }
                 
                 CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
                 browser.isSingleSel = isSingleSel;
-                browser.info = model;
-                browser.assets = model.assets;
-                browser.collectionTitle = model.name;
+                browser.info = album;
+                browser.assets = album.assets;
+                browser.collectionTitle = album.name;
                 [albumsList.navigationController pushViewController:browser animated:NO];
             }];
         }

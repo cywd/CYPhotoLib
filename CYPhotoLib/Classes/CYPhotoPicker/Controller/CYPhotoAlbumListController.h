@@ -7,10 +7,11 @@
 //
 
 #import "CYPhotoBaseController.h"
+@class CYAlbum;
 
 @interface CYPhotoAlbumListController : CYPhotoBaseController
 
-@property (nonatomic, strong) NSArray *assetCollections;  // 相册列表
+@property (nonatomic, strong) NSArray<CYAlbum *> *assetCollections;  // 相册列表
 @property (nonatomic, assign) BOOL isSingleSel;
 
 @end
