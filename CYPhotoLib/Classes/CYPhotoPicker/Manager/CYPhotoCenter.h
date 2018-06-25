@@ -57,7 +57,7 @@
 /**
  *  获取相机权限
  */
-- (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle;
+- (void)cameraAuthoriationValidWithHandler:(void(^)(void))handler;
 
 /**
  *  判断是否达到最大选择数

@@ -34,7 +34,7 @@
 
  @param handle 回调
  */
-+ (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle;
++ (void)cameraAuthoriationValidWithHandler:(void(^)(void))handler;
 
 #pragma mark - Album 相关
 /**
@@ -56,9 +56,10 @@
 
 #pragma mark - Asset 相关
 /** 获取所有相册图片资源 */
-- (void)fetchAllAssets:(void (^)(NSArray<PHAsset *> *))completion;
+
 /** 获取指定相册图片资源 */
-- (void)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending completion:(void (^)(NSArray<PHAsset *> *))completion;
+
+
 /** 根据localIdentifier获取资源对应的asset */
 - (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock;
 /** 本地是否有这个Asset */

@@ -33,13 +33,6 @@
     [self requestPhotoLibaryAuthorizationValid];
 }
 
-- (void)reloadPhotos {
-    [[CYPhotoManager manager] fetchAllAssets:^(NSArray<PHAsset *> *assets) {
-        self.allPhotos = assets;
-    }];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:CYPHOTOLIB_PhotoLibraryChangeNotification object:nil];
-}
-
 #pragma mark - 完成图片选择
 - (void)endPickWithImage:(UIImage *)cameraPhoto {
     if (self.handle) self.handle(@[cameraPhoto]);
@@ -89,7 +82,7 @@
 #pragma mark - 监听图片变化代理
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
     // 此代理方法里的线程非主线程
-    [self reloadPhotos];
+    
 }
 
 #pragma mark - 权限验证
@@ -100,7 +93,7 @@
 - (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)(void))authorizedBlock denied:(void (^)(void))deniedBlock restricted:(void (^)(void))restrictedBlock elseBlock:(void(^)(void))elseBlock {
     
     [CYPhotoManager requestPhotoLibaryAuthorizationValidAuthorized:^{
-        [self reloadPhotos];
+//        [self reloadPhotos];
         
         if (authorizedBlock) authorizedBlock();
     } denied:^{
@@ -112,8 +105,8 @@
     }];
 }
 
-- (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle {
-    [CYPhotoManager cameraAuthoriationValidWithHandle:handle];
+- (void)cameraAuthoriationValidWithHandler:(void(^)(void))handler {
+    [CYPhotoManager cameraAuthoriationValidWithHandler:handler];
 }
 
 - (void)dealloc {

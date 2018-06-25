@@ -58,20 +58,20 @@ static dispatch_once_t onceToken;
     }
 }
 
-+ (void)cameraAuthoriationValidWithHandle:(void(^)(void))handle {
++ (void)cameraAuthoriationValidWithHandler:(void(^)(void))handler {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (status == AVAuthorizationStatusNotDetermined) {
         // 还未授权
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
             if (granted) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (handle) handle();
+                    if (handler) handler();
                 });
             }
         }];
     } else if (status == AVAuthorizationStatusAuthorized) {
         // 已经授权
-        if (handle) handle();
+        if (handler) handler();
     } else if (status == AVAuthorizationStatusRestricted) {
         // 家长模式
         NSLog(@"PHAuthorizationStatusRestricted - 家长控制,不允许访问");
@@ -169,7 +169,6 @@ static dispatch_once_t onceToken;
     if (completion) completion(albumsArray);
 }
 
-
 - (PHFetchOptions *)optionsAllowPickingVideo:(BOOL)isAllowPickingVideo allowPickingImage:(BOOL)isAllowPickingImage sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending {
     
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
@@ -190,6 +189,8 @@ static dispatch_once_t onceToken;
     return options;
 }
 
+#pragma mark - Asset
+
 - (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYAsset *> *array))completion {
     [self fetchAssetsFromFetchResult:fetchResult allowPickingVideo:NO allowPickingImage:YES completion:completion];
 }
@@ -198,13 +199,11 @@ static dispatch_once_t onceToken;
     NSMutableArray *assets = [NSMutableArray array];
     [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         CYAsset *asset = [self assetModelWithAsset:obj allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
-        
         if (asset) {
             [assets addObject:asset];
         }
     }];
     if (completion) completion(assets);
-    
 }
 
 - (CYAsset *)assetModelWithAsset:(PHAsset *)asset allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage {
@@ -217,65 +216,6 @@ static dispatch_once_t onceToken;
     CYAsset *model = [CYAsset modelWithAsset:asset];
     
     return model;
-}
-
-/** 获取（指定相册）或者（所有相册）资源的合集，并按资源的创建时间进行排序 YES  倒序 NO */
-- (PHFetchResult *)fetchResultInCollection:(PHAssetCollection *)collection asending:(BOOL)asending {
-    
-    PHFetchOptions *options = [[PHFetchOptions alloc] init];
-    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:asending]];
-    // 一个过滤器，留下的类型，图片格式
-    options.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
-    
-    PHFetchResult *result;
-    // 获取指定相册资源合集
-    if (collection) {
-        
-        result = [PHAsset fetchAssetsInAssetCollection:collection options:options];
-        
-    }
-    // 获取所有相册资源合集
-    else {
-        //        option.includeAssetSourceTypes = PHAssetSourceTypeNone;
-        // 这里获取的是所有的资源合集?
-        result = [PHAsset fetchAssetsWithOptions:options];
-        
-    }
-    return result;
-}
-
-/** 获取所有相册图片资源 */
-- (void)fetchAllAssets:(void (^)(NSArray<PHAsset *> *))completion {
-    [self fetchAssetsInCollection:nil asending:NO completion:completion];
-}
-
-/** 获取指定相册图片资源 */
-- (void)fetchAssetsInCollection:(PHAssetCollection *)collection asending:(BOOL)asending completion:(void (^)(NSArray<PHAsset *> *))completion {
-    NSMutableArray<PHAsset *> *list = [NSMutableArray array];
-    
-    PHFetchResult *result;
-    
-    if (collection) {
-        result = [self fetchResultInCollection:collection asending:asending];
-    }
-    // 获取所有相册资源
-    else {
-        
-        result = [self fetchResultInCollection:nil asending:asending];
-    }
-    // 枚举添加到数组
-    [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [list addObject:obj];
-    }];
-    
-    // 缓存
-//    PHCachingImageManager *cachingImageManager = [[PHCachingImageManager alloc] init];
-//    [cachingImageManager startCachingImagesForAssets:list
-//                                          targetSize:PHImageManagerMaximumSize
-//                                         contentMode:PHImageContentModeAspectFit
-//                                             options:nil];
-
-    if (completion) completion(list);
 }
 
 /** 根据localid获取资源对应的asset */
@@ -300,7 +240,7 @@ static dispatch_once_t onceToken;
     return isInLocalAlbum;
 }
 
-#pragma mark - Image相关 
+#pragma mark - Image相关
 
 /** 获取资源对应的图片 */
 - (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock {
@@ -422,8 +362,47 @@ static dispatch_once_t onceToken;
     return imageRequestID;
 }
 
+/// 获取原图
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
+    option.networkAccessAllowed = YES;
+    option.resizeMode = PHImageRequestOptionsResizeModeNone;
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage *result, NSDictionary *info) {
+        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
+        if (downloadFinined && result) {
+//            result = [self fixOrientation:result];
+            BOOL isDegraded = [[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+            if (completion) completion(result, info, isDegraded);
+        }
+    }];
+}
+
+/// 获取原图data
+- (void)fetchOriginalImageDataWithAsset:(PHAsset *)asset completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.networkAccessAllowed = YES;
+    options.version = PHImageRequestOptionsVersionCurrent;
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
+        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
+        if (downloadFinined && imageData) {
+            if (completion) completion(imageData, info, NO);
+        }
+    }];
+}
+
+/// 根据id获取原图data
+- (void)fetchOriginalImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completeBlock {
+    
+    __weak typeof(self) weakSelf = self;
+    [self fetchAssetWithLocalIdentifier:localIdentifier completeBlock:^(PHAsset *asset) {
+        [weakSelf fetchOriginalImageDataWithAsset:asset completion:completeBlock];
+    }];
+}
+
+
 /** 获取资源对应的原图大小 */
-- (void)fetchImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock {
+- (void)fetchImageDataLength:(PHAsset *)asset completeBlock:(void (^)(CGFloat length))completeBlock {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
@@ -439,6 +418,8 @@ static dispatch_once_t onceToken;
         if (completeBlock) completeBlock(imageData.length / 1000.0);
     }];
 }
+
+
 
 - (void)fetchImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock {
     
@@ -525,6 +506,90 @@ static dispatch_once_t onceToken;
             }
         }];
     }
+}
+
+- (CGSize)photoSizeWithAsset:(PHAsset *)asset {
+    return CGSizeMake(asset.pixelWidth, asset.pixelHeight);
+}
+
+#pragma mark - private
+
+/// 修正图片转向
+- (UIImage *)fixOrientation:(UIImage *)aImage {
+    
+    // No-op if the orientation is already correct
+    if (aImage.imageOrientation == UIImageOrientationUp)
+        return aImage;
+    
+    // We need to calculate the proper transformation to make the image upright.
+    // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+            
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
+            
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        default:
+            break;
+    }
+    
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+            
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        default:
+            break;
+    }
+    
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGContextRef ctx = CGBitmapContextCreate(NULL, aImage.size.width, aImage.size.height,
+                                             CGImageGetBitsPerComponent(aImage.CGImage), 0,
+                                             CGImageGetColorSpace(aImage.CGImage),
+                                             CGImageGetBitmapInfo(aImage.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            // Grr...
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.height,aImage.size.width), aImage.CGImage);
+            break;
+            
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.width,aImage.size.height), aImage.CGImage);
+            break;
+    }
+    
+    // And now we just create a new UIImage from the drawing context
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+    UIImage *img = [UIImage imageWithCGImage:cgimg];
+    CGContextRelease(ctx);
+    CGImageRelease(cgimg);
+    return img;
 }
 
 @end
