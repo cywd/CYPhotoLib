@@ -242,6 +242,69 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Image相关
 
+- (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion {
+    return [self fetchImageWithAsset:asset photoWidth:photoWidth completion:completion progressHandler:nil networkAccessAllowed:YES];
+}
+
+- (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+    CGSize imageSize;
+    CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
+    CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale * 1.5;
+    // 超宽图片
+    if (aspectRatio > 1.8) {
+        pixelWidth = pixelWidth * aspectRatio;
+    }
+    // 超高图片
+    if (aspectRatio < 0.2) {
+        pixelWidth = pixelWidth * 0.5;
+    }
+    CGFloat pixelHeight = pixelWidth / aspectRatio;
+    imageSize = CGSizeMake(pixelWidth, pixelHeight);
+    
+    __block UIImage *image;
+    
+    // 修复获取图片时出现的瞬间内存过高问题
+    // 下面两行代码，来自hsjcom，他的github是：https://github.com/hsjcom 表示感谢
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        if (result) {
+            image = result;
+        }
+        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
+        
+        // 不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
+        // && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]
+        if (downloadFinined && result) {
+            if (completion) completion(result, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+        }
+        // Download image from iCloud / 从iCloud下载图片
+        if ([info objectForKey:PHImageResultIsInCloudKey] && !result &&  networkAccessAllowed) {
+            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+            options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"%f", progress);
+                    if (progressHandler) {
+                        progressHandler(progress, error, stop, info);
+                    }
+                });
+            };
+            options.networkAccessAllowed = YES;
+            options.resizeMode = PHImageRequestOptionsResizeModeFast;
+            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+                UIImage *resultImage = [UIImage imageWithData:imageData scale:0.1];
+                //                resultImage = [self scaleImage:resultImage toSize:imageSize];
+                if (!resultImage) {
+                    resultImage = image;
+                }
+                //                    resultImage = [self fixOrientation:resultImage];
+                if (completion) completion(resultImage, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+            }];
+        }
+    }];
+    return imageRequestID;
+}
+
 /** 获取资源对应的图片 */
 - (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock {
     // 请求大图界面，当切换图片时，取消上一张图片的请求，对于iCloud端的图片，可以节省流量
@@ -302,64 +365,6 @@ static dispatch_once_t onceToken;
         [weakSelf fetchImageInAsset:asset size:size isResize:isResize completeBlock:completeBlock];
         
     }];
-}
-
-- (int32_t)getPhotoWithAsset:(id)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *photo,NSDictionary *info,BOOL isDegraded))completion {
-    
-    return [self getPhotoWithAsset:asset photoWidth:photoWidth completion:completion progressHandler:nil networkAccessAllowed:NO];
-    
-}
-
-- (int32_t)getPhotoWithAsset:(id)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *photo,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
-    CGSize imageSize;
-    PHAsset *phAsset = (PHAsset *)asset;
-    CGFloat aspectRatio = phAsset.pixelWidth / (CGFloat)phAsset.pixelHeight;
-    CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale * 1.5;
-    CGFloat pixelHeight = pixelWidth / aspectRatio;
-    imageSize = CGSizeMake(pixelWidth, pixelHeight);
-    
-    __block UIImage *image;
-    
-    // 修复获取图片时出现的瞬间内存过高问题
-    // 下面两行代码，来自hsjcom，他的github是：https://github.com/hsjcom 表示感谢
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option.resizeMode = PHImageRequestOptionsResizeModeFast;
-    PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        if (result) {
-            image = result;
-        }
-        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
-        
-        // 不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
-        // && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]
-        if (downloadFinined && result) {
-            if (completion) completion(result, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
-        }
-        // Download image from iCloud / 从iCloud下载图片
-        if ([info objectForKey:PHImageResultIsInCloudKey] && !result &&  networkAccessAllowed) {
-            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-            options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSLog(@"%f", progress);
-                    if (progressHandler) {
-                        progressHandler(progress, error, stop, info);
-                    }
-                });
-            };
-            options.networkAccessAllowed = YES;
-            options.resizeMode = PHImageRequestOptionsResizeModeFast;
-            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                UIImage *resultImage = [UIImage imageWithData:imageData scale:0.1];
-//                resultImage = [self scaleImage:resultImage toSize:imageSize];
-                if (!resultImage) {
-                    resultImage = image;
-                }
-//                    resultImage = [self fixOrientation:resultImage];
-                if (completion) completion(resultImage, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
-            }];
-        }
-    }];
-    return imageRequestID;
 }
 
 /// 获取原图

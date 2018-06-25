@@ -234,8 +234,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         cell.indexPath = indexPath;
         cell.asset = asset;
         
-        [[CYPhotoManager manager] fetchImageInAsset:asset.asset size:CGSizeMake(cell.bounds.size.width * 2, cell.bounds.size.height * 2) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
-            
+        [[CYPhotoManager manager] fetchImageWithAsset:asset.asset photoWidth:[UIScreen mainScreen].bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
             cell.imageView.image = image;
         }];
         

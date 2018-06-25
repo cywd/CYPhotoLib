@@ -23,8 +23,7 @@
 - (void)setInfo:(CYAlbum *)info {
     _info = info;
     
-    [[CYPhotoManager manager] fetchImageInAsset:info.coverAsset size:CGSizeMake(120, 120) isResize:YES completeBlock:^(UIImage *image, NSDictionary *info) {
-        
+    [[CYPhotoManager manager] fetchImageWithAsset:info.coverAsset photoWidth:120 completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
         self.albumCover.image = image;
     }];
     self.albumName.text = info.name;

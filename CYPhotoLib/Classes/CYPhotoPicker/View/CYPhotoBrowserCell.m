@@ -163,19 +163,19 @@
     
 //    [self showLoadingIndicator];
     
-    int32_t imageRequestID = [[CYPhotoManager manager] getPhotoWithAsset:asset photoWidth:self.bounds.size.width completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
-
+    int32_t imageRequestID = [[CYPhotoManager manager] fetchImageWithAsset:asset photoWidth:self.bounds.size.width completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+        
         if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
             self.imageIV.image = photo;
         } else {
             [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
         }
-
+        
         if (!isDegraded) {
             self.imageRequestID = 0;
         }
-    } progressHandler:nil networkAccessAllowed:false];
-
+    }];
+    
     if (imageRequestID && self.imageRequestID && imageRequestID != self.imageRequestID) {
         [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
     }
