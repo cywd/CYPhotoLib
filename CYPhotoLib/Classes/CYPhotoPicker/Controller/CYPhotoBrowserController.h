@@ -7,9 +7,9 @@
 //
 
 #import "CYPhotoBaseController.h"
-@class PHAssetCollection;
-@class CYAlbum;
+
 @class CYAsset;
+@class CYAlbum;
 
 @interface CYPhotoBrowserController : CYPhotoBaseController
 

@@ -40,9 +40,9 @@
 
 - (void)endPick {
     if (self.handle) {
-        [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:self.isOriginal completeBlock:^(NSArray *images) {
-            self.handle(images);
-        }];
+//        [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:self.isOriginal completion:^(NSArray *images) {
+//            self.handle(images);
+//        }];
     }
 }
 

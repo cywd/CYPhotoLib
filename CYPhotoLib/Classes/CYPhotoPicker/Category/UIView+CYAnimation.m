@@ -17,39 +17,39 @@
 - (void)showFromBottom {
     CGRect rect = self.frame;
     self.frame = BottomRect;
-    [self executeAnimationWithFrame:rect completeBlock:nil];
+    [self executeAnimationWithFrame:rect completion:nil];
 }
 
 #pragma mark - 底部消失动画
-- (void)dismissToBottomWithCompleteBlock:(void(^)(void))completeBlock {
-    [self executeAnimationWithFrame:BottomRect completeBlock:completeBlock];
+- (void)dismissToBottomWithcompletion:(void(^)(void))completion {
+    [self executeAnimationWithFrame:BottomRect completion:completion];
 }
 
 #pragma mark - 背景浮现动画
 - (void)emerge {
     self.alpha = 0.0;
-    [self executeAnimationWithAlpha:0.2 completeBlock:nil];
+    [self executeAnimationWithAlpha:0.2 completion:nil];
 }
 
 #pragma mark - 背景淡去动画
 - (void)fake {
-    [self executeAnimationWithAlpha:0.f completeBlock:nil];
+    [self executeAnimationWithAlpha:0.f completion:nil];
 }
 
 #pragma mark - 执行动画
-- (void)executeAnimationWithAlpha:(CGFloat)alpha completeBlock:(void(^)(void))completeBlock{
+- (void)executeAnimationWithAlpha:(CGFloat)alpha completion:(void(^)(void))completion{
     [UIView animateWithDuration:0.2 animations:^{
         self.alpha = alpha;
     } completion:^(BOOL finished) {
-        if (finished && completeBlock) completeBlock();
+        if (finished && completion) completion();
     }];
 }
 
-- (void)executeAnimationWithFrame:(CGRect)rect completeBlock:(void(^)(void))completeBlock{
+- (void)executeAnimationWithFrame:(CGRect)rect completion:(void(^)(void))completion{
     [UIView animateWithDuration:0.2 animations:^{
         self.frame = rect;
     } completion:^(BOOL finished) {
-        if (finished && completeBlock) completeBlock();
+        if (finished && completion) completion();
     }];
 }
 

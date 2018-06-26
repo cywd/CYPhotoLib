@@ -24,7 +24,6 @@ static CGFloat CELL_INTERRITEM_MARGIN = 5.0;
 static CGFloat CELL_LINE_MARGIN = 5.0;
 static CGFloat TOOLBAR_HEIGHT = 135;
 
-static NSString *const _footerIdentifier = @"FooterView";
 static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 @interface CYPhotoBrowserController ()<UICollectionViewDataSource, UICollectionViewDelegate>
@@ -234,7 +233,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         cell.indexPath = indexPath;
         cell.asset = asset;
         
-        [[CYPhotoManager manager] fetchImageWithAsset:asset.asset photoWidth:[UIScreen mainScreen].bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+        [[CYPhotoManager manager] fetchImageWithAsset:asset.asset photoWidth:cell.bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
             cell.imageView.image = image;
         }];
         
@@ -300,7 +299,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
             
         }];
     
-//        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(kScreenW, kScreenH) isResize:NO completeBlock:^(UIImage *image, NSDictionary *info) {
+//        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(kScreenW, kScreenH) isResize:NO completion:^(UIImage *image, NSDictionary *info) {
 //            [cell setImgTapBlock:^{
 //                UIImageView *lastView = [weakCell.contentView.subviews lastObject];
 //                [CYHeadImageToBig showImage:lastView withImage:image];
@@ -340,7 +339,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    CYPhotoBrowserFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier forIndexPath:indexPath];
+    CYPhotoBrowserFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoBrowserFooter class]) forIndexPath:indexPath];
     
     footerView.count = self.info.count;
     
@@ -485,7 +484,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         _collectionView.delegate = self;
         _collectionView.alwaysBounceHorizontal = NO;
         [_collectionView registerNib:[UINib nibWithNibName:@"CYPhotoBrowserCell" bundle:nil] forCellWithReuseIdentifier:@"browserCell"];
-        [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoBrowserFooter class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:_footerIdentifier];
+        [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoBrowserFooter class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoBrowserFooter class])];
     }
     return _collectionView;
 }

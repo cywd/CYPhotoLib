@@ -7,6 +7,7 @@
 //
 
 #import "CYPhotoBaseController.h"
+
 @class CYAlbum;
 
 @interface CYPhotoAlbumListController : CYPhotoBaseController

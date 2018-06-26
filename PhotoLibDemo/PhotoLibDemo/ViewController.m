@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray<CYAsset *> *assets;
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 
 @end
@@ -24,6 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    _assets = [NSMutableArray array];
 }
 
 #pragma mark - collectionView delegate
@@ -39,7 +42,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
-    cell.imageView.image = self.dataArray[indexPath.row];
+    cell.imageView.image = self.dataArray[indexPath.item];
+    
     return cell;
 }
 
@@ -58,10 +62,12 @@
     __weak typeof(self) weakSelf = self;
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
 
-    [picker showInSender:self isSingleSel:NO isPushToCameraRoll:YES handle:^(NSArray<UIImage *> *photos, NSArray<PHAsset *> *assets) {
+    [picker showInSender:self isSingleSel:NO isPushToCameraRoll:YES handle:^(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets) {
+        
+        __strong typeof(self) strongSelf = weakSelf;
         [weakSelf.dataArray removeAllObjects];
         [weakSelf.dataArray addObjectsFromArray:photos];
-        [weakSelf.collectionView reloadData];
+        [strongSelf.collectionView reloadData];
     }];
 }
 

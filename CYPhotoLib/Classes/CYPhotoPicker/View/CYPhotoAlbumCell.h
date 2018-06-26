@@ -12,6 +12,6 @@
 
 @interface CYPhotoAlbumCell : UITableViewCell
 
-@property (nonatomic, strong) CYAlbum *info;
+@property (nonatomic, strong) CYAlbum *album;
 
 @end

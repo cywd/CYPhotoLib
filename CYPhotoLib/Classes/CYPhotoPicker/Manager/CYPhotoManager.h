@@ -77,38 +77,107 @@
  根据localIdentifier获取资源对应的asset
 
  @param localIdentifier PHAsset的id
- @param completeBlock 回调
+ @param completion 回调
  */
-- (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(PHAsset *asset))completeBlock;
-/** 本地是否有这个Asset */
-- (BOOL)isInLocalAlbumWithAsset:(PHAsset *)asset;
+- (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completion:(void(^)(PHAsset *asset))completion;
+
+/**
+ 获取封面Asset
+
+ @param album album
+ @param completion 回调
+ */
+- (void)fetchCoverAssetWithAlbum:(CYAlbum *)album completion:(void (^)(CYAsset *asset))completion;
+
+/**
+ 获取封面image
+
+ @param album album
+ @param completion 回调
+ */
+- (void)fetchCoverImageWithAlbum:(CYAlbum *)album completion:(void (^)(UIImage *image))completion;
+
+
+/**
+ 本地是否有这个Asset
+
+ @param asset PHasset
+ @return 本地是否有
+ */
+- (BOOL)isLocalInAlbumWithAsset:(PHAsset *)asset;
 
 #pragma mark - Image 相关
+/**
+ 根据Asset获取图片（不允许网络）
+
+ @param asset PHAsset
+ @param photoWidth 宽
+ @param completion 回调
+ @return 一个标识符
+ */
 - (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion;
+/**
+ 获取图片，可查看进度
+
+ @param asset PHAsset
+ @param photoWidth 宽
+ @param completion 回调
+ @param progressHandler 进度回调
+ @param networkAccessAllowed 是否允许网络
+ @return 一个int32_t标识符
+ */
 - (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
-/// 获取原图
+
+/**
+ 根据asset 获取原图 （默认联网请求，同步）
+
+ @param asset PHAsset
+ @param completion 回调
+ */
 - (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion;
 
+
+/**
+ 根据asset 获取原图
+
+ @param asset PHAsset
+ @param networkAccessAllowed 是否允许网络
+ @param synchronous 是否同步请求
+ @param completion 回调
+ */
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion;
+
 /** 获取资源对应的图片 */
-//- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
+//- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completion:(void(^)(UIImage * image, NSDictionary * info))completion;
 /** 通过localIdentifier获取资源对应的image */
-- (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completeBlock:(void(^)(UIImage * image, NSDictionary * info))completeBlock;
-/** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completeBlock:(void(^)(NSArray * images))completeBlock;
+//- (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completion:(void(^)(UIImage * image, NSDictionary * info))completion;
+///** 获取资源数组对应的图片数组 */
+//- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion;
 
 
 #pragma mark - ImageData 相关
-/** 通过localIdentifier获取资源对应的原图data */
-- (void)fetchImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock;
-/** 获取资源对应的原图大小 */
-- (void)fetchImageDataLength:(PHAsset *)asset completeBlock:(void(^)(CGFloat length))completeBlock;
-/** 获取资源对应的原图data */
-- (void)fetchImageDataWithAsset:(PHAsset *)asset completeBlock:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completeBlock;
+/**
+ 根据asset获取原图data
 
-/// 获取原图data
+ @param asset PHAsset
+ @param completion 回调data，info，是否是缩略图
+ */
 - (void)fetchOriginalImageDataWithAsset:(PHAsset *)asset completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion;
 
-/// 根据id获取原图data
-- (void)fetchOriginalImageDataWithLocalIdentifier:(NSString *)localIdentifier completeBlock:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completeBlock;
+/**
+ 根据id获取原图data
+
+ @param localIdentifier id
+ @param completion 回调data，info，是否是缩略图
+ */
+- (void)fetchOriginalImageDataWithLocalIdentifier:(NSString *)localIdentifier completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion;
+
+/**
+ 根据asset获取原图data的大小
+
+ @param asset PHAsset
+ @param completion 回调
+ */
+- (void)fetchImageDataBytesWithAsset:(PHAsset *)asset completion:(void(^)(CGFloat length))completion;
 
 @end

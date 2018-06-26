@@ -52,7 +52,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CYPhotoAlbumCell * cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
-    cell.info = self.assetCollections[indexPath.row];
+    cell.album = self.assetCollections[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }

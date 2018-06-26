@@ -20,16 +20,16 @@
 @end
 
 @implementation CYPhotoAlbumCell
-- (void)setInfo:(CYAlbum *)info {
-    _info = info;
+
+- (void)setAlbum:(CYAlbum *)album {
+    _album = album;
     
-    [[CYPhotoManager manager] fetchImageWithAsset:info.coverAsset photoWidth:120 completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+    self.albumName.text = album.name;
+    self.albumCount.text = @(album.count).stringValue;
+    
+    [[CYPhotoManager manager] fetchCoverImageWithAlbum:album completion:^(UIImage *image) {
         self.albumCover.image = image;
     }];
-    self.albumName.text = info.name;
-    //    cell.albumName.text = NSLocalizedString(info.albumName, @"");
-    
-    self.albumCount.text = @(info.count).stringValue;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
