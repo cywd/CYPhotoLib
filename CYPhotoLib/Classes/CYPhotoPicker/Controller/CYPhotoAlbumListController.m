@@ -68,7 +68,7 @@
     browser.isSingleSel = self.isSingleSel;
     CYAlbum *info = self.assetCollections[indexPath.row];
     
-    browser.info = info;
+    browser.album = info;
     browser.assets = info.assets;
     browser.collectionTitle = info.name;
 //    browser.collectionTitle = NSLocalizedString(info.albumName, @"");

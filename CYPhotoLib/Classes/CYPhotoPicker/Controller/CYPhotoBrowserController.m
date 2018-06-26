@@ -341,7 +341,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     CYPhotoBrowserFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoBrowserFooter class]) forIndexPath:indexPath];
     
-    footerView.count = self.info.count;
+    footerView.count = self.album.count;
     
     CYPhotoBrowserFooter *reusableView = footerView;
     self.footerView = footerView;

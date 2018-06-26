@@ -70,7 +70,7 @@
                 
                 CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
                 browser.isSingleSel = isSingleSel;
-                browser.info = album;
+                browser.album = album;
                 browser.assets = album.assets;
                 browser.collectionTitle = album.name;
                 [albumsList.navigationController pushViewController:browser animated:NO];
