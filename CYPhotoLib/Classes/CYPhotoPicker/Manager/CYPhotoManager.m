@@ -236,6 +236,77 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Image相关
 
+/** 获取资源数组对应的图片数组 */
+- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion {
+    
+    NSMutableArray * images = [NSMutableArray array];
+    
+    for (int i = 0; i < assetsArray.count; i++) {
+        
+        PHAsset * asset = assetsArray[i].asset;
+        CGSize size;
+        
+        
+        
+        if (isOriginal) {
+            
+            // 源图 -> 不压缩
+            size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
+            
+        } else {
+            
+            // 压缩的图 －> 以最长边为屏幕分辨率压缩
+            CGFloat scale = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
+            if (scale > 1.0) {
+                
+                if (asset.pixelWidth < CYPHOTOLIB_SCREEN_W) {
+                    // 最长边小于屏幕宽度时，采用原图
+                    size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
+                } else {
+                    // 压缩
+                    size = CGSizeMake(CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_W / scale);
+                }
+                
+            } else {
+                
+                if (asset.pixelHeight < CYPHOTOLIB_SCREEN_H) {
+                    // 最长边小于屏幕高度时，采用原图
+                    size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
+                } else {
+                    // 压缩
+                    size = CGSizeMake(CYPHOTOLIB_SCREEN_H * scale, CYPHOTOLIB_SCREEN_H);
+                }
+                
+            }
+        }
+        
+//        if (isOriginal) {
+//            [self fetchOriginalImageWithAsset:asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+//                [images addObject:photo];
+//                if (images.count == assetsArray.count) {
+//                    //执行block
+//                    if (completion) completion(images);
+//                }
+//            }];
+//        } else {
+            [self fetchImageInAsset:asset size:size isResize:NO completion:^(UIImage *image, NSDictionary *info) {
+                
+                //当图片读取到指定尺寸时
+                if (image.size.width >= size.width * OriginalRatio || image.size.height >= size.height * OriginalRatio) {
+                    [images addObject:image];
+                    //全部图片读取完毕
+                    if (images.count == assetsArray.count) {
+                        
+                        //执行block
+                        if (completion) completion(images);
+                    }
+                }
+            }];
+//        }
+    }
+}
+
+
 - (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion {
     return [self fetchImageWithAsset:asset photoWidth:photoWidth completion:completion progressHandler:nil networkAccessAllowed:NO];
 }

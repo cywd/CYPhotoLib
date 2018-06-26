@@ -107,6 +107,9 @@
 - (BOOL)isLocalInAlbumWithAsset:(PHAsset *)asset;
 
 #pragma mark - Image 相关
+
+- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion;
+
 /**
  根据Asset获取图片（不允许网络）
 
