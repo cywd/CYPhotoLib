@@ -8,14 +8,13 @@
 
 #import "CYPhotoBaseController.h"
 
-@class CYAsset;
 @class CYAlbum;
 
 @interface CYPhotoBrowserController : CYPhotoBaseController
 
 @property (nonatomic, strong) CYAlbum *album;
-@property (nonatomic, copy) NSString * collectionTitle;
-@property (nonatomic, strong) NSArray<CYAsset *> *assets;
 @property (nonatomic, assign) BOOL isSingleSel;
+@property (nonatomic, assign) BOOL sortByModificationDate;
+@property (nonatomic, assign) BOOL ascending;
 
 @end

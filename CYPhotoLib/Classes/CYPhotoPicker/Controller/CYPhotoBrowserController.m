@@ -17,6 +17,7 @@
 #import "CYPhotoCenter.h"
 #import "UIView+CYConstraintMatching.h"
 #import "CYAsset.h"
+#import "CYPhotoHud.h"
 
 static CGFloat CELL_ROW = 4;
 static CGFloat CELL_MARGIN = 5.0;
@@ -57,7 +58,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 @property (nonatomic , strong) CYPhotoBrowserFooter *footerView;
 
-@property (nonatomic, strong) NSArray<CYAsset *> *dataSource;
+@property (nonatomic, strong) NSMutableArray<CYAsset *> *dataSource;
+
+@property (nonatomic, copy) NSString * collectionTitle;
+@property (nonatomic, strong) NSMutableArray<CYAsset *> *assets;
 
 @end
 
@@ -67,6 +71,8 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.collectionTitle = self.album.name;
     
     if ([CYPhotoCenter shareCenter].maxSelectedCount == 0) {
         [CYPhotoCenter shareCenter].maxSelectedCount = 20;
@@ -89,9 +95,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     [self setupUI];
     
-    self.dataSource = self.assets;
+//    self.dataSource = self.assets;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
+    [self fetchAssets];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,6 +107,34 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     [self refreshBottomView];
     [self.collectionView reloadData];
+}
+
+- (void)fetchAssets {
+    if (!_assets.count) {
+        [[CYPhotoHud hud] showProgressHUD];
+    }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if (!self.album) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:YES sortByModificationDate:self.sortByModificationDate ascending:self.ascending completion:^(CYAlbum *model) {
+                self.album = model;
+                self.assets = [NSMutableArray arrayWithArray:self.album.assets];
+                self.dataSource = self.assets;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[CYPhotoHud hud] hideProgressHUD];
+                    [self.collectionView reloadData];
+                });
+            }];
+        } else {
+            [[CYPhotoManager manager] fetchAssetsFromFetchResult:self.album.result completion:^(NSArray<CYAsset *> *array) {
+                self.assets = [NSMutableArray arrayWithArray:array];
+                self.dataSource = self.assets;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[CYPhotoHud hud] hideProgressHUD];
+                    [self.collectionView reloadData];
+                });
+            }];
+        }
+    });
 }
 
 - (void)viewDidLayoutSubviews {

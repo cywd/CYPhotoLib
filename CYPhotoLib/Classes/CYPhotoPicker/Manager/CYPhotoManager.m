@@ -113,9 +113,8 @@ static dispatch_once_t onceToken;
  }
  */
 #pragma mark - Album相关
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets completion:(void (^)(CYAlbum *model))completion {
-    
-    PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:YES ascending:YES];
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYAlbum *model))completion {
+    PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:isSortByModificationDate ascending:ascending];
     
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection *collection in smartAlbums) {
@@ -123,7 +122,7 @@ static dispatch_once_t onceToken;
         // 过滤空相册
         if (collection.estimatedAssetCount <= 0) continue;
         
-//        if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+        //        if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
         
         if ([self isCameraRollAlbum:collection]) {
             PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
@@ -134,10 +133,10 @@ static dispatch_once_t onceToken;
     }
 }
 
-- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion {
+- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion {
     NSMutableArray *albumsArray = [NSMutableArray array];
     
-    PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:YES ascending:YES];
+    PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:isSortByModificationDate ascending:ascending];
     
     // 列出并加入所有智能相册 系统相册
     PHFetchResult *myPhotoStreamAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
@@ -157,9 +156,9 @@ static dispatch_once_t onceToken;
             
             if ([collection.localizedTitle containsString:@"Hidden"] || [collection.localizedTitle isEqualToString:@"已隐藏"]) continue;
             if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
-
+            
             CYAlbum *album = [CYAlbum cy_AlbumInfoFromResult:result collection:collection needFetchAssets:needFetchAssets];
-//            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+            //            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
             if ([self isCameraRollAlbum:collection]) {
                 [albumsArray insertObject:album atIndex:0];
             } else {
@@ -169,26 +168,6 @@ static dispatch_once_t onceToken;
     }
     
     if (completion) completion(albumsArray);
-}
-
-- (PHFetchOptions *)optionsAllowPickingVideo:(BOOL)isAllowPickingVideo allowPickingImage:(BOOL)isAllowPickingImage sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending {
-    
-    PHFetchOptions *options = [[PHFetchOptions alloc] init];
-    if (!isAllowPickingVideo) {
-        options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-    }
-    if (!isAllowPickingImage) {
-        options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
-    }
-    
-    // 有两种排序 1:creationDate   2:modificationDate
-    if (isSortByModificationDate) {
-        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:ascending]];
-    } else {
-        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:ascending]];
-    }
-    
-    return options;
 }
 
 #pragma mark - Asset
@@ -372,14 +351,6 @@ static dispatch_once_t onceToken;
     }];
 }
 
-- (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completion:(void(^)(UIImage * image, NSDictionary * info))completion {
-    __weak typeof(self) weakSelf = self;
-    [self fetchAssetWithLocalIdentifier:localIdentifier completion:^(PHAsset *asset) {
-        __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf fetchImageInAsset:asset size:size isResize:isResize completion:completion];
-    }];
-}
-
 /// 获取原图
 - (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
     [self fetchOriginalImageWithAsset:asset networkAccessAllowed:YES synchronous:YES completion:completion];
@@ -400,6 +371,8 @@ static dispatch_once_t onceToken;
     }];
 }
 
+
+#pragma mark - image data
 /// 获取原图data
 - (void)fetchOriginalImageDataWithAsset:(PHAsset *)asset completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion {
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
@@ -442,93 +415,6 @@ static dispatch_once_t onceToken;
     }];
 }
 
-
-
-- (void)fetchImageDataWithLocalIdentifier:(NSString *)localIdentifier completion:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completion {
-    
-    __weak typeof(self) weakSelf = self;
-    [self fetchAssetWithLocalIdentifier:localIdentifier completion:^(PHAsset *asset) {
-        [weakSelf fetchImageDataWithAsset:asset completion:completion];
-    }];
-}
-
-/** 获取资源对应的原图data */
-- (void)fetchImageDataWithAsset:(PHAsset *)asset completion:(void(^)(NSData * imageData, NSString * dataUTI, UIImageOrientation orientation, NSDictionary * info))completion {
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option.resizeMode = PHImageRequestOptionsResizeModeNone;
-    
-    // 这里设置iCloud
-//    option.networkAccessAllowed = YES;
-//    option.synchronous = YES;
-    
-    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:completion];
-}
-
-/** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion {
-    
-    NSMutableArray * images = [NSMutableArray array];
-    
-    NSMutableArray *assets = [NSMutableArray array];
-    
-    for (int i = 0; i < assetsArray.count; i++) {
-
-        [assets addObject:assetsArray[i].asset];
-    }
-    
-    for (int i = 0; i < assets.count; i++) {
-        
-        PHAsset * asset = assets[i];
-        CGSize size;
-        
-        if (isOriginal) {
-            
-            // 源图 -> 不压缩
-            size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
-            
-        } else {
-            
-            // 压缩的图 －> 以最长边为屏幕分辨率压缩
-            CGFloat scale = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
-            if (scale > 1.0) {
-                
-                if (asset.pixelWidth < CYPHOTOLIB_SCREEN_W) {
-                    // 最长边小于屏幕宽度时，采用原图
-                    size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
-                } else {
-                    // 压缩
-                    size = CGSizeMake(CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_W / scale);
-                }
-                
-            } else {
-                
-                if (asset.pixelHeight < CYPHOTOLIB_SCREEN_H) {
-                    // 最长边小于屏幕高度时，采用原图
-                    size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
-                } else {
-                    // 压缩
-                    size = CGSizeMake(CYPHOTOLIB_SCREEN_H * scale, CYPHOTOLIB_SCREEN_H);
-                }
-                
-            }
-        }
-        
-        [self fetchImageInAsset:asset size:size isResize:NO completion:^(UIImage *image, NSDictionary *info) {
-            
-            //当图片读取到指定尺寸时
-            if (image.size.width >= size.width * OriginalRatio || image.size.height >= size.height * OriginalRatio) {
-                [images addObject:image];
-                //全部图片读取完毕
-                if (images.count == assets.count) {
-                    
-                    //执行block
-                    if (completion) completion(images);
-                }
-            }
-        }];
-    }
-}
-
 - (CGSize)photoSizeWithAsset:(PHAsset *)asset {
     return CGSizeMake(asset.pixelWidth, asset.pixelHeight);
 }
@@ -554,6 +440,25 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - private
+- (PHFetchOptions *)optionsAllowPickingVideo:(BOOL)isAllowPickingVideo allowPickingImage:(BOOL)isAllowPickingImage sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending {
+    
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    if (!isAllowPickingVideo) {
+        options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    }
+    if (!isAllowPickingImage) {
+        options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
+    }
+    
+    // 有两种排序 1:creationDate   2:modificationDate
+    if (isSortByModificationDate) {
+        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:ascending]];
+    } else {
+        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:ascending]];
+    }
+    
+    return options;
+}
 
 /// 修正图片转向
 - (UIImage *)fixOrientation:(UIImage *)aImage {

@@ -44,7 +44,7 @@
  @param allowPickingImage 是否允许选择image
  @param completion 回调相册model
  */
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets completion:(void (^)(CYAlbum *model))completion;
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYAlbum *model))completion;
 /**
  获取所有相册model的数组
 
@@ -52,7 +52,7 @@
  @param allowPickingImage 是否允许选择image
  @param completion 回调所有相册model的数组
  */
-- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion;
+- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion;
 
 #pragma mark - Asset 相关
 /**

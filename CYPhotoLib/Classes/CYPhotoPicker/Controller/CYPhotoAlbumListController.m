@@ -12,10 +12,13 @@
 #import "CYPhotoBrowserController.h"
 #import "CYAlbum.h"
 #import "CYPhotoCenter.h"
+#import "CYPhotoManager.h"
+#import "CYPhotoHud.h"
 
 @interface CYPhotoAlbumListController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray<CYAlbum *> *albums;  // 相册列表
 
 @end
 
@@ -27,10 +30,31 @@
     
     self.title = @"照片";
     
+    _albums = [NSMutableArray array];
+    
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[CYPhotoAlbumCell class] forCellReuseIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
     
     [self setupCancelBtn];
+    
+    [self fetchAlbums];
+}
+
+- (void)fetchAlbums {
+    if (!_albums.count) {
+        [[CYPhotoHud hud] showProgressHUD];
+    }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:self.sortByModificationDate ascending:self.ascending completion:^(NSArray<CYAlbum *> *albumsArray) {
+            self.albums = [NSMutableArray arrayWithArray:albumsArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[CYPhotoHud hud] hideProgressHUD];
+                [self.tableView reloadData];
+            });
+        }];
+   
+    });
 }
 
 - (void)viewWillLayoutSubviews {
@@ -46,13 +70,13 @@
 
 #pragma mark - tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.assetCollections.count;
+    return self.albums.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CYPhotoAlbumCell * cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
-    cell.album = self.assetCollections[indexPath.row];
+    cell.album = self.albums[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -66,11 +90,10 @@
     
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     browser.isSingleSel = self.isSingleSel;
-    CYAlbum *info = self.assetCollections[indexPath.row];
+    CYAlbum *info = self.albums[indexPath.row];
     
     browser.album = info;
-    browser.assets = info.assets;
-    browser.collectionTitle = info.name;
+    
 //    browser.collectionTitle = NSLocalizedString(info.albumName, @"");
     [self.navigationController pushViewController:browser animated:YES];
 }

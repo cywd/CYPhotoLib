@@ -15,6 +15,9 @@
 
 @property (nonatomic, assign) NSInteger selectedCount;
 
+@property (nonatomic, assign) BOOL sortByModificationDate;
+@property (nonatomic, assign) BOOL ascending;
+
 /*
  * 最大选择数,默认为20
  */
