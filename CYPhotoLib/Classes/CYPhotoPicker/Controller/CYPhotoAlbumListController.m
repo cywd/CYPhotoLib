@@ -53,7 +53,6 @@
                 [self.tableView reloadData];
             });
         }];
-   
     });
 }
 
@@ -74,7 +73,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     CYPhotoAlbumCell * cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
     cell.album = self.albums[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -90,11 +88,8 @@
     
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     browser.isSingleSel = self.isSingleSel;
-    CYAlbum *info = self.albums[indexPath.row];
-    
-    browser.album = info;
-    
-//    browser.collectionTitle = NSLocalizedString(info.albumName, @"");
+    CYAlbum *album = self.albums[indexPath.row];
+    browser.album = album;
     [self.navigationController pushViewController:browser animated:YES];
 }
 
@@ -127,11 +122,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc {
-//    self.tableView = nil;
-//    self.assetCollections = nil;
 }
 
 @end

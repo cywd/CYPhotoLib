@@ -94,9 +94,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //    }
     
     [self setupUI];
-    
-//    self.dataSource = self.assets;
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     [self fetchAssets];
