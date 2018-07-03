@@ -8,6 +8,7 @@
 
 #import "CYPhotoManager.h"
 #import "CYPhotoHeader.h"
+#import "NSBundle+CYPhotoLib.h"
 
 #define OriginalRatio 0.9
 

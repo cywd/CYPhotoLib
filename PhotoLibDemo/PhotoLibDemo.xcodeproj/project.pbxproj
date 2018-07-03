@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		002D7847F2937C5CE7C28A67 /* Pods_PhotoLibDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BAB6479A9B63B10AABF1DE9 /* Pods_PhotoLibDemo.framework */; };
 		E70B1B3520E20B7C005D7974 /* CYPhotoHud.m in Sources */ = {isa = PBXBuildFile; fileRef = E70B1B3420E20B7C005D7974 /* CYPhotoHud.m */; };
+		E70EA11520EB44C500BAAC0A /* CYPhotoLib.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E70EA11420EB44C500BAAC0A /* CYPhotoLib.bundle */; };
+		E70EA11820EB4C1000BAAC0A /* NSBundle+CYPhotoLib.m in Sources */ = {isa = PBXBuildFile; fileRef = E70EA11720EB4C1000BAAC0A /* NSBundle+CYPhotoLib.m */; };
 		E74966AD1FA039600074408B /* CYAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = E74966AC1FA039600074408B /* CYAsset.m */; };
 		E74FC0291EA75300009BE8AD /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E74FC0281EA75300009BE8AD /* CollectionViewCell.m */; };
 		E752695B1EC18D5000E596FD /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
@@ -88,6 +90,9 @@
 		D4FC08E0CD8B373C70FC9CAA /* Pods-PhotoLibDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoLibDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoLibDemoTests/Pods-PhotoLibDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		E70B1B3320E20B7C005D7974 /* CYPhotoHud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYPhotoHud.h; sourceTree = "<group>"; };
 		E70B1B3420E20B7C005D7974 /* CYPhotoHud.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYPhotoHud.m; sourceTree = "<group>"; };
+		E70EA11420EB44C500BAAC0A /* CYPhotoLib.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CYPhotoLib.bundle; sourceTree = "<group>"; };
+		E70EA11620EB4C1000BAAC0A /* NSBundle+CYPhotoLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+CYPhotoLib.h"; sourceTree = "<group>"; };
+		E70EA11720EB4C1000BAAC0A /* NSBundle+CYPhotoLib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+CYPhotoLib.m"; sourceTree = "<group>"; };
 		E74966AB1FA039600074408B /* CYAsset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYAsset.h; sourceTree = "<group>"; };
 		E74966AC1FA039600074408B /* CYAsset.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYAsset.m; sourceTree = "<group>"; };
 		E74FC0271EA752FF009BE8AD /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
@@ -344,6 +349,8 @@
 				E752BE531FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m */,
 				E752BE551FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.h */,
 				E752BE561FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m */,
+				E70EA11620EB4C1000BAAC0A /* NSBundle+CYPhotoLib.h */,
+				E70EA11720EB4C1000BAAC0A /* NSBundle+CYPhotoLib.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -426,6 +433,7 @@
 				E7C555C31EA734E500BA5D8C /* CYPhoto_unselected.png */,
 				E7C555C41EA734E500BA5D8C /* CYPhoto_unselected@2x.png */,
 				E7C555C51EA734E500BA5D8C /* CYPhoto_unselected@3x.png */,
+				E70EA11420EB44C500BAAC0A /* CYPhotoLib.bundle */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -558,6 +566,7 @@
 				E7C555E31EA734E500BA5D8C /* CYPhoto_selected@3x.png in Resources */,
 				E7C555E11EA734E500BA5D8C /* CYPhoto_selected.png in Resources */,
 				E7C555E01EA734E500BA5D8C /* CYPhoto_delete@2x.png in Resources */,
+				E70EA11520EB44C500BAAC0A /* CYPhotoLib.bundle in Resources */,
 				E7C555DC1EA734E500BA5D8C /* CYBack@2x.png in Resources */,
 				E7C555E51EA734E500BA5D8C /* CYPhoto_Tanhao@2x.png in Resources */,
 			);
@@ -695,6 +704,7 @@
 				E74966AD1FA039600074408B /* CYAsset.m in Sources */,
 				E79864851D17CD020074F8D2 /* AppDelegate.m in Sources */,
 				E7C555C81EA734E500BA5D8C /* UIImage+CYCutDown.m in Sources */,
+				E70EA11820EB4C1000BAAC0A /* NSBundle+CYPhotoLib.m in Sources */,
 				E7C555D41EA734E500BA5D8C /* CYPhotoAlbumCell.m in Sources */,
 				E752BE571FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m in Sources */,
 				E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */,
