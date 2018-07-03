@@ -1,20 +1,20 @@
 //
-//  CYPhotoBrowserFooter.m
+//  CYPhotoAssetsFooter.m
 //  MkmyIOS
 //
 //  Created by Cyrill on 2016/10/14.
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "CYPhotoBrowserFooter.h"
+#import "CYPhotoAssetsFooter.h"
 
-@interface CYPhotoBrowserFooter()
+@interface CYPhotoAssetsFooter()
 
 @property (weak, nonatomic) IBOutlet UILabel *footerLabel;
 
 @end
 
-@implementation CYPhotoBrowserFooter
+@implementation CYPhotoAssetsFooter
 
 - (void)setCount:(NSInteger)count {
     _count = count;

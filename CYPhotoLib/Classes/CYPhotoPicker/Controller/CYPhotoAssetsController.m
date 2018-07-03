@@ -9,7 +9,7 @@
 #import "CYPhotoAssetsController.h"
 #import "CYPhotoHeader.h"
 #import "CYPhotoAssetCell.h"
-#import "CYPhotoBrowserFooter.h"
+#import "CYPhotoAssetsFooter.h"
 #import "CYPhotoManager.h"
 //#import "CYHeadImageToBig.h"
 #import "CYPhotoBottomCollectionViewCell.h"
@@ -56,7 +56,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionLayout;
 
-@property (nonatomic , strong) CYPhotoBrowserFooter *footerView;
+@property (nonatomic , strong) CYPhotoAssetsFooter *footerView;
 
 @property (nonatomic, strong) NSMutableArray<CYAsset *> *dataSource;
 
@@ -375,11 +375,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    CYPhotoBrowserFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoBrowserFooter class]) forIndexPath:indexPath];
+    CYPhotoAssetsFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoAssetsFooter class]) forIndexPath:indexPath];
     
     footerView.count = self.album.count;
     
-    CYPhotoBrowserFooter *reusableView = footerView;
+    CYPhotoAssetsFooter *reusableView = footerView;
     self.footerView = footerView;
     return reusableView;
 }
@@ -519,8 +519,8 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.alwaysBounceHorizontal = NO;
-        [_collectionView registerNib:[UINib nibWithNibName:@"CYPhotoAssetCell" bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([CYPhotoAssetCell class])];
-        [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoBrowserFooter class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoBrowserFooter class])];
+        [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoAssetCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([CYPhotoAssetCell class])];
+        [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoAssetsFooter class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoAssetsFooter class])];
     }
     return _collectionView;
 }

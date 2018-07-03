@@ -1,5 +1,5 @@
 //
-//  CYPhotoBrowserFooter.h
+//  CYPhotoAssetsFooter.h
 //  MkmyIOS
 //
 //  Created by Cyrill on 2016/10/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CYPhotoBrowserFooter : UICollectionReusableView
+@interface CYPhotoAssetsFooter : UICollectionReusableView
 
 @property (nonatomic , assign) NSInteger count;
 
