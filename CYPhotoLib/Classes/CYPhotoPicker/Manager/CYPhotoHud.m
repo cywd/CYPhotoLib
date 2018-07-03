@@ -16,12 +16,14 @@
 }
 
 + (instancetype)hud {
-    static id hud = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        hud = [[self alloc] init];
-    });
-    return hud;
+//    static id hud = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        hud = [[self alloc] init];
+//    });
+//    return hud;
+    
+    return [[self alloc] init];
 }
 
 - (void)showProgressHUD {

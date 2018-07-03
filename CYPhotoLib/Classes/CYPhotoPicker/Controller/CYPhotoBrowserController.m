@@ -108,8 +108,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (void)fetchAssets {
+    CYPhotoHud *hud = [CYPhotoHud hud];
+    
     if (!_assets.count) {
-        [[CYPhotoHud hud] showProgressHUD];
+        [hud showProgressHUD];
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (!self.album) {
@@ -118,7 +120,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
                 self.assets = [NSMutableArray arrayWithArray:self.album.assets];
                 self.dataSource = self.assets;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[CYPhotoHud hud] hideProgressHUD];
+                    [hud hideProgressHUD];
                     [self.collectionView reloadData];
                 });
             }];
@@ -127,7 +129,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
                 self.assets = [NSMutableArray arrayWithArray:array];
                 self.dataSource = self.assets;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[CYPhotoHud hud] hideProgressHUD];
+                    [hud hideProgressHUD];
                     [self.collectionView reloadData];
                 });
             }];
@@ -228,7 +230,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     self.collectionView.contentInset = UIEdgeInsetsMake(5.0, insets.left, 5.0, insets.right);
     
     CGFloat width = self.view.bounds.size.width-insets.left-insets.right;
-    CGFloat cellW = (width - CELL_MARGIN * (CELL_ROW - 1)) / CELL_ROW;
+    CGFloat cellW = (width - CELL_MARGIN * (self.columnNumber - 1)) / self.columnNumber;
     _collectionLayout.itemSize = CGSizeMake(cellW, cellW);
     _collectionLayout.minimumInteritemSpacing = CELL_INTERRITEM_MARGIN;
     _collectionLayout.minimumLineSpacing = CELL_LINE_MARGIN;
@@ -643,6 +645,14 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         _toolBarThumbCollectionView = toolBarThumbCollectionView;
     }
     return _toolBarThumbCollectionView;
+}
+
+- (NSInteger)columnNumber
+{
+    if (_columnNumber == 0) {
+        _columnNumber = CELL_ROW;
+    }
+    return _columnNumber;
 }
 
 #pragma mark - receive and dealloc

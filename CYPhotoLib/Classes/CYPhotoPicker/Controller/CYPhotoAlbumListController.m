@@ -34,26 +34,13 @@
     
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[CYPhotoAlbumCell class] forCellReuseIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
-    
-    [self setupCancelBtn];
-    
-    [self fetchAlbums];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
 }
 
-- (void)fetchAlbums {
-    if (!_albums.count) {
-        [[CYPhotoHud hud] showProgressHUD];
-    }
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
-        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:self.sortByModificationDate ascending:self.ascending completion:^(NSArray<CYAlbum *> *albumsArray) {
-            self.albums = [NSMutableArray arrayWithArray:albumsArray];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[CYPhotoHud hud] hideProgressHUD];
-                [self.tableView reloadData];
-            });
-        }];
-    });
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self fetchAlbums];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -88,6 +75,7 @@
     
     CYPhotoBrowserController *browser = [[CYPhotoBrowserController alloc] init];
     browser.isSingleSel = self.isSingleSel;
+    browser.columnNumber = self.columnNumber;
     CYAlbum *album = self.albums[indexPath.row];
     browser.album = album;
     [self.navigationController pushViewController:browser animated:YES];
@@ -100,9 +88,21 @@
 }
 
 #pragma mark - private methods
-- (void)setupCancelBtn {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
-    self.navigationItem.rightBarButtonItem = item;
+- (void)fetchAlbums {
+    
+    CYPhotoHud *hud = [CYPhotoHud hud];
+    if (!_albums.count) {
+        [hud showProgressHUD];
+    }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:self.sortByModificationDate ascending:self.ascending completion:^(NSArray<CYAlbum *> *albumsArray) {
+            self.albums = [NSMutableArray arrayWithArray:albumsArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+                [hud hideProgressHUD];
+            });
+        }];
+    });
 }
 
 #pragma mark - getters and setters
@@ -112,8 +112,6 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.showsHorizontalScrollIndicator = NO;
-//        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.tableFooterView = [[UIView alloc] init];
     }
     return _tableView;
 }

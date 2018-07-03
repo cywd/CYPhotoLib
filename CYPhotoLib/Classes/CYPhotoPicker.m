@@ -39,11 +39,12 @@
     
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
         
+        // 相册列表
         CYPhotoAlbumListController * albumsList = [[CYPhotoAlbumListController alloc] init];
-        
         albumsList.isSingleSel = isSingleSel;
         albumsList.sortByModificationDate = self.sortByModificationDate;
         albumsList.ascending = self.ascending;
+        albumsList.columnNumber = self.columnNumber;
         
         CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:albumsList];
         nav.navigationBar.barTintColor = CYPHOTOLIB_NAV_BAR_COLOR;
@@ -52,10 +53,12 @@
         nav.navigationItem.backBarButtonItem.title = @"照片";
        
         if (isPushToCameraRoll) {
+            // 所有照片
             CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
             browser.isSingleSel = isSingleSel;
             browser.sortByModificationDate = self.sortByModificationDate;
             browser.ascending = self.ascending;
+            browser.columnNumber = self.columnNumber;
             [albumsList.navigationController pushViewController:browser animated:NO];
         }
 
@@ -78,21 +81,18 @@
         NSMutableArray *assetArray = [CYPhotoCenter shareCenter].selectedPhotos;
         
         handle(photos, assetArray);
-        
     }];
 }
 
 - (void)deined {
     // 无权限
     [self setAlertControllerWithTitle:CY_DeinedPhotoLibirayText message:CY_GotoPhotoLibararySettingText];
-    
     return;
 }
 
 - (void)restricted {
     // 家长模式
     [self setAlertControllerWithTitle:CY_RestrictedPhotoLibirayText message:CY_GotoPhotoLibararySettingText];
-    
     return;
 }
 
@@ -101,7 +101,6 @@
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
         
         if (@available(iOS 10, *)) {
             // 跳转到 “设置\"-\"隐私\"-\"照片”
@@ -117,6 +116,10 @@
     [alert addAction:okAction];
     
     [self.sender presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)dealloc {
+    
 }
 
 @end
