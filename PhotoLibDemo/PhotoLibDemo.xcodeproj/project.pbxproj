@@ -32,9 +32,9 @@
 		E7C555C81EA734E500BA5D8C /* UIImage+CYCutDown.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555901EA734E500BA5D8C /* UIImage+CYCutDown.m */; };
 		E7C555C91EA734E500BA5D8C /* UIView+CY_1pxLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555921EA734E500BA5D8C /* UIView+CY_1pxLine.m */; };
 		E7C555CA1EA734E500BA5D8C /* UIView+CYAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555941EA734E500BA5D8C /* UIView+CYAnimation.m */; };
-		E7C555CC1EA734E500BA5D8C /* CYPhotoAlbumListController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555991EA734E500BA5D8C /* CYPhotoAlbumListController.m */; };
+		E7C555CC1EA734E500BA5D8C /* CYPhotoAlbumsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555991EA734E500BA5D8C /* CYPhotoAlbumsController.m */; };
 		E7C555CD1EA734E500BA5D8C /* CYPhotoBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */; };
-		E7C555CE1EA734E500BA5D8C /* CYPhotoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */; };
+		E7C555CE1EA734E500BA5D8C /* CYPhotoAssetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559D1EA734E500BA5D8C /* CYPhotoAssetsController.m */; };
 		E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */; };
 		E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A31EA734E500BA5D8C /* CYPhotoCenter.m */; };
 		E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
@@ -42,8 +42,8 @@
 		E7C555D41EA734E500BA5D8C /* CYPhotoAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555AB1EA734E500BA5D8C /* CYPhotoAlbumCell.m */; };
 		E7C555D51EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555AD1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m */; };
 		E7C555D61EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C555AE1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib */; };
-		E7C555D71EA734E500BA5D8C /* CYPhotoBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555B01EA734E500BA5D8C /* CYPhotoBrowserCell.m */; };
-		E7C555D81EA734E500BA5D8C /* CYPhotoBrowserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C555B11EA734E500BA5D8C /* CYPhotoBrowserCell.xib */; };
+		E7C555D71EA734E500BA5D8C /* CYPhotoAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555B01EA734E500BA5D8C /* CYPhotoAssetCell.m */; };
+		E7C555D81EA734E500BA5D8C /* CYPhotoAssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C555B11EA734E500BA5D8C /* CYPhotoAssetCell.xib */; };
 		E7C555D91EA734E500BA5D8C /* CYPhotoBrowserFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555B31EA734E500BA5D8C /* CYPhotoBrowserFooter.m */; };
 		E7C555DA1EA734E500BA5D8C /* CYPhotoBrowserFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C555B41EA734E500BA5D8C /* CYPhotoBrowserFooter.xib */; };
 		E7C555DB1EA734E500BA5D8C /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555B61EA734E500BA5D8C /* CYPhotoPicker.m */; };
@@ -138,12 +138,12 @@
 		E7C555921EA734E500BA5D8C /* UIView+CY_1pxLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CY_1pxLine.m"; sourceTree = "<group>"; };
 		E7C555931EA734E500BA5D8C /* UIView+CYAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYAnimation.h"; sourceTree = "<group>"; };
 		E7C555941EA734E500BA5D8C /* UIView+CYAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYAnimation.m"; sourceTree = "<group>"; };
-		E7C555981EA734E500BA5D8C /* CYPhotoAlbumListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoAlbumListController.h; sourceTree = "<group>"; };
-		E7C555991EA734E500BA5D8C /* CYPhotoAlbumListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoAlbumListController.m; sourceTree = "<group>"; };
+		E7C555981EA734E500BA5D8C /* CYPhotoAlbumsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoAlbumsController.h; sourceTree = "<group>"; };
+		E7C555991EA734E500BA5D8C /* CYPhotoAlbumsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoAlbumsController.m; sourceTree = "<group>"; };
 		E7C5559A1EA734E500BA5D8C /* CYPhotoBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBaseController.h; sourceTree = "<group>"; };
 		E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBaseController.m; sourceTree = "<group>"; };
-		E7C5559C1EA734E500BA5D8C /* CYPhotoBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBrowserController.h; sourceTree = "<group>"; };
-		E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBrowserController.m; sourceTree = "<group>"; };
+		E7C5559C1EA734E500BA5D8C /* CYPhotoAssetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoAssetsController.h; sourceTree = "<group>"; };
+		E7C5559D1EA734E500BA5D8C /* CYPhotoAssetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoAssetsController.m; sourceTree = "<group>"; };
 		E7C5559F1EA734E500BA5D8C /* CYPhotoNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoNavigationViewController.h; sourceTree = "<group>"; };
 		E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoNavigationViewController.m; sourceTree = "<group>"; };
 		E7C555A21EA734E500BA5D8C /* CYPhotoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCenter.h; sourceTree = "<group>"; };
@@ -157,9 +157,9 @@
 		E7C555AC1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBottomCollectionViewCell.h; sourceTree = "<group>"; };
 		E7C555AD1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBottomCollectionViewCell.m; sourceTree = "<group>"; };
 		E7C555AE1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYPhotoBottomCollectionViewCell.xib; sourceTree = "<group>"; };
-		E7C555AF1EA734E500BA5D8C /* CYPhotoBrowserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBrowserCell.h; sourceTree = "<group>"; };
-		E7C555B01EA734E500BA5D8C /* CYPhotoBrowserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBrowserCell.m; sourceTree = "<group>"; };
-		E7C555B11EA734E500BA5D8C /* CYPhotoBrowserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYPhotoBrowserCell.xib; sourceTree = "<group>"; };
+		E7C555AF1EA734E500BA5D8C /* CYPhotoAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoAssetCell.h; sourceTree = "<group>"; };
+		E7C555B01EA734E500BA5D8C /* CYPhotoAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoAssetCell.m; sourceTree = "<group>"; };
+		E7C555B11EA734E500BA5D8C /* CYPhotoAssetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYPhotoAssetCell.xib; sourceTree = "<group>"; };
 		E7C555B21EA734E500BA5D8C /* CYPhotoBrowserFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoBrowserFooter.h; sourceTree = "<group>"; };
 		E7C555B31EA734E500BA5D8C /* CYPhotoBrowserFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBrowserFooter.m; sourceTree = "<group>"; };
 		E7C555B41EA734E500BA5D8C /* CYPhotoBrowserFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYPhotoBrowserFooter.xib; sourceTree = "<group>"; };
@@ -362,10 +362,10 @@
 				E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */,
 				E7C5559A1EA734E500BA5D8C /* CYPhotoBaseController.h */,
 				E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */,
-				E7C555981EA734E500BA5D8C /* CYPhotoAlbumListController.h */,
-				E7C555991EA734E500BA5D8C /* CYPhotoAlbumListController.m */,
-				E7C5559C1EA734E500BA5D8C /* CYPhotoBrowserController.h */,
-				E7C5559D1EA734E500BA5D8C /* CYPhotoBrowserController.m */,
+				E7C555981EA734E500BA5D8C /* CYPhotoAlbumsController.h */,
+				E7C555991EA734E500BA5D8C /* CYPhotoAlbumsController.m */,
+				E7C5559C1EA734E500BA5D8C /* CYPhotoAssetsController.h */,
+				E7C5559D1EA734E500BA5D8C /* CYPhotoAssetsController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -403,9 +403,9 @@
 				E7BB58D91FB159B00026BFD9 /* CYPhotoBottomView.m */,
 				E7C555AA1EA734E500BA5D8C /* CYPhotoAlbumCell.h */,
 				E7C555AB1EA734E500BA5D8C /* CYPhotoAlbumCell.m */,
-				E7C555AF1EA734E500BA5D8C /* CYPhotoBrowserCell.h */,
-				E7C555B01EA734E500BA5D8C /* CYPhotoBrowserCell.m */,
-				E7C555B11EA734E500BA5D8C /* CYPhotoBrowserCell.xib */,
+				E7C555AF1EA734E500BA5D8C /* CYPhotoAssetCell.h */,
+				E7C555B01EA734E500BA5D8C /* CYPhotoAssetCell.m */,
+				E7C555B11EA734E500BA5D8C /* CYPhotoAssetCell.xib */,
 				E7C555AC1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.h */,
 				E7C555AD1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m */,
 				E7C555AE1EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib */,
@@ -551,7 +551,7 @@
 				E7C555E71EA734E500BA5D8C /* CYPhoto_unselected.png in Resources */,
 				E79864901D17CD020074F8D2 /* LaunchScreen.storyboard in Resources */,
 				E7C555DE1EA734E500BA5D8C /* CYPhoto_circle@2x.png in Resources */,
-				E7C555D81EA734E500BA5D8C /* CYPhotoBrowserCell.xib in Resources */,
+				E7C555D81EA734E500BA5D8C /* CYPhotoAssetCell.xib in Resources */,
 				E7C555E61EA734E500BA5D8C /* CYPhoto_Tanhao@3x.png in Resources */,
 				E7C555D61EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.xib in Resources */,
 				E7C555E21EA734E500BA5D8C /* CYPhoto_selected@2x.png in Resources */,
@@ -595,13 +595,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhotoLibDemoTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1F5588DE6C5EEC746C0E1BA3 /* [CP] Copy Pods Resources */ = {
@@ -655,13 +658,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhotoLibDemo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D8FF97FF2C2349FCF9491DBC /* [CP] Embed Pods Frameworks */ = {
@@ -688,17 +694,17 @@
 			files = (
 				E752BE511FBC2B2F00AFE50D /* NSLayoutConstraint+CYViewHierarchy.m in Sources */,
 				E7C555DB1EA734E500BA5D8C /* CYPhotoPicker.m in Sources */,
-				E7C555CC1EA734E500BA5D8C /* CYPhotoAlbumListController.m in Sources */,
+				E7C555CC1EA734E500BA5D8C /* CYPhotoAlbumsController.m in Sources */,
 				E7C555D31EA734E500BA5D8C /* CYAlbum.m in Sources */,
 				E752BE541FBC2B4800AFE50D /* NSLayoutConstraint+CYSelfInstall.m in Sources */,
 				E752BE4E1FBC2B1300AFE50D /* UIView+CYHierarchySupport.m in Sources */,
 				E7BB58DA1FB159B00026BFD9 /* CYPhotoBottomView.m in Sources */,
 				E752BE4B1FBC2AEA00AFE50D /* UIView+CYConstraintMatching.m in Sources */,
 				E7C555CD1EA734E500BA5D8C /* CYPhotoBaseController.m in Sources */,
-				E7C555CE1EA734E500BA5D8C /* CYPhotoBrowserController.m in Sources */,
+				E7C555CE1EA734E500BA5D8C /* CYPhotoAssetsController.m in Sources */,
 				E70B1B3520E20B7C005D7974 /* CYPhotoHud.m in Sources */,
 				E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */,
-				E7C555D71EA734E500BA5D8C /* CYPhotoBrowserCell.m in Sources */,
+				E7C555D71EA734E500BA5D8C /* CYPhotoAssetCell.m in Sources */,
 				E79864881D17CD020074F8D2 /* ViewController.m in Sources */,
 				E7C555C91EA734E500BA5D8C /* UIView+CY_1pxLine.m in Sources */,
 				E74966AD1FA039600074408B /* CYAsset.m in Sources */,

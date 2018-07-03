@@ -11,8 +11,8 @@
 #import "CYAlbum.h"
 #import "CYPhotoNavigationViewController.h"
 #import "CYPhotoCommon.h"
-#import "CYPhotoAlbumListController.h"
-#import "CYPhotoBrowserController.h"
+#import "CYPhotoAlbumsController.h"
+#import "CYPhotoAssetsController.h"
 #import "CYPhotoCenter.h"
 #import "CYPhotoManager.h"
 #import "CYAsset.h"
@@ -40,7 +40,7 @@
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
         
         // 相册列表
-        CYPhotoAlbumListController * albumsList = [[CYPhotoAlbumListController alloc] init];
+        CYPhotoAlbumsController * albumsList = [[CYPhotoAlbumsController alloc] init];
         albumsList.isSingleSel = isSingleSel;
         albumsList.sortByModificationDate = self.sortByModificationDate;
         albumsList.ascending = self.ascending;
@@ -54,7 +54,7 @@
        
         if (isPushToCameraRoll) {
             // 所有照片
-            CYPhotoBrowserController * browser = [[CYPhotoBrowserController alloc] init];
+            CYPhotoAssetsController * browser = [[CYPhotoAssetsController alloc] init];
             browser.isSingleSel = isSingleSel;
             browser.sortByModificationDate = self.sortByModificationDate;
             browser.ascending = self.ascending;
