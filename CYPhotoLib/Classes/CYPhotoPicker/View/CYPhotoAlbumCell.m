@@ -43,7 +43,7 @@
     
     self.coverImageView.frame = CGRectMake(15, 5, self.bounds.size.height-10, self.bounds.size.height-10);
     self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.coverImageView.frame)+10, 15, self.frame.size.width - 100, 20);
-    self.countLabel.frame = CGRectMake(CGRectGetMaxX(self.coverImageView.frame)+10, 40, self.frame.size.width - 100, 20);
+    self.countLabel.frame = CGRectMake(CGRectGetMaxX(self.coverImageView.frame)+10, CGRectGetMaxY(self.nameLabel.frame)+5, self.frame.size.width - 100, 20);
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer {

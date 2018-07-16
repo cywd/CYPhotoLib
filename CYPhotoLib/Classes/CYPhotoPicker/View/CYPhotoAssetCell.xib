@@ -98,7 +98,7 @@
             <connections>
                 <outlet property="blurView" destination="JQR-zL-cXN" id="5SU-Yv-OzA"/>
                 <outlet property="coverBtn" destination="udA-i8-FXP" id="7qZ-XG-moU"/>
-                <outlet property="imageIV" destination="AEQ-Q3-hkP" id="O0f-RD-x6X"/>
+                <outlet property="imageView" destination="AEQ-Q3-hkP" id="c28-es-K4o"/>
                 <outlet property="selBtn" destination="SsD-9r-FSB" id="RMi-6k-cyF"/>
                 <outlet property="singleSelBtn" destination="Ssy-oG-UMP" id="ho1-TN-8ai"/>
                 <outlet property="tanhao" destination="9Jl-68-pYH" id="Z3q-Pb-sBZ"/>

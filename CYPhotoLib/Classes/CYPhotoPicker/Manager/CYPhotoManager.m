@@ -315,7 +315,7 @@ static dispatch_once_t onceToken;
 - (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     CGSize imageSize;
     CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
-    CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale * 1.5;
+    CGFloat pixelWidth = photoWidth;
     // 超宽图片
     if (aspectRatio > 1.8) {
         pixelWidth = pixelWidth * aspectRatio;
@@ -342,6 +342,7 @@ static dispatch_once_t onceToken;
         // 不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
         // && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]
         if (downloadFinined && result) {
+            result = [self fixOrientation:result];
             if (completion) completion(result, info, [[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
         }
         // Download image from iCloud / 从iCloud下载图片
