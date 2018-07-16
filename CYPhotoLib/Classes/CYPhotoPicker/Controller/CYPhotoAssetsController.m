@@ -95,6 +95,8 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //    }
     
     [self setupUI];
+    
+    self.collectionView.hidden = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
@@ -123,6 +125,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
                 self.dataSource = self.assets;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [hud hideProgressHUD];
+                    self.collectionView.hidden = YES;
                     [self.collectionView reloadData];
                     [self scrollCollectionViewToBottom];
                 });
@@ -133,6 +136,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
                 self.dataSource = self.assets;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [hud hideProgressHUD];
+                    self.collectionView.hidden = YES;
                     [self.collectionView reloadData];
                     [self scrollCollectionViewToBottom];
                 });
@@ -436,9 +440,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
             self.shouldScrollToBottom = NO;
+            self.collectionView.hidden = NO;
         });
     } else {
-        
+        self.collectionView.hidden = NO;
     }
 }
 
