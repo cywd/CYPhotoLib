@@ -31,6 +31,8 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     CGFloat _offsetItemCount;
 }
 
+@property (nonatomic, assign) BOOL shouldScrollToBottom; // 是否滚到底
+
 @property (strong, nonatomic) UIView *bottomView; //底部面板
 @property (strong, nonatomic) UIButton *isOriginalBtn; //原图按钮
 @property (strong, nonatomic) UIView *bottomViewCover; //底部面板遮罩层
@@ -97,6 +99,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     [self fetchAssets];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -121,6 +124,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [hud hideProgressHUD];
                     [self.collectionView reloadData];
+                    [self scrollCollectionViewToBottom];
                 });
             }];
         } else {
@@ -130,6 +134,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [hud hideProgressHUD];
                     [self.collectionView reloadData];
+                    [self scrollCollectionViewToBottom];
                 });
             }];
         }
@@ -422,6 +427,21 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     }
 }
 
+- (void)scrollCollectionViewToBottom {
+    if (self.shouldScrollToBottom && self.assets.count > 0) {
+        NSInteger item = 0;
+        if (self.ascending) {
+            item = self.assets.count - 1;
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+            self.shouldScrollToBottom = NO;
+        });
+    } else {
+        
+    }
+}
+
 - (void)setupButtons {
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelBtnAction)];
 }
@@ -509,6 +529,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 #pragma mark - getters and setters
+- (void)setAscending:(BOOL)ascending {
+    _ascending = ascending;
+    self.shouldScrollToBottom = ascending;
+}
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {

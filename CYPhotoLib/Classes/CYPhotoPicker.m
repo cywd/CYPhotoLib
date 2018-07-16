@@ -54,7 +54,7 @@
        
         if (isPushToCameraRoll) {
             // 所有照片
-            CYPhotoAssetsController * browser = [[CYPhotoAssetsController alloc] init];
+            CYPhotoAssetsController *browser = [[CYPhotoAssetsController alloc] init];
             browser.isSingleSel = isSingleSel;
             browser.sortByModificationDate = self.sortByModificationDate;
             browser.ascending = self.ascending;

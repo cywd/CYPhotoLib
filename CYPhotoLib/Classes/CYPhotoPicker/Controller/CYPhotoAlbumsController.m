@@ -75,6 +75,8 @@
     
     CYPhotoAssetsController *browser = [[CYPhotoAssetsController alloc] init];
     browser.isSingleSel = self.isSingleSel;
+    browser.ascending = self.ascending;
+    browser.sortByModificationDate = self.sortByModificationDate;
     browser.columnNumber = self.columnNumber;
     CYAlbum *album = self.albums[indexPath.row];
     browser.album = album;

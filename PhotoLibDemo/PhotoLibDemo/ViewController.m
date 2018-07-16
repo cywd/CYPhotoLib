@@ -62,6 +62,7 @@
     __weak typeof(self) weakSelf = self;
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     picker.columnNumber = 3;
+    picker.ascending = YES;
     [picker showInSender:self isSingleSel:NO isPushToCameraRoll:YES handle:^(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets) {
         
         __strong typeof(self) strongSelf = weakSelf;

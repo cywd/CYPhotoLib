@@ -315,7 +315,7 @@ static dispatch_once_t onceToken;
 - (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     CGSize imageSize;
     CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
-    CGFloat pixelWidth = photoWidth;
+    CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale;
     // 超宽图片
     if (aspectRatio > 1.8) {
         pixelWidth = pixelWidth * aspectRatio;
