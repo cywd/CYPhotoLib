@@ -79,63 +79,63 @@
     
 //    [self showLoadingIndicator];
     
-//    self.selBtn.hidden = YES;
+    self.selBtn.hidden = YES;
     self.tanhao.hidden = YES;
     self.coverBtn.hidden = YES;
-//
-//    dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
-//
-//        // 耗时
-//        if (asset.mediaType == PHAssetMediaTypeImage) {
-//
-//            [[CYPhotoManager manager] fetchImageDataBytesWithAsset:asset completion:^(CGFloat length) {
-//                // 这里要判断id一致再继续
-//                if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
-//
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//
-//                        if (length < (102400 / 1000.0) ) {
-//                            // YES
-//                            self.tanhao.hidden = NO;
-//                        } else if (width/height > 2 || height/width > 2) {
-//                            // YES
-//                            self.tanhao.hidden = NO;
-//                        } else {
-//                            // NO
-//                            self.tanhao.hidden = YES;
-//                        }
-//
-//                        if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
-//                            // YES
-//                            self.tanhao.hidden = YES;
-//                            self.coverBtn.hidden = NO;
-//                            //            cell.selBtn.hidden = YES;
-//                        } else {
-//                            // NO
-//                            //            cell.tanhao.hidden = YES;
-//                            self.coverBtn.hidden = YES;
-//                            //            cell.selBtn.hidden = NO;
-//                        }
-//
-//                        self.selBtn.hidden = !self.coverBtn.hidden;
-//
-//                        if (!self.singleSelBtn.hidden) {
-//                            self.selBtn.hidden = YES;
-//                            self.tanhao.hidden = YES;
-//                        }
-//
-////                        [self hideLoadingIndicator];
-//                    });
-//                }
-//            }];
-//        } else {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                self.coverBtn.hidden = NO;
-//
-////                [self hideLoadingIndicator];
-//            });
-//        }
-//    });
+
+    dispatch_async(dispatch_queue_create("CYPhotoLibSetHiddenQueue", DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+
+        // 耗时
+        if (asset.mediaType == PHAssetMediaTypeImage) {
+
+            [[CYPhotoManager manager] fetchImageDataBytesWithAsset:asset completion:^(CGFloat length) {
+                // 这里要判断id一致再继续
+                if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+
+                        if (length < (102400 / 1000.0) ) {
+                            // YES
+                            self.tanhao.hidden = NO;
+                        } else if (width/height > 2 || height/width > 2) {
+                            // YES
+                            self.tanhao.hidden = NO;
+                        } else {
+                            // NO
+                            self.tanhao.hidden = YES;
+                        }
+
+                        if (length < 71680 / 1000.0 || length > 6291456 / 1000.0) {
+                            // YES
+                            self.tanhao.hidden = YES;
+                            self.coverBtn.hidden = NO;
+                            //            cell.selBtn.hidden = YES;
+                        } else {
+                            // NO
+                            //            cell.tanhao.hidden = YES;
+                            self.coverBtn.hidden = YES;
+                            //            cell.selBtn.hidden = NO;
+                        }
+
+                        self.selBtn.hidden = !self.coverBtn.hidden;
+
+                        if (!self.singleSelBtn.hidden) {
+                            self.selBtn.hidden = YES;
+                            self.tanhao.hidden = YES;
+                        }
+
+//                        [self hideLoadingIndicator];
+                    });
+                }
+            }];
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.coverBtn.hidden = NO;
+
+//                [self hideLoadingIndicator];
+            });
+        }
+    });
     
 //    [self showLoadingIndicator];
     
