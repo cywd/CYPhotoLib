@@ -11,7 +11,6 @@
 #import "CYPhotoAssetCell.h"
 #import "CYPhotoAssetsFooter.h"
 #import "CYPhotoManager.h"
-//#import "CYHeadImageToBig.h"
 #import "CYPhotoBottomCollectionViewCell.h"
 #import "UIView+CYAnimation.h"
 #import "CYPhotoCenter.h"

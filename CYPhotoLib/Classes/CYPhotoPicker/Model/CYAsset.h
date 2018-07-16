@@ -43,7 +43,6 @@ typedef NS_ENUM(NSUInteger, CYAssetMassStatus) {
     CYAssetMassStatusDisabled,
 };
 
-
 /** 自定义Asset */
 @interface CYAsset : NSObject
 

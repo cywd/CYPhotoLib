@@ -13,9 +13,9 @@
 
 @interface CYPhotoAlbumCell ()
 
-@property (strong, nonatomic) UIImageView *albumCover;
-@property (strong, nonatomic) UILabel *albumName;
-@property (strong, nonatomic) UILabel *albumCount;
+@property (strong, nonatomic) UIImageView *coverImageView;
+@property (strong, nonatomic) UILabel *nameLabel;
+@property (strong, nonatomic) UILabel *countLabel;
 
 @end
 
@@ -24,11 +24,11 @@
 - (void)setAlbum:(CYAlbum *)album {
     _album = album;
     
-    self.albumName.text = album.name;
-    self.albumCount.text = @(album.count).stringValue;
+    self.nameLabel.text = album.name;
+    self.countLabel.text = @(album.count).stringValue;
     
     [[CYPhotoManager manager] fetchCoverImageWithAlbum:album completion:^(UIImage *image) {
-        self.albumCover.image = image;
+        self.coverImageView.image = image;
     }];
 }
 
@@ -40,41 +40,42 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+    self.coverImageView.frame = CGRectMake(15, 5, self.bounds.size.height-10, self.bounds.size.height-10);
+    self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.coverImageView.frame)+10, 15, self.frame.size.width - 100, 20);
+    self.countLabel.frame = CGRectMake(CGRectGetMaxX(self.coverImageView.frame)+10, 40, self.frame.size.width - 100, 20);
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer {
     [super layoutSublayersOfLayer:layer];
 }
 
-- (UIImageView *)albumCover {
-    if (!_albumCover) {
-        UIImageView *groupImageView = [[UIImageView alloc] init];
-        groupImageView.frame = CGRectMake(15, 5, 70, 70);
-        groupImageView.clipsToBounds = YES;
-        groupImageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.contentView addSubview:_albumCover = groupImageView];
+- (UIImageView *)coverImageView {
+    if (!_coverImageView) {
+        _coverImageView = [[UIImageView alloc] init];
+        _coverImageView.clipsToBounds = YES;
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [self.contentView addSubview:_coverImageView];
     }
-    return _albumCover;
+    return _coverImageView;
 }
 
-- (UILabel *)albumName {
-    if (!_albumName) {
-        UILabel *groupNameLabel = [[UILabel alloc] init];
-        groupNameLabel.frame = CGRectMake(95, 15, self.frame.size.width - 100, 20);
-        [self.contentView addSubview:_albumName = groupNameLabel];
+- (UILabel *)nameLabel {
+    if (!_nameLabel) {
+        _nameLabel = [[UILabel alloc] init];
+        [self.contentView addSubview:_nameLabel];
     }
-    return _albumName;
+    return _nameLabel;
 }
 
-- (UILabel *)albumCount {
-    if (!_albumCount) {
-        UILabel *groupPicCountLabel = [[UILabel alloc] init];
-        groupPicCountLabel.font = [UIFont systemFontOfSize:13];
-        groupPicCountLabel.textColor = [UIColor lightGrayColor];
-        groupPicCountLabel.frame = CGRectMake(95, 40, self.frame.size.width - 100, 20);
-        [self.contentView addSubview:_albumCount = groupPicCountLabel];
+- (UILabel *)countLabel {
+    if (!_countLabel) {
+        _countLabel = [[UILabel alloc] init];
+        _countLabel.font = [UIFont systemFontOfSize:13];
+        _countLabel.textColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:_countLabel];
     }
-    return _albumCount;
+    return _countLabel;
 }
 
 @end
