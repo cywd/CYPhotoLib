@@ -26,6 +26,10 @@
     return center;
 }
 
++ (CYPhotoConfig *)config {
+    return [CYPhotoCenter shareCenter].config;
+}
+
 #pragma mark - 获取所有图片
 - (void)fetchAllAsset {
     [self clearInfos];

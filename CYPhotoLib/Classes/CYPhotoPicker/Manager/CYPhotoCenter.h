@@ -13,7 +13,12 @@
 @class UIImage;
 @class CYAsset;
 
+@class CYPhotoConfig;
+
 @interface CYPhotoCenter : NSObject
+
+@property (nonatomic, strong) CYPhotoConfig *config;
+
 
 /*
  * 最大选择数,默认为20
@@ -46,6 +51,9 @@
  *  单例
  */
 + (instancetype)shareCenter;
+
+
++ (CYPhotoConfig *)config;
 
 /**
  *  获取所有照片
