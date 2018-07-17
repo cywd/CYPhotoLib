@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CYPhotoNavigationViewController : UINavigationController
+@interface CYPhotoNavigationController : UINavigationController
 
 @end

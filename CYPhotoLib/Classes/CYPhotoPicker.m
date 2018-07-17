@@ -9,7 +9,7 @@
 #import "CYPhotoPicker.h"
 #import "CYPhotoHeader.h"
 #import "CYAlbum.h"
-#import "CYPhotoNavigationViewController.h"
+#import "CYPhotoNavigationController.h"
 #import "CYPhotoCommon.h"
 #import "CYPhotoAlbumsController.h"
 #import "CYPhotoAssetsController.h"
@@ -44,21 +44,22 @@
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
         
         // 相册列表
-        CYPhotoAlbumsController * albumsList = [[CYPhotoAlbumsController alloc] init];
+        CYPhotoAlbumsController * albumsViewController = [[CYPhotoAlbumsController alloc] init];
         
-        CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:albumsList];
-        nav.navigationBar.barTintColor = CYPHOTOLIB_NAV_BAR_COLOR;
-        [nav.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor blackColor]}];
-        nav.navigationBar.tintColor = [UIColor blackColor];
-        nav.navigationItem.backBarButtonItem.title = @"照片";
+        CYPhotoNavigationController *navigationController = [[CYPhotoNavigationController alloc] initWithRootViewController:albumsViewController];
+        navigationController.navigationBar.barTintColor = CYPHOTOLIB_NAV_BAR_COLOR;
+        [navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor blackColor]}];
+        navigationController.navigationBar.tintColor = [UIColor blackColor];
+        navigationController.navigationItem.backBarButtonItem.title = @"照片";
         
         if (CYPhotoCenter.config.isPushToCameraRoll) {
             // 所有照片
-            CYPhotoAssetsController *browser = [[CYPhotoAssetsController alloc] init];
-            [albumsList.navigationController pushViewController:browser animated:NO];
+            CYPhotoAssetsController *assetsViewController = [[CYPhotoAssetsController alloc] init];
+            [albumsViewController.navigationController pushViewController:assetsViewController animated:NO];
         }
         
-        [self.sender presentViewController:nav animated:YES completion:nil];
+        [self.sender presentViewController:navigationController animated:YES completion:nil];
+        
     } denied:^{
         [self deined];
     } restricted:^{

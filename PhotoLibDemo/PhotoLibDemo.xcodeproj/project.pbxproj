@@ -35,7 +35,7 @@
 		E7C555CC1EA734E500BA5D8C /* CYPhotoAlbumsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555991EA734E500BA5D8C /* CYPhotoAlbumsController.m */; };
 		E7C555CD1EA734E500BA5D8C /* CYPhotoBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */; };
 		E7C555CE1EA734E500BA5D8C /* CYPhotoAssetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C5559D1EA734E500BA5D8C /* CYPhotoAssetsController.m */; };
-		E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */; };
+		E7C555D01EA734E500BA5D8C /* CYPhotoNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A01EA734E500BA5D8C /* CYPhotoNavigationController.m */; };
 		E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A31EA734E500BA5D8C /* CYPhotoCenter.m */; };
 		E7C555D21EA734E500BA5D8C /* CYPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A51EA734E500BA5D8C /* CYPhotoManager.m */; };
 		E7C555D31EA734E500BA5D8C /* CYAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C555A81EA734E500BA5D8C /* CYAlbum.m */; };
@@ -145,8 +145,8 @@
 		E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoBaseController.m; sourceTree = "<group>"; };
 		E7C5559C1EA734E500BA5D8C /* CYPhotoAssetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoAssetsController.h; sourceTree = "<group>"; };
 		E7C5559D1EA734E500BA5D8C /* CYPhotoAssetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoAssetsController.m; sourceTree = "<group>"; };
-		E7C5559F1EA734E500BA5D8C /* CYPhotoNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoNavigationViewController.h; sourceTree = "<group>"; };
-		E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoNavigationViewController.m; sourceTree = "<group>"; };
+		E7C5559F1EA734E500BA5D8C /* CYPhotoNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoNavigationController.h; sourceTree = "<group>"; };
+		E7C555A01EA734E500BA5D8C /* CYPhotoNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoNavigationController.m; sourceTree = "<group>"; };
 		E7C555A21EA734E500BA5D8C /* CYPhotoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoCenter.h; sourceTree = "<group>"; };
 		E7C555A31EA734E500BA5D8C /* CYPhotoCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoCenter.m; sourceTree = "<group>"; };
 		E7C555A41EA734E500BA5D8C /* CYPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoManager.h; sourceTree = "<group>"; };
@@ -362,8 +362,8 @@
 		E7C555971EA734E500BA5D8C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E7C5559F1EA734E500BA5D8C /* CYPhotoNavigationViewController.h */,
-				E7C555A01EA734E500BA5D8C /* CYPhotoNavigationViewController.m */,
+				E7C5559F1EA734E500BA5D8C /* CYPhotoNavigationController.h */,
+				E7C555A01EA734E500BA5D8C /* CYPhotoNavigationController.m */,
 				E7C5559A1EA734E500BA5D8C /* CYPhotoBaseController.h */,
 				E7C5559B1EA734E500BA5D8C /* CYPhotoBaseController.m */,
 				E7C555981EA734E500BA5D8C /* CYPhotoAlbumsController.h */,
@@ -727,7 +727,7 @@
 				E7C555D41EA734E500BA5D8C /* CYPhotoAlbumCell.m in Sources */,
 				E752BE571FBC2B5900AFE50D /* NSLayoutConstraint+CYConstraintMatching.m in Sources */,
 				E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */,
-				E7C555D01EA734E500BA5D8C /* CYPhotoNavigationViewController.m in Sources */,
+				E7C555D01EA734E500BA5D8C /* CYPhotoNavigationController.m in Sources */,
 				E79864821D17CD020074F8D2 /* main.m in Sources */,
 				E7DFFC1820FC93D00032BA67 /* CYPhotoConfig.m in Sources */,
 				E7C555D51EA734E500BA5D8C /* CYPhotoBottomCollectionViewCell.m in Sources */,

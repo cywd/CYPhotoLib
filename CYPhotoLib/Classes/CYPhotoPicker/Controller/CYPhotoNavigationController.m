@@ -6,13 +6,13 @@
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "CYPhotoNavigationViewController.h"
+#import "CYPhotoNavigationController.h"
 
-@interface CYPhotoNavigationViewController ()
+@interface CYPhotoNavigationController ()
 
 @end
 
-@implementation CYPhotoNavigationViewController
+@implementation CYPhotoNavigationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
