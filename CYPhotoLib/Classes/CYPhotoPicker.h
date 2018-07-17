@@ -43,7 +43,6 @@
  默认图片宽
  */
 @property (nonatomic, assign) CGFloat defaultImageWidth;
-
 /**
  最大可选数量
  */
@@ -69,11 +68,8 @@
  */
 @property (nonatomic) CGFloat minimumInteritemSpacing;
 
-
 #pragma mark - 其他
-
 @property (nonatomic, assign) NSInteger selectedCount;
-
 
 /**
  弹出图片选择器

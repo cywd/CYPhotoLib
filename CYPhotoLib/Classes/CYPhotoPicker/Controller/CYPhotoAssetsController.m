@@ -15,6 +15,8 @@
 #import "UIView+CYAnimation.h"
 #import "CYPhotoCenter.h"
 #import "UIView+CYConstraintMatching.h"
+
+#import "CYAlbum.h"
 #import "CYAsset.h"
 #import "CYPhotoHud.h"
 #import "CYPhotoConfig.h"
@@ -73,10 +75,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     self.collectionTitle = self.album.name;
     
-//    if ([CYPhotoCenter shareCenter].maxSelectedCount == 0) {
-//        [CYPhotoCenter shareCenter].maxSelectedCount = 20;
-//    }
-    
+
 //    [self.view addSubview:_bottomView];
     
     self.title = self.collectionTitle ? self.collectionTitle : @"照片";

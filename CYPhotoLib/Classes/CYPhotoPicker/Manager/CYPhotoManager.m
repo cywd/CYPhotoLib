@@ -7,6 +7,8 @@
 //
 
 #import "CYPhotoManager.h"
+#import "CYAlbum.h"
+#import "CYAsset.h"
 #import "CYPhotoHeader.h"
 #import "NSBundle+CYPhotoLib.h"
 

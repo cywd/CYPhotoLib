@@ -46,7 +46,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <Photos/Photos.h>
 
 
 #endif /* CYPhotoHeader_h */

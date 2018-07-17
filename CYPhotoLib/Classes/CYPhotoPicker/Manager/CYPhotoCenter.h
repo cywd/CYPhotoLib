@@ -7,7 +7,7 @@
 //
 // 负责管理CYPhotoPicker 的相关内容
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class PHAsset;
 @class UIImage;
@@ -18,14 +18,6 @@
 @interface CYPhotoCenter : NSObject
 
 @property (nonatomic, strong) CYPhotoConfig *config;
-
-
-/*
- * 最大选择数,默认为20
- */
-@property (nonatomic, assign) NSInteger selectedCount;
-//@property (nonatomic, assign) NSInteger maxSelectedCount;
-//@property (nonatomic, assign) NSInteger minSelectedCount;
 
 /*
  * 是否原图

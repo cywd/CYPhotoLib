@@ -10,6 +10,7 @@
 #import "CYPhotoHeader.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoConfig.h"
+#import <Photos/Photos.h>
 
 @interface CYPhotoCenter () <PHPhotoLibraryChangeObserver, UIAlertViewDelegate>
 
@@ -74,9 +75,6 @@
 
 #pragma mark - 清除信息
 - (void)clearInfos {
-    self.selectedCount = 20;
-//    self.maxSelectedCount = 20;
-//    self.minSelectedCount = 1;
     self.isOriginal = NO;
     self.handle = nil;
     self.allPhotos = nil;

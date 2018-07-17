@@ -7,23 +7,22 @@
 //
 
 #import "CYPhotoPicker.h"
+
 #import "CYPhotoHeader.h"
-#import "CYAlbum.h"
-#import "CYPhotoNavigationController.h"
 #import "CYPhotoCommon.h"
+
+#import "CYPhotoNavigationController.h"
 #import "CYPhotoAlbumsController.h"
 #import "CYPhotoAssetsController.h"
-#import "CYPhotoCenter.h"
-#import "CYPhotoManager.h"
-#import "CYAsset.h"
 
+#import "CYPhotoCenter.h"
 #import "CYPhotoConfig.h"
 
 @interface CYPhotoPicker()
 
+// 配置
 @property (nonatomic, strong) CYPhotoConfig *config;
-
-//显示选择器的控制器
+// 显示选择器的控制器
 @property (nonatomic, weak) UIViewController * sender;
 
 @end

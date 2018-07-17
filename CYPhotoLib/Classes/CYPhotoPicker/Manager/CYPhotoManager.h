@@ -7,9 +7,12 @@
 //
 // 负责管理与Photo 相关的内容
 
-#import <Foundation/Foundation.h>
-#import "CYAlbum.h"
-#import "CYAsset.h"
+#import <UIKit/UIKit.h>
+
+@class CYAlbum;
+@class CYAsset;
+@class PHFetchResult;
+@class PHAsset;
 
 @interface CYPhotoManager : NSObject
 
