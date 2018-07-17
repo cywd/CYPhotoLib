@@ -37,18 +37,14 @@
 
 - (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle {
 
-    [CYPhotoCenter shareCenter].config = config;
-    
     self.sender = sender;
+    
+    [CYPhotoCenter shareCenter].config = config;
     
     [[CYPhotoCenter shareCenter] requestPhotoLibaryAuthorizationValidAuthorized:^{
         
         // 相册列表
         CYPhotoAlbumsController * albumsList = [[CYPhotoAlbumsController alloc] init];
-        albumsList.isSingleSel = CYPhotoCenter.config.isSinglePick;
-        albumsList.sortByModificationDate = self.sortByModificationDate;
-        albumsList.ascending = self.ascending;
-        albumsList.columnNumber = self.columnNumber;
         
         CYPhotoNavigationViewController *nav = [[CYPhotoNavigationViewController alloc] initWithRootViewController:albumsList];
         nav.navigationBar.barTintColor = CYPHOTOLIB_NAV_BAR_COLOR;
@@ -59,10 +55,6 @@
         if (CYPhotoCenter.config.isPushToCameraRoll) {
             // 所有照片
             CYPhotoAssetsController *browser = [[CYPhotoAssetsController alloc] init];
-            browser.isSingleSel = CYPhotoCenter.config.isSinglePick;
-            browser.sortByModificationDate = self.sortByModificationDate;
-            browser.ascending = self.ascending;
-            browser.columnNumber = self.columnNumber;
             [albumsList.navigationController pushViewController:browser animated:NO];
         }
         

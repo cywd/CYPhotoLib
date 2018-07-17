@@ -10,9 +10,4 @@
 
 @interface CYPhotoAlbumsController : CYPhotoBaseController
 
-@property (nonatomic, assign) BOOL isSingleSel;
-@property (nonatomic, assign) BOOL sortByModificationDate;
-@property (nonatomic, assign) BOOL ascending;
-@property (nonatomic, assign) NSInteger columnNumber;
-
 @end

@@ -14,6 +14,7 @@
 #import "CYPhotoCenter.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHud.h"
+#import "CYPhotoConfig.h"
 
 @interface CYPhotoAlbumsController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -74,10 +75,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     CYPhotoAssetsController *browser = [[CYPhotoAssetsController alloc] init];
-    browser.isSingleSel = self.isSingleSel;
-    browser.ascending = self.ascending;
-    browser.sortByModificationDate = self.sortByModificationDate;
-    browser.columnNumber = self.columnNumber;
     CYAlbum *album = self.albums[indexPath.row];
     browser.album = album;
     [self.navigationController pushViewController:browser animated:YES];
@@ -97,7 +94,7 @@
         [hud showProgressHUD];
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:self.sortByModificationDate ascending:self.ascending completion:^(NSArray<CYAlbum *> *albumsArray) {
+        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(NSArray<CYAlbum *> *albumsArray) {
             self.albums = [NSMutableArray arrayWithArray:albumsArray];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];

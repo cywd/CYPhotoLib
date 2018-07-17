@@ -19,10 +19,7 @@
 #import "CYPhotoHud.h"
 #import "CYPhotoConfig.h"
 
-static CGFloat CELL_ROW = 4;
-static CGFloat CELL_MARGIN = 5.0;
-static CGFloat CELL_INTERRITEM_MARGIN = 5.0;
-static CGFloat CELL_LINE_MARGIN = 5.0;
+
 static CGFloat TOOLBAR_HEIGHT = 135;
 
 static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
@@ -83,6 +80,8 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 //    [self.view addSubview:_bottomView];
     
     self.title = self.collectionTitle ? self.collectionTitle : @"照片";
+    
+    self.shouldScrollToBottom = YES;
 
 //    if (@available(iOS 11, *)) {
 //        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
@@ -120,7 +119,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (!self.album) {
-            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:YES sortByModificationDate:self.sortByModificationDate ascending:self.ascending completion:^(CYAlbum *model) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:YES sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(CYAlbum *model) {
                 self.album = model;
                 self.assets = [NSMutableArray arrayWithArray:self.album.assets];
                 self.dataSource = self.assets;
@@ -170,7 +169,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     CGFloat bottomH = 0;
     CGFloat bottomCons = 0;
     
-    if (_isSingleSel) {
+    if (CYPhotoCenter.config.isSinglePick) {
         bottomH = 5.0;
     } else {
         bottomH = TOOLBAR_HEIGHT;
@@ -239,10 +238,10 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     self.collectionView.contentInset = UIEdgeInsetsMake(5.0, insets.left, 5.0, insets.right);
     
     CGFloat width = self.view.bounds.size.width-insets.left-insets.right;
-    CGFloat cellW = (width - CELL_MARGIN * (self.columnNumber - 1)) / self.columnNumber;
+    CGFloat cellW = (width - CYPhotoCenter.config.minimumInteritemSpacing * (CYPhotoCenter.config.columnNumber - 1)) / CYPhotoCenter.config.columnNumber;
     _collectionLayout.itemSize = CGSizeMake(cellW, cellW);
-    _collectionLayout.minimumInteritemSpacing = CELL_INTERRITEM_MARGIN;
-    _collectionLayout.minimumLineSpacing = CELL_LINE_MARGIN;
+    _collectionLayout.minimumInteritemSpacing = CYPhotoCenter.config.minimumInteritemSpacing;
+    _collectionLayout.minimumLineSpacing = CYPhotoCenter.config.minimumLineSpacing;
     _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
     [self.collectionView setCollectionViewLayout:_collectionLayout];
     
@@ -314,7 +313,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         
         cell.asset = self.dataSource[indexPath.item].asset;
         
-        cell.singleSelBtn.hidden = !_isSingleSel;
+        cell.singleSelBtn.hidden = !CYPhotoCenter.config.isSinglePick;
         
         BOOL isContent = NO;
         for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
@@ -418,7 +417,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [self.view addSubview:self.collectionView];
     
     CGFloat bottomCons = 0;
-    if (_isSingleSel) {
+    if (CYPhotoCenter.config.isSinglePick) {
 //        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
         // 初始化按钮
 //        [self setupButtonsSingle];
@@ -435,7 +434,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (void)scrollCollectionViewToBottom {
     if (self.shouldScrollToBottom && self.assets.count > 0) {
         NSInteger item = 0;
-        if (self.ascending) {
+        if (CYPhotoCenter.config.ascending) {
             item = self.assets.count - 1;
         }
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -535,11 +534,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 #pragma mark - getters and setters
-- (void)setAscending:(BOOL)ascending {
-    _ascending = ascending;
-    self.shouldScrollToBottom = ascending;
-}
-
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -674,14 +668,6 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         _toolBarThumbCollectionView = toolBarThumbCollectionView;
     }
     return _toolBarThumbCollectionView;
-}
-
-- (NSInteger)columnNumber
-{
-    if (_columnNumber == 0) {
-        _columnNumber = CELL_ROW;
-    }
-    return _columnNumber;
 }
 
 #pragma mark - receive and dealloc
