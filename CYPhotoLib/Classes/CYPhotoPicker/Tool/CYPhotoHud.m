@@ -7,6 +7,7 @@
 //
 
 #import "CYPhotoHud.h"
+#import "NSBundle+CYPhotoLib.h"
 
 @implementation CYPhotoHud {
     UIButton *_progressHUD;
@@ -41,7 +42,7 @@
         
         _HUDLabel = [[UILabel alloc] init];
         _HUDLabel.textAlignment = NSTextAlignmentCenter;
-        _HUDLabel.text = @"正在处理";
+        _HUDLabel.text = [NSBundle cy_localizedStringForKey:@"Processing..."];
         _HUDLabel.font = [UIFont systemFontOfSize:15];
         _HUDLabel.textColor = [UIColor whiteColor];
         

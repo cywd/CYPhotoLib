@@ -17,6 +17,7 @@
 
 #import "CYPhotoCenter.h"
 #import "CYPhotoConfig.h"
+#import "NSBundle+CYPhotoLib.h"
 
 @interface CYPhotoPicker()
 
@@ -46,7 +47,6 @@
         CYPhotoAlbumsController * albumsViewController = [[CYPhotoAlbumsController alloc] init];
         
         CYPhotoNavigationController *navigationController = [[CYPhotoNavigationController alloc] initWithRootViewController:albumsViewController];
-        navigationController.navigationItem.backBarButtonItem.title = @"照片";
         
         if (CYPhotoCenter.config.isPushToCameraRoll) {
             // 所有照片
@@ -84,25 +84,45 @@
 #pragma mark - private
 - (void)deined {
     // 无权限
-    [self setAlertControllerWithTitle:CY_DeinedPhotoLibirayText message:CY_GotoPhotoLibararySettingText];
+    NSDictionary *infoDict = [NSBundle mainBundle].localizedInfoDictionary;
+    if (!infoDict || !infoDict.count) {
+        infoDict = [NSBundle mainBundle].infoDictionary;
+    }
+    if (!infoDict || !infoDict.count) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+        infoDict = [NSDictionary dictionaryWithContentsOfFile:path];
+    }
+    NSString *appName = [infoDict valueForKey:@"CFBundleDisplayName"];
+    if (!appName) appName = [infoDict valueForKey:@"CFBundleName"];
+    [self setAlertControllerWithTitle:[NSBundle cy_localizedStringForKey:@"The application cannot access your photo album"] message:[NSString stringWithFormat:[NSBundle cy_localizedStringForKey:@"Allow %@ to access your album in \"Settings -> %@ -> Photos\""],appName, appName]];
     return;
 }
 
 - (void)restricted {
     // 家长模式
-    [self setAlertControllerWithTitle:CY_RestrictedPhotoLibirayText message:CY_GotoPhotoLibararySettingText];
+    NSDictionary *infoDict = [NSBundle mainBundle].localizedInfoDictionary;
+    if (!infoDict || !infoDict.count) {
+        infoDict = [NSBundle mainBundle].infoDictionary;
+    }
+    if (!infoDict || !infoDict.count) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+        infoDict = [NSDictionary dictionaryWithContentsOfFile:path];
+    }
+    NSString *appName = [infoDict valueForKey:@"CFBundleDisplayName"];
+    if (!appName) appName = [infoDict valueForKey:@"CFBundleName"];
+    [self setAlertControllerWithTitle:[NSBundle cy_localizedStringForKey:@"The application was unable to access the photo because parental control was enabled"] message:[NSString stringWithFormat:[NSBundle cy_localizedStringForKey:@"Allow %@ to access your album in \"Settings -> %@ -> Photos\""], appName, appName]];
     return;
 }
 
 - (void)setAlertControllerWithTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[NSBundle cy_localizedStringForKey:@"Cancel"] style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[NSBundle cy_localizedStringForKey:@"Setting"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         if (@available(iOS 10, *)) {
             // 跳转到 “设置\"-\"隐私\"-\"照片”
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:CY_GotoPhotoLibrarySettingPath] options:[NSDictionary dictionary] completionHandler:^(BOOL success) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:[NSDictionary dictionary] completionHandler:^(BOOL success) {
                 NSLog(@"%@", success ? @"success" : @"failure");
             }];
         } else {
@@ -176,6 +196,10 @@
 
 - (void)setMinimumInteritemSpacing:(CGFloat)minimumInteritemSpacing {
     self.config.minimumInteritemSpacing = minimumInteritemSpacing;
+}
+
+- (void)setShowCountFooter:(BOOL)showCountFooter {
+    self.config.showCountFooter = showCountFooter;
 }
 
 @end

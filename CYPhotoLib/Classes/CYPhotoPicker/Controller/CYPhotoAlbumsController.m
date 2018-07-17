@@ -15,6 +15,7 @@
 #import "CYPhotoManager.h"
 #import "CYPhotoHud.h"
 #import "CYPhotoConfig.h"
+#import "NSBundle+CYPhotoLib.h"
 
 @interface CYPhotoAlbumsController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -29,13 +30,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"照片";
+    self.title = [NSBundle cy_localizedStringForKey:@"Photos"];
     
     _albums = [NSMutableArray array];
     
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[CYPhotoAlbumCell class] forCellReuseIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle cy_localizedStringForKey:@"Cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

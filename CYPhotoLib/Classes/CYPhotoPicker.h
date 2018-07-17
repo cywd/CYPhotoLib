@@ -68,6 +68,8 @@
  */
 @property (nonatomic) CGFloat minimumInteritemSpacing;
 
+@property (nonatomic, assign, getter=isShowCountFooter) BOOL showCountFooter;
+
 #pragma mark - 其他
 @property (nonatomic, assign) NSInteger selectedCount;
 

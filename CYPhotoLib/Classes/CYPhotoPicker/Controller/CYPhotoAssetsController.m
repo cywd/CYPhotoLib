@@ -21,10 +21,11 @@
 #import "CYPhotoHud.h"
 #import "CYPhotoConfig.h"
 
+#import "NSBundle+CYPhotoLib.h"
+
 
 static CGFloat TOOLBAR_HEIGHT = 135;
 
-static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
 @interface CYPhotoAssetsController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -74,24 +75,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     [super viewDidLoad];
     
     self.collectionTitle = self.album.name;
-    
-
-//    [self.view addSubview:_bottomView];
-    
-    self.title = self.collectionTitle ? self.collectionTitle : @"照片";
+    self.title = self.collectionTitle ? self.collectionTitle : [NSBundle cy_localizedStringForKey:@"Photos"];
     
     self.shouldScrollToBottom = YES;
-
-//    if (@available(iOS 11, *)) {
-//        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
-//        [NSLayoutConstraint activateConstraints:@[[self.collectionView.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.collectionView.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
-//    } else {
-//        let standardSpacing: CGFloat = 8.0
-//        NSLayoutConstraint.activate([
-//                                     greenView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: standardSpacing),
-//                                     bottomLayoutGuide.topAnchor.constraint(equalTo: greenView.bottomAnchor, constant: standardSpacing)
-//                                     ])
-//    }
     
     [self setupUI];
     
@@ -241,7 +227,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     _collectionLayout.itemSize = CGSizeMake(cellW, cellW);
     _collectionLayout.minimumInteritemSpacing = CYPhotoCenter.config.minimumInteritemSpacing;
     _collectionLayout.minimumLineSpacing = CYPhotoCenter.config.minimumLineSpacing;
-    _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
+    if (CYPhotoCenter.config.showCountFooter) {
+         _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
+    }
     [self.collectionView setCollectionViewLayout:_collectionLayout];
     
     if (_offsetItemCount > 0) {
@@ -271,7 +259,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         NSMutableArray *arr = [CYPhotoCenter shareCenter].selectedPhotos;
         CYAsset *asset = arr[indexPath.item];
         
-        CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:_identifier forIndexPath:indexPath];
+        CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CYPhotoBottomCollectionViewCell class]) forIndexPath:indexPath];
         
         cell.indexPath = indexPath;
         cell.asset = asset;
@@ -382,10 +370,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+
     CYPhotoAssetsFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoAssetsFooter class]) forIndexPath:indexPath];
-    
+
     footerView.count = self.album.count;
-    
+
     CYPhotoAssetsFooter *reusableView = footerView;
     self.footerView = footerView;
     return reusableView;
@@ -415,13 +404,11 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.collectionView];
     
-    CGFloat bottomCons = 0;
     if (CYPhotoCenter.config.isSinglePick) {
 //        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
         // 初始化按钮
 //        [self setupButtonsSingle];
     } else {
-        bottomCons = TOOLBAR_HEIGHT;
         
         // 初始化按钮
 //        [self setupButtons];
@@ -542,7 +529,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         _collectionView.delegate = self;
         _collectionView.alwaysBounceHorizontal = NO;
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoAssetCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([CYPhotoAssetCell class])];
-        [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoAssetsFooter class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoAssetsFooter class])];
+        if (CYPhotoCenter.config.showCountFooter) {
+            [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoAssetsFooter class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoAssetsFooter class])];
+        }
     }
     return _collectionView;
 }
@@ -662,7 +651,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         toolBarThumbCollectionView.scrollsToTop = NO;
         toolBarThumbCollectionView.dataSource = self;
         toolBarThumbCollectionView.delegate = self;
-        [toolBarThumbCollectionView registerNib:[UINib nibWithNibName:@"CYPhotoBottomCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:_identifier];
+        [toolBarThumbCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoBottomCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([CYPhotoBottomCollectionViewCell class])];
         
         _toolBarThumbCollectionView = toolBarThumbCollectionView;
     }

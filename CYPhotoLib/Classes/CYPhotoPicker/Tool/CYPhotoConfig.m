@@ -25,6 +25,7 @@
         _columnNumber = 4;
         _minimumLineSpacing = 5;
         _minimumInteritemSpacing = 5;
+        _showCountFooter = YES;
         
     }
     return self;

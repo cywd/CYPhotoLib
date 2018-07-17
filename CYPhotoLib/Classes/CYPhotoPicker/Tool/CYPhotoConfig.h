@@ -68,4 +68,6 @@
  */
 @property (nonatomic) CGFloat minimumInteritemSpacing;
 
+@property (nonatomic, assign, getter=isShowCountFooter) BOOL showCountFooter;
+
 @end
