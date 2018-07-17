@@ -9,6 +9,7 @@
 #import "CYPhotoCenter.h"
 #import "CYPhotoHeader.h"
 #import "CYPhotoManager.h"
+#import "CYPhotoConfig.h"
 
 @interface CYPhotoCenter () <PHPhotoLibraryChangeObserver, UIAlertViewDelegate>
 
@@ -51,7 +52,7 @@
 }
 
 - (BOOL)isReachMaxSelectedCount {
-    if (self.selectedPhotos.count >= self.maxSelectedCount) {
+    if (self.selectedPhotos.count >= self.config.maxSelectedCount) {
         //        NSString *msg = [NSString stringWithFormat:@"最多只能选择%ld张", self.maxSelectedCount];
         //        ShowMsg(msg);
         
@@ -63,7 +64,7 @@
 
 - (BOOL)isReachMinSelectedCount {
     
-    if (self.selectedPhotos.count < self.minSelectedCount) {
+    if (self.selectedPhotos.count < self.config.minSelectedCount) {
         //        NSString *msg = [NSString stringWithFormat:@"至少要选择%ld张", self.minSelectedCount];
         //        ShowMsg(msg);
         return YES;
@@ -74,8 +75,8 @@
 #pragma mark - 清除信息
 - (void)clearInfos {
     self.selectedCount = 20;
-    self.maxSelectedCount = 20;
-    self.minSelectedCount = 1;
+//    self.maxSelectedCount = 20;
+//    self.minSelectedCount = 1;
     self.isOriginal = NO;
     self.handle = nil;
     self.allPhotos = nil;

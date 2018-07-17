@@ -21,6 +21,8 @@
 
 @interface CYPhotoPicker()
 
+@property (nonatomic, strong) CYPhotoConfig *config;
+
 //显示选择器的控制器
 @property (nonatomic, weak) UIViewController * sender;
 
@@ -30,16 +32,12 @@
 
 #pragma mark - public
 - (void)showInSender:(__kindof UIViewController *)sender handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle {
-    [self showInSender:sender config:[self setupConfig] handle:handle];
+    [self showInSender:sender config:self.config handle:handle];
 }
 
 - (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle {
-    [CYPhotoCenter shareCenter].maxSelectedCount = self.maxSelectedCount;
-    [CYPhotoCenter shareCenter].minSelectedCount = self.minSelectedCount;
-    
-    
+
     [CYPhotoCenter shareCenter].config = config;
-    
     
     self.sender = sender;
     
@@ -95,25 +93,6 @@
 }
 
 #pragma mark - private
-- (CYPhotoConfig *)setupConfig {
-    CYPhotoConfig *config = [[CYPhotoConfig alloc] init];
-    config.allowPickingVideo = self.isAllowPickingVideo;
-    config.allowPickingImage = self.isAllowPickingImage;
-    config.pushToCameraRoll = self.isPushToCameraRoll;
-    config.singlePick = self.isSinglePick;
-    config.sortByModificationDate = self.isSortByModificationDate;
-    config.ascending = self.isAscending;
-    config.defaultImageWidth = self.defaultImageWidth;
-    config.maxSelectedCount = self.maxSelectedCount;
-    config.minSelectedCount = self.minSelectedCount;
-    config.edgeInset = self.edgeInset;
-    config.columnNumber = self.columnNumber;
-    config.minimumLineSpacing = self.minimumLineSpacing;
-    config.minimumInteritemSpacing = self.minimumInteritemSpacing;
-    
-    return config;
-}
-
 - (void)deined {
     // 无权限
     [self setAlertControllerWithTitle:CY_DeinedPhotoLibirayText message:CY_GotoPhotoLibararySettingText];
@@ -146,6 +125,68 @@
     [alert addAction:okAction];
     
     [self.sender presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - getter
+- (CYPhotoConfig *)config
+{
+    if (!_config) {
+        _config = [[CYPhotoConfig alloc] init];
+    }
+    return _config;
+}
+
+#pragma mark - setter
+- (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
+    self.config.allowPickingVideo = allowPickingVideo;
+}
+
+- (void)setAllowPickingImage:(BOOL)allowPickingImage {
+    self.config.allowPickingImage = allowPickingImage;
+}
+
+- (void)setPushToCameraRoll:(BOOL)pushToCameraRoll {
+    self.config.pushToCameraRoll = pushToCameraRoll;
+}
+
+- (void)setSinglePick:(BOOL)singlePick {
+    self.config.singlePick = singlePick;
+}
+
+- (void)setSortByModificationDate:(BOOL)sortByModificationDate {
+    self.config.sortByModificationDate = sortByModificationDate;
+}
+
+- (void)setAscending:(BOOL)ascending {
+    self.config.ascending = ascending;
+}
+
+- (void)setDefaultImageWidth:(CGFloat)defaultImageWidth {
+    self.config.defaultImageWidth = defaultImageWidth;
+}
+
+- (void)setMaxSelectedCount:(NSInteger)maxSelectedCount {
+    self.config.maxSelectedCount = maxSelectedCount;
+}
+
+- (void)setMinSelectedCount:(NSInteger)minSelectedCount {
+    self.config.minSelectedCount = minSelectedCount;
+}
+
+- (void)setEdgeInset:(UIEdgeInsets)edgeInset {
+    self.config.edgeInset = edgeInset;
+}
+
+- (void)setColumnNumber:(NSInteger)columnNumber {
+    self.config.columnNumber = columnNumber;
+}
+
+- (void)setMinimumLineSpacing:(CGFloat)minimumLineSpacing {
+    self.config.minimumLineSpacing = minimumLineSpacing;
+}
+
+- (void)setMinimumInteritemSpacing:(CGFloat)minimumInteritemSpacing {
+    self.config.minimumInteritemSpacing = minimumInteritemSpacing;
 }
 
 @end

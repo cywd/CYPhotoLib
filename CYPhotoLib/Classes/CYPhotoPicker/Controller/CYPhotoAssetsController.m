@@ -17,6 +17,7 @@
 #import "UIView+CYConstraintMatching.h"
 #import "CYAsset.h"
 #import "CYPhotoHud.h"
+#import "CYPhotoConfig.h"
 
 static CGFloat CELL_ROW = 4;
 static CGFloat CELL_MARGIN = 5.0;
@@ -75,9 +76,9 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     
     self.collectionTitle = self.album.name;
     
-    if ([CYPhotoCenter shareCenter].maxSelectedCount == 0) {
-        [CYPhotoCenter shareCenter].maxSelectedCount = 20;
-    }
+//    if ([CYPhotoCenter shareCenter].maxSelectedCount == 0) {
+//        [CYPhotoCenter shareCenter].maxSelectedCount = 20;
+//    }
     
 //    [self.view addSubview:_bottomView];
     
@@ -469,7 +470,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
         [self.toolBarThumbCollectionView reloadData];
     }];
     
-    self.allCountLabel.text = [NSString stringWithFormat:@"%ld/%ld张", (long)[CYPhotoCenter shareCenter].selectedPhotos.count, (long)[CYPhotoCenter shareCenter].maxSelectedCount];
+    self.allCountLabel.text = [NSString stringWithFormat:@"%ld/%ld张", (long)[CYPhotoCenter shareCenter].selectedPhotos.count, (long)[CYPhotoCenter shareCenter].config.maxSelectedCount];
 
     if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
         //        self.bottomViewCover.hidden = YES;
@@ -631,7 +632,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (UILabel *)numberLabel {
     if (!_numberLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 110, 25)];
-        label.text = [NSString stringWithFormat:@"（%@-%@张）", @([CYPhotoCenter shareCenter].minSelectedCount), @([CYPhotoCenter shareCenter].maxSelectedCount)];
+        label.text = [NSString stringWithFormat:@"（%@-%@张）", @([CYPhotoCenter shareCenter].config.minSelectedCount), @([CYPhotoCenter shareCenter].config.maxSelectedCount)];
         label.textColor = [UIColor colorWithRed:0.302 green:0.294 blue:0.298 alpha:1.000];
         label.textAlignment = NSTextAlignmentLeft;
         label.font = [UIFont systemFontOfSize:16];
@@ -643,7 +644,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 - (UILabel *)allCountLabel {
     if (!_allCountLabel) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 110, 25)];
-        label.text = [NSString stringWithFormat:@"/%@张", @([CYPhotoCenter shareCenter].maxSelectedCount)];
+        label.text = [NSString stringWithFormat:@"/%@张", @([CYPhotoCenter shareCenter].config.maxSelectedCount)];
         label.textColor = [UIColor colorWithRed:0.302 green:0.294 blue:0.298 alpha:1.000];
         label.textAlignment = NSTextAlignmentLeft;
         label.font = [UIFont systemFontOfSize:16];

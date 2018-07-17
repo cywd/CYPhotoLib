@@ -24,8 +24,8 @@
  * 最大选择数,默认为20
  */
 @property (nonatomic, assign) NSInteger selectedCount;
-@property (nonatomic, assign) NSInteger maxSelectedCount;
-@property (nonatomic, assign) NSInteger minSelectedCount;
+//@property (nonatomic, assign) NSInteger maxSelectedCount;
+//@property (nonatomic, assign) NSInteger minSelectedCount;
 
 /*
  * 是否原图
