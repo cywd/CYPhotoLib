@@ -316,6 +316,8 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         
         [cell setSelectedBlock:^(BOOL isSelected) {
             
+            
+            
             if (isSelected) {
                 if ([[CYPhotoCenter shareCenter] isReachMaxSelectedCount]) {
                     weakCell.selBtn.selected = NO;
@@ -324,7 +326,14 @@ static CGFloat TOOLBAR_HEIGHT = 135;
                 [weakCell.selBtn startSelectedAnimation];
                 [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
             } else {
-                [[CYPhotoCenter shareCenter].selectedPhotos removeObject:weakSelf.dataSource[indexPath.item]];
+                NSUInteger index = 0;
+                for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
+                    if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
+                        index = [[CYPhotoCenter shareCenter].selectedPhotos indexOfObject:model];
+                    }
+                }
+                
+                [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:index];
             }
             [weakSelf refreshBottomView];
             
@@ -417,6 +426,15 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     }
 }
 
+- (void)scrollBottomCollectionViewToLast {
+    if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
+        NSInteger item = [CYPhotoCenter shareCenter].selectedPhotos.count-1;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.toolBarThumbCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionRight animated:NO];
+        });
+    }
+}
+
 - (void)scrollCollectionViewToBottom {
     if (self.shouldScrollToBottom && self.assets.count > 0) {
         NSInteger item = 0;
@@ -456,6 +474,8 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     }];
     
     self.allCountLabel.text = [NSString stringWithFormat:@"%ld/%ld张", (long)[CYPhotoCenter shareCenter].selectedPhotos.count, (long)[CYPhotoCenter shareCenter].config.maxSelectedCount];
+    
+    [self scrollBottomCollectionViewToLast];
 
     if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
         //        self.bottomViewCover.hidden = YES;

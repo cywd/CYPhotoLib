@@ -295,14 +295,13 @@ static dispatch_once_t onceToken;
             [self fetchImageInAsset:asset size:size isResize:NO completion:^(UIImage *image, NSDictionary *info) {
                 
                 //当图片读取到指定尺寸时
-                if (image.size.width >= size.width * OriginalRatio || image.size.height >= size.height * OriginalRatio) {
-                    [images addObject:image];
-                    //全部图片读取完毕
-                    if (images.count == assetsArray.count) {
-                        
-                        //执行block
-                        if (completion) completion(images);
-                    }
+                
+                [images addObject:image];
+                //全部图片读取完毕
+                if (images.count == assetsArray.count) {
+                    
+                    //执行block
+                    if (completion) completion(images);
                 }
             }];
 //        }
