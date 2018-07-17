@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/cywd/CYPhotoLib.git", :tag => "#{s.version}" }
 
   s.source_files  = "CYPhotoLib/Classes/**/*.{h,m}"
-  s.resources = "CYPhotoLib/Resource/*.png", "CYPhotoLib/Classes/CYPhotoPicker/View/*.xib"
+  s.resources = "CYPhotoLib/Resource/*.png", "CYPhotoLib/Classes/CYPhotoPicker/View/*.xib", "CYPhotoLib/Resource/*.bundle"
 
   # s.frameworks = "SomeFramework", "AnotherFramework"
   s.requires_arc = true
