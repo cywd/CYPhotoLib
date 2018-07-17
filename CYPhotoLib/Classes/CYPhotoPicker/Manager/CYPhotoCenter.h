@@ -10,7 +10,6 @@
 #import <UIKit/UIKit.h>
 
 @class PHAsset;
-@class UIImage;
 @class CYAsset;
 
 @class CYPhotoConfig;
@@ -18,11 +17,6 @@
 @interface CYPhotoCenter : NSObject
 
 @property (nonatomic, strong) CYPhotoConfig *config;
-
-/*
- * 是否原图
- */
-@property (nonatomic, assign) BOOL isOriginal;
 
 /**
  *  所有的图片

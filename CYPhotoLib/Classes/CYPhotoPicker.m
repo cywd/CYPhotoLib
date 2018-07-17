@@ -46,9 +46,6 @@
         CYPhotoAlbumsController * albumsViewController = [[CYPhotoAlbumsController alloc] init];
         
         CYPhotoNavigationController *navigationController = [[CYPhotoNavigationController alloc] initWithRootViewController:albumsViewController];
-        navigationController.navigationBar.barTintColor = CYPHOTOLIB_NAV_BAR_COLOR;
-        [navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor blackColor]}];
-        navigationController.navigationBar.tintColor = [UIColor blackColor];
         navigationController.navigationItem.backBarButtonItem.title = @"照片";
         
         if (CYPhotoCenter.config.isPushToCameraRoll) {

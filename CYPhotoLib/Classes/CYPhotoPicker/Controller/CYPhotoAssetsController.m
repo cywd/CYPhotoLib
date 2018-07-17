@@ -472,7 +472,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
 
     if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
         //        self.bottomViewCover.hidden = YES;
-        self.isOriginalBtn.selected = [CYPhotoCenter shareCenter].isOriginal;
+//        self.isOriginalBtn.selected = [CYPhotoCenter shareCenter].isOriginal;
         //        self.comBtn.text = [NSString stringWithFormat:@"完成(%zi)", [CYPhotoCenter shareCenter].selectedPhotos.count];
         
         self.completeBtn.hidden = NO;

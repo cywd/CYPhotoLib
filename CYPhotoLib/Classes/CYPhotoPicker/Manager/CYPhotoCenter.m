@@ -46,7 +46,7 @@
 
 - (void)endPick {
     if (self.handle) {
-        [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:self.isOriginal completion:^(NSArray *images) {
+        [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:YES completion:^(NSArray *images) {
             self.handle(images);
         }];
     }
@@ -75,7 +75,6 @@
 
 #pragma mark - 清除信息
 - (void)clearInfos {
-    self.isOriginal = NO;
     self.handle = nil;
     self.allPhotos = nil;
     [self.selectedPhotos removeAllObjects];

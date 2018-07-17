@@ -8,11 +8,11 @@
 // 负责管理与Photo 相关的内容
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
 
 @class CYAlbum;
 @class CYAsset;
-@class PHFetchResult;
-@class PHAsset;
+
 
 @interface CYPhotoManager : NSObject
 
