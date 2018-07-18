@@ -1,6 +1,6 @@
 
 //  CYPhotoCenter.h
-//  PhotoLibDemo
+//  CYPhotoLib
 //
 //  Created by Cyrill on 2016/9/28.
 //  Copyright © 2016年 Cyrill. All rights reserved.

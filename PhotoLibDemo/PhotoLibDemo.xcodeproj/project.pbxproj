@@ -52,7 +52,7 @@
 		E7C555E71EA734E500BA5D8C /* CYPhoto_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = E7C555C31EA734E500BA5D8C /* CYPhoto_unselected.png */; };
 		E7C555E81EA734E500BA5D8C /* CYPhoto_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7C555C41EA734E500BA5D8C /* CYPhoto_unselected@2x.png */; };
 		E7C555E91EA734E500BA5D8C /* CYPhoto_unselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7C555C51EA734E500BA5D8C /* CYPhoto_unselected@3x.png */; };
-		E7D6F14220FEDF46004B2D71 /* UIView+CYAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D6F14120FEDF46004B2D71 /* UIView+CYAnimation.m */; };
+		E7D6F14220FEDF46004B2D71 /* UIView+CYPhotoAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D6F14120FEDF46004B2D71 /* UIView+CYPhotoAnimation.m */; };
 		E7D6F14D20FEDFE7004B2D71 /* NSLayoutConstraint+CYPhotoViewHierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D6F14320FEDFE4004B2D71 /* NSLayoutConstraint+CYPhotoViewHierarchy.m */; };
 		E7D6F14E20FEDFE7004B2D71 /* UIView+CYPhotoConstraintMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D6F14420FEDFE4004B2D71 /* UIView+CYPhotoConstraintMatching.m */; };
 		E7D6F14F20FEDFE7004B2D71 /* NSLayoutConstraint+CYPhotoConstraintMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D6F14720FEDFE5004B2D71 /* NSLayoutConstraint+CYPhotoConstraintMatching.m */; };
@@ -159,8 +159,8 @@
 		E7C555C31EA734E500BA5D8C /* CYPhoto_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CYPhoto_unselected.png; sourceTree = "<group>"; };
 		E7C555C41EA734E500BA5D8C /* CYPhoto_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CYPhoto_unselected@2x.png"; sourceTree = "<group>"; };
 		E7C555C51EA734E500BA5D8C /* CYPhoto_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CYPhoto_unselected@3x.png"; sourceTree = "<group>"; };
-		E7D6F14020FEDF46004B2D71 /* UIView+CYAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYAnimation.h"; sourceTree = "<group>"; };
-		E7D6F14120FEDF46004B2D71 /* UIView+CYAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYAnimation.m"; sourceTree = "<group>"; };
+		E7D6F14020FEDF46004B2D71 /* UIView+CYPhotoAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYPhotoAnimation.h"; sourceTree = "<group>"; };
+		E7D6F14120FEDF46004B2D71 /* UIView+CYPhotoAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYPhotoAnimation.m"; sourceTree = "<group>"; };
 		E7D6F14320FEDFE4004B2D71 /* NSLayoutConstraint+CYPhotoViewHierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CYPhotoViewHierarchy.m"; sourceTree = "<group>"; };
 		E7D6F14420FEDFE4004B2D71 /* UIView+CYPhotoConstraintMatching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYPhotoConstraintMatching.m"; sourceTree = "<group>"; };
 		E7D6F14520FEDFE5004B2D71 /* UIView+CYPhotoHierarchySupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYPhotoHierarchySupport.h"; sourceTree = "<group>"; };
@@ -328,8 +328,8 @@
 		E7C5558A1EA734E500BA5D8C /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				E7D6F14020FEDF46004B2D71 /* UIView+CYAnimation.h */,
-				E7D6F14120FEDF46004B2D71 /* UIView+CYAnimation.m */,
+				E7D6F14020FEDF46004B2D71 /* UIView+CYPhotoAnimation.h */,
+				E7D6F14120FEDF46004B2D71 /* UIView+CYPhotoAnimation.m */,
 				E70EA11620EB4C1000BAAC0A /* NSBundle+CYPhotoLib.h */,
 				E70EA11720EB4C1000BAAC0A /* NSBundle+CYPhotoLib.m */,
 				E7D6F14620FEDFE5004B2D71 /* NSLayoutConstraint+CYPhotoConstraintMatching.h */,
@@ -708,7 +708,7 @@
 				E70EA11820EB4C1000BAAC0A /* NSBundle+CYPhotoLib.m in Sources */,
 				E7D6F14F20FEDFE7004B2D71 /* NSLayoutConstraint+CYPhotoConstraintMatching.m in Sources */,
 				E7C555D41EA734E500BA5D8C /* CYPhotoAlbumCell.m in Sources */,
-				E7D6F14220FEDF46004B2D71 /* UIView+CYAnimation.m in Sources */,
+				E7D6F14220FEDF46004B2D71 /* UIView+CYPhotoAnimation.m in Sources */,
 				E7D6F14E20FEDFE7004B2D71 /* UIView+CYPhotoConstraintMatching.m in Sources */,
 				E7C555D11EA734E500BA5D8C /* CYPhotoCenter.m in Sources */,
 				E7C555D01EA734E500BA5D8C /* CYPhotoNavigationController.m in Sources */,

@@ -1,6 +1,6 @@
 //
 //  CYPhotoBottomView.m
-//  PhotoLibDemo
+//  CYPhotoLib
 //
 //  Created by Cyrill on 2017/11/7.
 //  Copyright © 2017年 Cyrill. All rights reserved.

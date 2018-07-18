@@ -1,6 +1,6 @@
 //
-//  UIView+CYAnimation.m
-//  PhotoLibDemo
+//  UIView+CYPhotoAnimation.m
+//  CYPhotoLib
 //
 //  Created by Cyrill on 16/7/18.
 //  Copyright © 2016年 Cyrill. All rights reserved.
@@ -11,7 +11,7 @@
 #define BottomRect CGRectMake(self.frame.origin.x, [UIScreen mainScreen].bounds.size.height, self.frame.size.width, self.frame.size.height)
 
 
-@implementation UIView (CYAnimation)
+@implementation UIView (CYPhotoAnimation)
 
 #pragma mark - 底部出现动画
 - (void)showFromBottom {

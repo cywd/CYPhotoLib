@@ -1,6 +1,6 @@
 //
 //  CYPhotoHud.m
-//  PhotoLibDemo
+//  CYPhotoLib
 //
 //  Created by cyrill on 2018/6/26.
 //  Copyright © 2018年 Cyrill. All rights reserved.
