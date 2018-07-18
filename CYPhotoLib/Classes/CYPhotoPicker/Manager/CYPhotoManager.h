@@ -35,7 +35,7 @@
 /**
  去请求相机权限
 
- @param handle 回调
+ @param handler 回调
  */
 + (void)cameraAuthoriationValidWithHandler:(void(^)(void))handler;
 
