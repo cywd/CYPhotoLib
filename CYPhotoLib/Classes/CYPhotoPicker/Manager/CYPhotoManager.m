@@ -249,8 +249,6 @@ static dispatch_once_t onceToken;
         PHAsset * asset = assetsArray[i].asset;
         CGSize size;
         
-        
-        
         if (isOriginal) {
             
             // 源图 -> 不压缩
@@ -283,28 +281,17 @@ static dispatch_once_t onceToken;
             }
         }
         
-//        if (isOriginal) {
-//            [self fetchOriginalImageWithAsset:asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
-//                [images addObject:photo];
-//                if (images.count == assetsArray.count) {
-//                    //执行block
-//                    if (completion) completion(images);
-//                }
-//            }];
-//        } else {
-            [self fetchImageInAsset:asset size:size isResize:NO completion:^(UIImage *image, NSDictionary *info) {
-                
-                //当图片读取到指定尺寸时
-                
-                [images addObject:image];
-                //全部图片读取完毕
+        if (isOriginal) {
+            [self fetchOriginalImageWithAsset:asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+                [images addObject:photo];
                 if (images.count == assetsArray.count) {
-                    
                     //执行block
                     if (completion) completion(images);
                 }
             }];
-//        }
+        } else {
+            
+        }
     }
 }
 
@@ -330,10 +317,16 @@ static dispatch_once_t onceToken;
     
     __block UIImage *image;
     
-    // 修复获取图片时出现的瞬间内存过高问题
-    // 下面两行代码，来自hsjcom，他的github是：https://github.com/hsjcom 表示感谢
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    /**
+     synchronous：指定请求是否同步执行。
+     resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
+     deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
+     这个属性只有在 synchronous 为 true 时有效。
+     normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
+     */
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    
     PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         if (result) {
             image = result;
@@ -372,10 +365,13 @@ static dispatch_once_t onceToken;
     return imageRequestID;
 }
 
-/** 获取资源对应的图片 */
-- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completion:(void(^)(UIImage * image, NSDictionary * info))completion {
-    // 请求大图界面，当切换图片时，取消上一张图片的请求，对于iCloud端的图片，可以节省流量
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+/// 获取原图
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
+    [self fetchOriginalImageWithAsset:asset networkAccessAllowed:YES synchronous:YES completion:completion];
+}
+
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     /**
      synchronous：指定请求是否同步执行。
      resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
@@ -383,58 +379,10 @@ static dispatch_once_t onceToken;
      这个属性只有在 synchronous 为 true 时有效。
      normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
      */
-    option.resizeMode = isResize ? PHImageRequestOptionsResizeModeFast : PHImageRequestOptionsResizeModeNone; //控制照片尺寸
-    option.deliveryMode = isResize ? PHImageRequestOptionsDeliveryModeOpportunistic : PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    
-    // PHImageRequestOptionsDeliveryModeFastFormat 超级模糊
-    //
-    // option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
-    // 这里设置iCloud
-    option.networkAccessAllowed = YES;
-    
-    // 是否同步请求
-    option.synchronous = !isResize;
-        
-    /*
-     info字典提供请求状态信息:
-     PHImageResultIsInCloudKey：图像是否必须从iCloud请求
-     PHImageResultIsDegradedKey：当前UIImage是否是低质量的，这个可以实现给用户先显示一个预览图
-     PHImageResultRequestIDKey和PHImageCancelledKey：请求ID以及请求是否已经被取消
-     PHImageErrorKey：如果没有图像，字典内的错误信息
-     */
-
-    // 下载进度监听
-//    if (!isResize) {
-//        option.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info){
-//            NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                  [NSNumber numberWithDouble: progress], @"progress", nil];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:CYPHOTOLIB_PROGRESS_NOTIFICATION object:dict];
-//            
-//        };
-//    }
-    
-    // PHImageContentModeAspectFit ？ PHImageContentModeAspectFill ?
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        
-        
-        // 这里是异步的
-        // 排除取消，错误，低清图三种情况，即已经获取到了高清图
-//        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
-        
-        if (completion) completion(result, info);
-    }];
-}
-
-/// 获取原图
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
-    [self fetchOriginalImageWithAsset:asset networkAccessAllowed:YES synchronous:YES completion:completion];
-}
-
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
-    PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
     options.networkAccessAllowed = networkAccessAllowed;
     options.synchronous = synchronous;
     options.resizeMode = PHImageRequestOptionsResizeModeNone;
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
         if (downloadFinined && result) {

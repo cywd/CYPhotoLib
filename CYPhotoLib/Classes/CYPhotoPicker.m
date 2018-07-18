@@ -146,9 +146,9 @@
 }
 
 #pragma mark - setter
-- (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
-    self.config.allowPickingVideo = allowPickingVideo;
-}
+//- (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
+//    self.config.allowPickingVideo = allowPickingVideo;
+//}
 
 - (void)setAllowPickingImage:(BOOL)allowPickingImage {
     self.config.allowPickingImage = allowPickingImage;

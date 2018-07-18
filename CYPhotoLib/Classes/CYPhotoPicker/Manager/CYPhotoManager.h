@@ -153,13 +153,6 @@
  */
 - (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion;
 
-/** 获取资源对应的图片 */
-//- (void)fetchImageInAsset:(PHAsset *)asset size:(CGSize)size isResize:(BOOL)isResize completion:(void(^)(UIImage * image, NSDictionary * info))completion;
-/** 通过localIdentifier获取资源对应的image */
-//- (void)fetchImageWithLocalIdentifier:(NSString *)localIdentifier size:(CGSize)size isResize:(BOOL)isResize completion:(void(^)(UIImage * image, NSDictionary * info))completion;
-///** 获取资源数组对应的图片数组 */
-//- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion;
-
 
 #pragma mark - ImageData 相关
 /**

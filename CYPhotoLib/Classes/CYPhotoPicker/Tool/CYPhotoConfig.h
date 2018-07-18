@@ -16,7 +16,7 @@
 /**
  是否允许选择视频
  */
-@property (nonatomic, assign, getter=isAllowPickingVideo) BOOL allowPickingVideo;
+@property (nonatomic, assign, readonly, getter=isAllowPickingVideo) BOOL allowPickingVideo;
 /**
  是否允许选择图片
  */
