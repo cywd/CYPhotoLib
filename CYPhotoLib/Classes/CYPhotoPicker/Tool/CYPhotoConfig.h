@@ -13,6 +13,8 @@
 @interface CYPhotoConfig : NSObject
 
 #pragma mark - 相册配置相关
+
+// CY-TODO: 下一步，支持可以选择视频，以及可以预览图片和视频
 /**
  是否允许选择视频
  */
