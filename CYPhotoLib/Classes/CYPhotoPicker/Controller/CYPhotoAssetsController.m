@@ -179,22 +179,12 @@ static CGFloat TOOLBAR_HEIGHT = 135;
             }
         }];
     
-//        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(kScreenW, kScreenH) isResize:NO completion:^(UIImage *image, NSDictionary *info) {
-//            [cell setImgTapBlock:^{
-//                UIImageView *lastView = [weakCell.contentView.subviews lastObject];
-//                [CYHeadImageToBig showImage:lastView withImage:image];
-//            }];
-//        }];
-
         [cell setImgTapBlock:^{
-//            UIImageView *lastView = [weakCell.contentView.subviews lastObject];
-//            [CYHeadImageToBig showImage:lastView withImage:weakCell.imageIV.image];
+            // clicked image
         }];
         
         // 如果是单张图片选择
         [cell setSigleSelectedBlock:^(BOOL isSelected) {
-            
-            NSLog(@"单张图片选择完成");
             
             [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
             
@@ -203,12 +193,16 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         }];
         
         [cell setUnableTapBlock:^{
+            // CY-TODO: 提供给外界更改
+            // 不可选提示信息
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"不可选择" message:@"图片不符合制作规定" preferredStyle:UIAlertControllerStyleAlert];
             [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:vc animated:YES completion:nil];
         }];
         
         [cell setLowInfoTapBlock:^{
+            // CY-TODO: 提供给外界更改
+            // 低分辨率提示信息
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"图片不太清晰" message:@"会影响制作效果" preferredStyle:UIAlertControllerStyleAlert];
             [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:vc animated:YES completion:nil];
@@ -255,7 +249,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (!self.album) {
-            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:YES sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(CYAlbum *model) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:CYPhotoCenter.config.allowPickingVideo allowPickingImage:CYPhotoCenter.config.allowPickingImage needFetchAssets:YES sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(CYAlbum *model) {
                 self.album = model;
                 self.assets = [NSMutableArray arrayWithArray:self.album.assets];
                 self.dataSource = self.assets;
