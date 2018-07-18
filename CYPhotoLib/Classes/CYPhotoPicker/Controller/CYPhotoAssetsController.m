@@ -78,12 +78,12 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     [super viewWillAppear:animated];
     
     [self refreshBottomView:YES];
+    
     [self.collectionView reloadData];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
     [self someLayout];
 }
 
@@ -123,24 +123,14 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, CYAsset *ast) {
             __strong typeof(self)strongSelf = weakSelf;
             [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
-            
-            // delete 刷新
-//            BOOL isContent = NO;
+
             for (CYAsset *model in strongSelf.dataSource) {
                 if ([model.asset.localIdentifier isEqualToString:ast.asset.localIdentifier]) {
-//                    isContent = YES;
-                    
                     NSInteger ind = [strongSelf.dataSource indexOfObject:model];
                     NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
                     [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
                 }
             }
-//            if (isContent) {
-//                NSInteger ind = [strongSelf.dataSource indexOfObject:ast];
-//                NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
-//                [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
-//            }
-            
             [strongSelf refreshBottomView:NO];
         }];
         

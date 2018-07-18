@@ -56,6 +56,11 @@
     [self.view addConstraints:@[leftConstraint, topConstraint, rightConstraint, bottomConstraint]];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 #pragma mark - tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.albums.count;
@@ -114,12 +119,6 @@
         _tableView.showsHorizontalScrollIndicator = NO;
     }
     return _tableView;
-}
-
-#pragma mark - receive and dealloc
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
