@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSMutableArray<CYAsset *> *assets;
+@property (nonatomic, strong) NSMutableArray<CYPhotoAsset *> *assets;
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 
 @end
@@ -63,7 +63,7 @@
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     picker.columnNumber = 3;
     picker.ascending = YES;
-    [picker showInSender:self handle:^(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets) {
+    [picker showInSender:self handle:^(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets) {
         
         __strong typeof(self) strongSelf = weakSelf;
         [weakSelf.dataArray removeAllObjects];

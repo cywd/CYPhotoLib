@@ -7,8 +7,8 @@
 //
 
 #import "CYPhotoManager.h"
-#import "CYAlbum.h"
-#import "CYAsset.h"
+#import "CYPhotoAlbum.h"
+#import "CYPhotoAsset.h"
 #import "CYPhotoHeader.h"
 #import "NSBundle+CYPhotoLib.h"
 
@@ -116,7 +116,7 @@ static dispatch_once_t onceToken;
  }
  */
 #pragma mark - Album相关
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYAlbum *model))completion {
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYPhotoAlbum *model))completion {
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:isSortByModificationDate ascending:ascending];
     
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
@@ -130,13 +130,13 @@ static dispatch_once_t onceToken;
         if ([self isCameraRollAlbum:collection]) {
             PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             // 创建此相册的信息集
-            CYAlbum * model = [CYAlbum cy_AlbumInfoFromResult:fetchResult collection:collection needFetchAssets:needFetchAssets];
+            CYPhotoAlbum * model = [CYPhotoAlbum cy_AlbumInfoFromResult:fetchResult collection:collection needFetchAssets:needFetchAssets];
             if (completion) completion(model);
         }
     }
 }
 
-- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion {
+- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYPhotoAlbum *> *albumsArray))completion {
     NSMutableArray *albumsArray = [NSMutableArray array];
     
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:isSortByModificationDate ascending:ascending];
@@ -160,7 +160,7 @@ static dispatch_once_t onceToken;
             if ([collection.localizedTitle containsString:@"Hidden"] || [collection.localizedTitle isEqualToString:@"已隐藏"]) continue;
             if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
             
-            CYAlbum *album = [CYAlbum cy_AlbumInfoFromResult:result collection:collection needFetchAssets:needFetchAssets];
+            CYPhotoAlbum *album = [CYPhotoAlbum cy_AlbumInfoFromResult:result collection:collection needFetchAssets:needFetchAssets];
             //            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
             if ([self isCameraRollAlbum:collection]) {
                 [albumsArray insertObject:album atIndex:0];
@@ -175,14 +175,14 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Asset
 
-- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYAsset *> *array))completion {
+- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion {
     [self fetchAssetsFromFetchResult:fetchResult allowPickingVideo:NO allowPickingImage:YES completion:completion];
 }
 
-- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAsset *> *array))completion {
+- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion {
     NSMutableArray *assets = [NSMutableArray array];
     [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        CYAsset *asset = [self assetModelWithAsset:obj allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
+        CYPhotoAsset *asset = [self assetModelWithAsset:obj allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
         if (asset) {
             [assets addObject:asset];
         }
@@ -190,14 +190,14 @@ static dispatch_once_t onceToken;
     if (completion) completion(assets);
 }
 
-- (CYAsset *)assetModelWithAsset:(PHAsset *)asset allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage {
+- (CYPhotoAsset *)assetModelWithAsset:(PHAsset *)asset allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage {
     
     PHAssetMediaType type = asset.mediaType;
 
     if (!allowPickingVideo && type == PHAssetMediaTypeVideo) return nil;
     if (!allowPickingImage && type == PHAssetMediaTypeImage) return nil;
  
-    CYAsset *model = [CYAsset modelWithAsset:asset];
+    CYPhotoAsset *model = [CYPhotoAsset modelWithAsset:asset];
     
     return model;
 }
@@ -224,13 +224,13 @@ static dispatch_once_t onceToken;
     return isInLocalAlbum;
 }
 
-- (void)fetchCoverAssetWithAlbum:(CYAlbum *)album completion:(void (^)(CYAsset *asset))completion {
+- (void)fetchCoverAssetWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(CYPhotoAsset *asset))completion {
     id obj = [album.result lastObject];
-    CYAsset *tmp_asset = [self assetModelWithAsset:obj allowPickingVideo:NO allowPickingImage:YES];
+    CYPhotoAsset *tmp_asset = [self assetModelWithAsset:obj allowPickingVideo:NO allowPickingImage:YES];
     if (completion) completion(tmp_asset);
 }
 
-- (void)fetchCoverImageWithAlbum:(CYAlbum *)album completion:(void (^)(UIImage *image))completion {
+- (void)fetchCoverImageWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(UIImage *image))completion {
     id asset = [album.result lastObject];
     [self fetchImageWithAsset:asset photoWidth:80 completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
         if (completion) completion(image);
@@ -240,7 +240,7 @@ static dispatch_once_t onceToken;
 #pragma mark - Image相关
 
 /** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion {
+- (void)fetchImagesWithAssetsArray:(NSArray<CYPhotoAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion {
     
     NSMutableArray * images = [NSMutableArray array];
     

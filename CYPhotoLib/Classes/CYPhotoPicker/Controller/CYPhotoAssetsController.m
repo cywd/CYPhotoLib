@@ -14,10 +14,10 @@
 #import "CYPhotoBottomCollectionViewCell.h"
 #import "UIView+CYAnimation.h"
 #import "CYPhotoCenter.h"
-#import "UIView+CYConstraintMatching.h"
+#import "UIView+CYPhotoConstraintMatching.h"
 
-#import "CYAlbum.h"
-#import "CYAsset.h"
+#import "CYPhotoAlbum.h"
+#import "CYPhotoAsset.h"
 #import "CYPhotoHud.h"
 #import "CYPhotoConfig.h"
 
@@ -49,8 +49,8 @@ static CGFloat TOOLBAR_HEIGHT = 135;
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionLayout;
-@property (nonatomic, strong) NSMutableArray<CYAsset *> *dataSource;
-@property (nonatomic, strong) NSMutableArray<CYAsset *> *assets;
+@property (nonatomic, strong) NSMutableArray<CYPhotoAsset *> *dataSource;
+@property (nonatomic, strong) NSMutableArray<CYPhotoAsset *> *assets;
 
 @end
 
@@ -107,7 +107,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     if (collectionView == self.toolBarThumbCollectionView) {
     
         NSMutableArray *arr = [CYPhotoCenter shareCenter].selectedPhotos;
-        CYAsset *asset = arr[indexPath.item];
+        CYPhotoAsset *asset = arr[indexPath.item];
         
         CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CYPhotoBottomCollectionViewCell class]) forIndexPath:indexPath];
         
@@ -120,11 +120,11 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         
         __weak typeof(self)weakSelf = self;
         
-        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, CYAsset *ast) {
+        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, CYPhotoAsset *ast) {
             __strong typeof(self)strongSelf = weakSelf;
             [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
 
-            for (CYAsset *model in strongSelf.dataSource) {
+            for (CYPhotoAsset *model in strongSelf.dataSource) {
                 if ([model.asset.localIdentifier isEqualToString:ast.asset.localIdentifier]) {
                     NSInteger ind = [strongSelf.dataSource indexOfObject:model];
                     NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
@@ -143,7 +143,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         cell.singleSelBtn.hidden = !CYPhotoCenter.config.isSinglePick;
         
         BOOL isContent = NO;
-        for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
+        for (CYPhotoAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
             if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
                 isContent = YES;
             }
@@ -152,8 +152,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         cell.selBtn.selected = isContent;
         
         __weak typeof(cell) weakCell = cell;
-        __weak typeof(self) weakSelf = self;
-        
+
         [cell setSelectedBlock:^(BOOL isSelected) {
             
             if (isSelected) {
@@ -162,12 +161,12 @@ static CGFloat TOOLBAR_HEIGHT = 135;
                     return;
                 }
                 [weakCell.selBtn startSelectedAnimation];
-                [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
+                [[CYPhotoCenter shareCenter].selectedPhotos addObject:self.dataSource[indexPath.item]];
                 
-                [weakSelf refreshBottomView:YES];
+                [self refreshBottomView:YES];
             } else {
                 NSUInteger index = 0;
-                for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
+                for (CYPhotoAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
                     if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
                         index = [[CYPhotoCenter shareCenter].selectedPhotos indexOfObject:model];
                     }
@@ -175,21 +174,22 @@ static CGFloat TOOLBAR_HEIGHT = 135;
                 
                 [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:index];
                 
-                [weakSelf refreshBottomView:NO];
+                [self refreshBottomView:NO];
             }
         }];
     
         [cell setImgTapBlock:^{
+            // CY-TODO: 这里处理一下
             // clicked image
         }];
         
         // 如果是单张图片选择
         [cell setSigleSelectedBlock:^(BOOL isSelected) {
             
-            [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
+            [[CYPhotoCenter shareCenter].selectedPhotos addObject:self.dataSource[indexPath.item]];
             
             [[CYPhotoCenter shareCenter] endPick];
-            [weakSelf.navigationController dismissViewControllerAnimated:YES completion:nil];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }];
         
         [cell setUnableTapBlock:^{
@@ -249,7 +249,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (!self.album) {
-            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:CYPhotoCenter.config.allowPickingVideo allowPickingImage:CYPhotoCenter.config.allowPickingImage needFetchAssets:YES sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(CYAlbum *model) {
+            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:CYPhotoCenter.config.allowPickingVideo allowPickingImage:CYPhotoCenter.config.allowPickingImage needFetchAssets:YES sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(CYPhotoAlbum *model) {
                 self.album = model;
                 self.assets = [NSMutableArray arrayWithArray:self.album.assets];
                 self.dataSource = self.assets;
@@ -261,7 +261,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
                 });
             }];
         } else {
-            [[CYPhotoManager manager] fetchAssetsFromFetchResult:self.album.result completion:^(NSArray<CYAsset *> *array) {
+            [[CYPhotoManager manager] fetchAssetsFromFetchResult:self.album.result completion:^(NSArray<CYPhotoAsset *> *array) {
                 self.assets = [NSMutableArray arrayWithArray:array];
                 self.dataSource = self.assets;
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -371,13 +371,8 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     [self.view addSubview:self.collectionView];
     
     if (CYPhotoCenter.config.isSinglePick) {
-//        self.collectionView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
-        // 初始化按钮
-//        [self setupButtonsSingle];
-    } else {
         
-        // 初始化按钮
-//        [self setupButtons];
+    } else {
         // 初始化底部ToorBar
         [self setupToorBar];
     }

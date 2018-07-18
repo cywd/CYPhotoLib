@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class CYAsset;
+@class CYPhotoAsset;
 
 @interface CYPhotoBottomCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *delButton;
 @property (nonatomic, weak) NSIndexPath *indexPath;
-@property (nonatomic, strong) CYAsset *asset;
+@property (nonatomic, strong) CYPhotoAsset *asset;
 
 
-@property (nonatomic, copy) void(^deleteTapBlock)(NSIndexPath *indexPath, CYAsset *ast);
+@property (nonatomic, copy) void(^deleteTapBlock)(NSIndexPath *indexPath, CYPhotoAsset *ast);
 
 @end

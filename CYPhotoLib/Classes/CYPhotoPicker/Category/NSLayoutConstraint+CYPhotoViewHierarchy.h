@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NSLayoutConstraint (CYViewHierarchy)
+@interface NSLayoutConstraint (CYPhotoViewHierarchy)
 
 @property (nonatomic, readonly) UIView *firstView;
 @property (nonatomic, readonly) UIView *secondView;

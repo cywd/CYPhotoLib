@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger, CYAssetMassStatus) {
 };
 
 /** 自定义Asset */
-@interface CYAsset : NSObject
+@interface CYPhotoAsset : NSObject
 
 /** 原始asset */
 @property (nonatomic, strong) PHAsset *asset;

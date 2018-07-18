@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NSLayoutConstraint (CYConstraintMatching)
+@interface NSLayoutConstraint (CYPhotoConstraintMatching)
 
 - (BOOL)isEqualToLayoutConstraint:(NSLayoutConstraint *)constraint;
 

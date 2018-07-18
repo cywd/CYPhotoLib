@@ -10,8 +10,8 @@
 #import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
 
-@class CYAlbum;
-@class CYAsset;
+@class CYPhotoAlbum;
+@class CYPhotoAsset;
 
 
 @interface CYPhotoManager : NSObject
@@ -47,7 +47,7 @@
  @param allowPickingImage 是否允许选择image
  @param completion 回调相册model
  */
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYAlbum *model))completion;
+- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYPhotoAlbum *model))completion;
 /**
  获取所有相册model的数组
 
@@ -55,7 +55,7 @@
  @param allowPickingImage 是否允许选择image
  @param completion 回调所有相册model的数组
  */
-- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYAlbum *> *albumsArray))completion;
+- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYPhotoAlbum *> *albumsArray))completion;
 
 #pragma mark - Asset 相关
 /**
@@ -64,7 +64,7 @@
  @param fetchResult PHFetchResult
  @param completion 回调
  */
-- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYAsset *> *array))completion;
+- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion;
 
 /**
  根据result取出CYAsset集合
@@ -74,7 +74,7 @@
  @param allowPickingImage 是否允许选择image
  @param completion 回调
  */
-- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYAsset *> *array))completion;
+- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion;
 
 /**
  根据localIdentifier获取资源对应的asset
@@ -90,7 +90,7 @@
  @param album album
  @param completion 回调
  */
-- (void)fetchCoverAssetWithAlbum:(CYAlbum *)album completion:(void (^)(CYAsset *asset))completion;
+- (void)fetchCoverAssetWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(CYPhotoAsset *asset))completion;
 
 /**
  获取封面image
@@ -98,7 +98,7 @@
  @param album album
  @param completion 回调
  */
-- (void)fetchCoverImageWithAlbum:(CYAlbum *)album completion:(void (^)(UIImage *image))completion;
+- (void)fetchCoverImageWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(UIImage *image))completion;
 
 
 /**
@@ -111,7 +111,7 @@
 
 #pragma mark - Image 相关
 
-- (void)fetchImagesWithAssetsArray:(NSArray<CYAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion;
+- (void)fetchImagesWithAssetsArray:(NSArray<CYPhotoAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion;
 
 /**
  根据Asset获取图片（不允许网络）

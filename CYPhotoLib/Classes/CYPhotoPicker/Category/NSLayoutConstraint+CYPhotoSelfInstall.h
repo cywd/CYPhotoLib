@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NSLayoutConstraint (CYSelfInstall)
+@interface NSLayoutConstraint (CYPhotoSelfInstall)
 
 - (BOOL)install;
 - (BOOL)install:(float)priority;

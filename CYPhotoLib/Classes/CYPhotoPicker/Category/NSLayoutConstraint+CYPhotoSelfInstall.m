@@ -6,11 +6,11 @@
 //  Copyright © 2017年 Cyrill. All rights reserved.
 //
 
-#import "NSLayoutConstraint+CYSelfInstall.h"
-#import "UIView+CYHierarchySupport.h"
-#import "NSLayoutConstraint+CYViewHierarchy.h"
+#import "NSLayoutConstraint+CYPhotoSelfInstall.h"
+#import "UIView+CYPhotoHierarchySupport.h"
+#import "NSLayoutConstraint+CYPhotoViewHierarchy.h"
 
-@implementation NSLayoutConstraint (CYSelfInstall)
+@implementation NSLayoutConstraint (CYPhotoSelfInstall)
 
 - (BOOL)install {
     // Handle Unary contraint

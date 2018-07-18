@@ -31,11 +31,11 @@
 @implementation CYPhotoPicker 
 
 #pragma mark - public
-- (void)showInSender:(__kindof UIViewController *)sender handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle {
+- (void)showInSender:(__kindof UIViewController *)sender handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handle {
     [self showInSender:sender config:self.config handle:handle];
 }
 
-- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle {
+- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handle {
 
     self.sender = sender;
     

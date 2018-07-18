@@ -6,9 +6,9 @@
 //  Copyright © 2017年 Cyrill. All rights reserved.
 //
 
-#import "NSLayoutConstraint+CYConstraintMatching.h"
+#import "NSLayoutConstraint+CYPhotoConstraintMatching.h"
 
-@implementation NSLayoutConstraint (CYConstraintMatching)
+@implementation NSLayoutConstraint (CYPhotoConstraintMatching)
 
 - (BOOL)isEqualToLayoutConstraint:(NSLayoutConstraint *)constraint {
     if (self.firstItem != constraint.firstItem) return NO;

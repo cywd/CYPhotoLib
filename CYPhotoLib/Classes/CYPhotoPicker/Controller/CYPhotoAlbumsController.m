@@ -10,7 +10,7 @@
 #import "CYPhotoHeader.h"
 #import "CYPhotoAlbumCell.h"
 #import "CYPhotoAssetsController.h"
-#import "CYAlbum.h"
+#import "CYPhotoAlbum.h"
 #import "CYPhotoCenter.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHud.h"
@@ -20,7 +20,7 @@
 @interface CYPhotoAlbumsController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray<CYAlbum *> *albums;  // 相册列表
+@property (nonatomic, strong) NSMutableArray<CYPhotoAlbum *> *albums;  // 相册列表
 
 @end
 
@@ -81,7 +81,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     CYPhotoAssetsController *browser = [[CYPhotoAssetsController alloc] init];
-    CYAlbum *album = self.albums[indexPath.row];
+    CYPhotoAlbum *album = self.albums[indexPath.row];
     browser.album = album;
     [self.navigationController pushViewController:browser animated:YES];
 }
@@ -100,7 +100,7 @@
         [hud showProgressHUD];
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(NSArray<CYAlbum *> *albumsArray) {
+        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(NSArray<CYPhotoAlbum *> *albumsArray) {
             self.albums = [NSMutableArray arrayWithArray:albumsArray];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];

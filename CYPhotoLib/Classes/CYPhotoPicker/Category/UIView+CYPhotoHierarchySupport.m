@@ -6,9 +6,9 @@
 //  Copyright © 2017年 Cyrill. All rights reserved.
 //
 
-#import "UIView+CYHierarchySupport.h"
+#import "UIView+CYPhotoHierarchySupport.h"
 
-@implementation UIView (CYHierarchySupport)
+@implementation UIView (CYPhotoHierarchySupport)
 
 - (NSArray *)superviews {
     NSMutableArray *array = [NSMutableArray array];

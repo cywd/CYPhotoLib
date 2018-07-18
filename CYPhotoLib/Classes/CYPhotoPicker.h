@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class PHAsset;
-@class CYAsset;
+@class CYPhotoAsset;
 @class CYPhotoConfig;
 
 @interface CYPhotoPicker : NSObject
@@ -79,7 +79,7 @@
  @param sender 需要弹出图片选择器的VC,无tabbar传入当前VC.无tabbar且需要遮盖导航栏传入VC.navigationController.有tabbar需传入VC.tabbarController
  @param handle 回调
  */
-- (void)showInSender:(__kindof UIViewController *)sender handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle;
+- (void)showInSender:(__kindof UIViewController *)sender handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handle;
 
 /**
  弹出图片选择器（配置文件）
@@ -88,7 +88,7 @@
  @param config 配置文件
  @param handle 回调
  */
-- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYAsset *> *assets))handle;
+- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handle;
 
 
 /** 清除包括已选图片的信息等 */

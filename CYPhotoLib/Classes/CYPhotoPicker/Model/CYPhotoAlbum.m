@@ -6,13 +6,13 @@
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "CYAlbum.h"
+#import "CYPhotoAlbum.h"
 #import "CYPhotoManager.h"
 
-@implementation CYAlbum
+@implementation CYPhotoAlbum
 
 + (instancetype)cy_AlbumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection needFetchAssets:(BOOL)needFetchAssets {
-    CYAlbum *albumInfo = [[CYAlbum alloc] init];
+    CYPhotoAlbum *albumInfo = [[CYPhotoAlbum alloc] init];
     albumInfo.albumId = collection.localIdentifier;
     albumInfo.name = collection.localizedTitle;
     albumInfo.count = result.count;
@@ -26,7 +26,7 @@
     _result = result;
     
     if (needFetchAssets) {
-        [[CYPhotoManager manager] fetchAssetsFromFetchResult:result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<CYAsset *> *array) {
+        [[CYPhotoManager manager] fetchAssetsFromFetchResult:result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<CYPhotoAsset *> *array) {
             self.assets = array;
         }];
     }

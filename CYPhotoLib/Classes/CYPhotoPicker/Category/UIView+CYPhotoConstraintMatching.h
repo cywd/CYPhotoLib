@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (CYConstraintMatching)
+@interface UIView (CYPhotoConstraintMatching)
 
 - (NSLayoutConstraint *)constraintMatchingConstraint:(NSLayoutConstraint *)aConstraint;
 - (NSArray *)constraintsMatchingConstraints:(NSArray *)constraints;

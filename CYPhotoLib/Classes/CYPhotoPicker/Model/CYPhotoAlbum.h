@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 
-@class CYAsset;
+@class CYPhotoAsset;
 
 /** 相册model */
-@interface CYAlbum : NSObject
+@interface CYPhotoAlbum : NSObject
 
 /** 相册id */
 @property (nonatomic, copy) NSString *albumId;
@@ -26,7 +26,7 @@
 /** 封面 */
 @property (nonatomic, strong) PHAsset *coverAsset;
 
-@property (nonatomic, strong) NSArray<CYAsset *> *assets;
+@property (nonatomic, strong) NSArray<CYPhotoAsset *> *assets;
 
 + (instancetype)cy_AlbumInfoFromResult:(PHFetchResult *)result collection:(PHAssetCollection *)collection needFetchAssets:(BOOL)needFetchAssets;
 

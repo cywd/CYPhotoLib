@@ -6,11 +6,11 @@
 //  Copyright © 2017年 Cyrill. All rights reserved.
 //
 
-#import "UIView+CYConstraintMatching.h"
-#import "UIView+CYHierarchySupport.h"
-#import "NSLayoutConstraint+CYConstraintMatching.h"
+#import "UIView+CYPhotoConstraintMatching.h"
+#import "UIView+CYPhotoHierarchySupport.h"
+#import "NSLayoutConstraint+CYPhotoConstraintMatching.h"
 
-@implementation UIView (CYConstraintMatching)
+@implementation UIView (CYPhotoConstraintMatching)
 
 - (NSLayoutConstraint *)constraintMatchingConstraint:(NSLayoutConstraint *)aConstraint {
     for (NSLayoutConstraint *constraint in self.constraints) {

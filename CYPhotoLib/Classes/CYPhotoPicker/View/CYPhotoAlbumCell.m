@@ -7,7 +7,7 @@
 //
 
 #import "CYPhotoAlbumCell.h"
-#import "CYAlbum.h"
+#import "CYPhotoAlbum.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoHeader.h"
 
@@ -21,7 +21,7 @@
 
 @implementation CYPhotoAlbumCell
 
-- (void)setAlbum:(CYAlbum *)album {
+- (void)setAlbum:(CYPhotoAlbum *)album {
     _album = album;
     
     self.nameLabel.text = album.name;

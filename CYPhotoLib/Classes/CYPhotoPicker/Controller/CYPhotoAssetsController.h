@@ -8,10 +8,10 @@
 
 #import "CYPhotoBaseController.h"
 
-@class CYAlbum;
+@class CYPhotoAlbum;
 
 @interface CYPhotoAssetsController : CYPhotoBaseController
 
-@property (nonatomic, strong) CYAlbum *album;
+@property (nonatomic, strong) CYPhotoAlbum *album;
 
 @end

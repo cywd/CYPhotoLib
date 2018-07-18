@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (CYHierarchySupport)
+@interface UIView (CYPhotoHierarchySupport)
 
 - (NSArray *)superviews;
 - (BOOL)isAncestorOfView:(UIView *)aView;

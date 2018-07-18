@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 @class PHAsset;
-@class CYAsset;
+@class CYPhotoAsset;
 
 @class CYPhotoConfig;
 
@@ -26,7 +26,7 @@
 /**
  *  选择的图片
  */
-@property (nonatomic, strong) NSMutableArray <CYAsset *> * selectedPhotos;
+@property (nonatomic, strong) NSMutableArray <CYPhotoAsset *> * selectedPhotos;
 
 /**
  *  选择完毕回调

@@ -6,13 +6,13 @@
 //  Copyright © 2017年 Cyrill. All rights reserved.
 //
 
-#import "CYAsset.h"
+#import "CYPhotoAsset.h"
 #import "CYPhotoManager.h"
 
-@implementation CYAsset
+@implementation CYPhotoAsset
 
 + (instancetype)modelWithAsset:(PHAsset *)asset {
-    CYAsset *model = [[CYAsset alloc] init];
+    CYPhotoAsset *model = [[CYPhotoAsset alloc] init];
     model.asset = asset;
     return model;
 }

@@ -6,9 +6,9 @@
 //  Copyright © 2017年 Cyrill. All rights reserved.
 //
 
-#import "NSLayoutConstraint+CYViewHierarchy.h"
+#import "NSLayoutConstraint+CYPhotoViewHierarchy.h"
 
-@implementation NSLayoutConstraint (CYViewHierarchy)
+@implementation NSLayoutConstraint (CYPhotoViewHierarchy)
 
 - (UIView *)firstView {
     return self.firstItem;
