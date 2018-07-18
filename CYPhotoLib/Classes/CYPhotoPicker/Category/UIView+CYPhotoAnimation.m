@@ -8,7 +8,7 @@
 
 #import "UIView+CYPhotoAnimation.h"
 
-#define BottomRect CGRectMake(self.frame.origin.x, [UIScreen mainScreen].bounds.size.height, self.frame.size.width, self.frame.size.height)
+#define CYPhotoLibBottomRect CGRectMake(self.frame.origin.x, [UIScreen mainScreen].bounds.size.height, self.frame.size.width, self.frame.size.height)
 
 
 @implementation UIView (CYPhotoAnimation)
@@ -16,13 +16,13 @@
 #pragma mark - 底部出现动画
 - (void)showFromBottom {
     CGRect rect = self.frame;
-    self.frame = BottomRect;
+    self.frame = CYPhotoLibBottomRect;
     [self executeAnimationWithFrame:rect completion:nil];
 }
 
 #pragma mark - 底部消失动画
 - (void)dismissToBottomWithcompletion:(void(^)(void))completion {
-    [self executeAnimationWithFrame:BottomRect completion:completion];
+    [self executeAnimationWithFrame:CYPhotoLibBottomRect completion:completion];
 }
 
 #pragma mark - 背景浮现动画
