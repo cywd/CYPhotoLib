@@ -63,7 +63,7 @@
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     picker.columnNumber = 3;
     picker.ascending = YES;
-    [picker showInSender:self handle:^(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets) {
+    [picker showInSender:self handler:^(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets) {
         
         __strong typeof(self) strongSelf = weakSelf;
         [weakSelf.dataArray removeAllObjects];

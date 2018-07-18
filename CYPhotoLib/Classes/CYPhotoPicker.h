@@ -77,18 +77,18 @@
  弹出图片选择器
 
  @param sender 需要弹出图片选择器的VC,无tabbar传入当前VC.无tabbar且需要遮盖导航栏传入VC.navigationController.有tabbar需传入VC.tabbarController
- @param handle 回调
+ @param handler 回调
  */
-- (void)showInSender:(__kindof UIViewController *)sender handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handle;
+- (void)showInSender:(__kindof UIViewController *)sender handler:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handler;
 
 /**
  弹出图片选择器（配置文件）
 
  @param sender 需要弹出图片选择器的VC,无tabbar传入当前VC.无tabbar且需要遮盖导航栏传入VC.navigationController.有tabbar需传入VC.tabbarController
  @param config 配置文件
- @param handle 回调
+ @param handler 回调
  */
-- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handle:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handle;
+- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handler:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handler;
 
 
 /** 清除包括已选图片的信息等 */
