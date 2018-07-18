@@ -31,7 +31,7 @@
 /**
  *  选择完毕回调
  */
-@property (nonatomic, copy) void(^handle)(NSArray<UIImage *> * photos);
+@property (nonatomic, copy) void(^handler)(NSArray<UIImage *> * photos);
 
 /**
  *  单例

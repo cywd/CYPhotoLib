@@ -41,14 +41,14 @@
 
 #pragma mark - 完成图片选择
 - (void)endPickWithImage:(UIImage *)cameraPhoto {
-    if (self.handle) self.handle(@[cameraPhoto]);
+    if (self.handler) self.handler(@[cameraPhoto]);
 }
 
 - (void)endPick {
-    if (self.handle) {
+    if (self.handler) {
         // CY-TODO: 下一步外卖呢可以控制是否是原图，默认YES
         [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:YES completion:^(NSArray *images) {
-            self.handle(images);
+            self.handler(images);
         }];
     }
 }
@@ -76,7 +76,7 @@
 
 #pragma mark - 清除信息
 - (void)clearInfos {
-    self.handle = nil;
+    self.handler = nil;
     self.allPhotos = nil;
     [self.selectedPhotos removeAllObjects];
     [[NSNotificationCenter defaultCenter] removeObserver:self];

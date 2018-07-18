@@ -64,7 +64,7 @@
         
     }];
     
-    [[CYPhotoCenter shareCenter] setHandle:^(NSArray<UIImage *> * photos) {
+    [[CYPhotoCenter shareCenter] setHandler:^(NSArray<UIImage *> * photos) {
         
         // FIX： 如果是单张 清除信息，下次进来就没有了
         if (CYPhotoCenter.config.isSinglePick) {
