@@ -393,7 +393,6 @@ static dispatch_once_t onceToken;
     }];
 }
 
-
 #pragma mark - image data
 /// 获取原图data
 - (void)fetchOriginalImageDataWithAsset:(PHAsset *)asset completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion {
@@ -424,16 +423,9 @@ static dispatch_once_t onceToken;
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeNone;
     
-    // 这里设置iCloud
-//    option.networkAccessAllowed = YES;
-//    option.synchronous = YES;
-    
     [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-//        CGImageSourceRef imageRef = CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
-//        NSDictionary *imageProperty = (NSDictionary*)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(imageRef,0, NULL));
-//        NSDictionary *ExifDictionary = [imageProperty valueForKey:(NSString*)kCGImagePropertyExifDictionary];
         
-        if (completion) completion(imageData.length / 1000.0);
+        if (completion) completion(imageData.length * 0.001);
     }];
 }
 
