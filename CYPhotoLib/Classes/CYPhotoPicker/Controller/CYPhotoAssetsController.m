@@ -34,20 +34,12 @@ static CGFloat TOOLBAR_HEIGHT = 135;
 
 @property (nonatomic, assign) BOOL shouldScrollToBottom; // 是否滚到底
 
-@property (strong, nonatomic) UIView *bottomView; //底部面板
-@property (strong, nonatomic) UIButton *isOriginalBtn; //原图按钮
-@property (strong, nonatomic) UIView *bottomViewCover; //底部面板遮罩层
-@property (strong, nonatomic) UILabel *comBtn; //完成按钮
 @property (strong, nonatomic) UIButton *completeBtn; //完成按钮
 
 // 已选
 @property (nonatomic, strong) UILabel *haveSelectedLabel;
 @property (nonatomic, strong) UILabel *numberLabel;
 @property (nonatomic, strong) UILabel *allCountLabel;
-
-// 标记View
-@property (nonatomic , weak  ) UILabel   *makeView;
-@property (nonatomic , strong) UIButton  *doneBtn;
 
 // UIToolbar 目测以后只能用 items了。上面盖了一层东西
 //@property (nonatomic , weak  ) UIToolbar *toolBar;
@@ -57,12 +49,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionLayout;
-
-@property (nonatomic , strong) CYPhotoAssetsFooter *footerView;
-
 @property (nonatomic, strong) NSMutableArray<CYAsset *> *dataSource;
-
-@property (nonatomic, copy) NSString * collectionTitle;
 @property (nonatomic, strong) NSMutableArray<CYAsset *> *assets;
 
 @end
@@ -74,8 +61,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.collectionTitle = self.album.name;
-    self.title = self.collectionTitle ? self.collectionTitle : [NSBundle cy_localizedStringForKey:@"Photos"];
+    self.title = self.album.name ? self.album.name : [NSBundle cy_localizedStringForKey:@"Photos"];
     
     self.shouldScrollToBottom = YES;
     
@@ -86,16 +72,191 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     [self fetchAssets];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self refreshBottomView];
+    [self refreshBottomView:YES];
     [self.collectionView reloadData];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self someLayout];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc {
+    
+}
+
+#pragma mark - collectionView delegate
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (collectionView == self.toolBarThumbCollectionView) {
+        return [CYPhotoCenter shareCenter].selectedPhotos.count;
+    }
+    return self.dataSource.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (collectionView == self.toolBarThumbCollectionView) {
+    
+        NSMutableArray *arr = [CYPhotoCenter shareCenter].selectedPhotos;
+        CYAsset *asset = arr[indexPath.item];
+        
+        CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CYPhotoBottomCollectionViewCell class]) forIndexPath:indexPath];
+        
+        cell.indexPath = indexPath;
+        cell.asset = asset;
+        
+        [[CYPhotoManager manager] fetchImageWithAsset:asset.asset photoWidth:cell.bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+            cell.imageView.image = image;
+        }];
+        
+        __weak typeof(self)weakSelf = self;
+        
+        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, CYAsset *ast) {
+            __strong typeof(self)strongSelf = weakSelf;
+            [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
+            
+            // delete 刷新
+//            BOOL isContent = NO;
+            for (CYAsset *model in strongSelf.dataSource) {
+                if ([model.asset.localIdentifier isEqualToString:ast.asset.localIdentifier]) {
+//                    isContent = YES;
+                    
+                    NSInteger ind = [strongSelf.dataSource indexOfObject:model];
+                    NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
+                    [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
+                }
+            }
+//            if (isContent) {
+//                NSInteger ind = [strongSelf.dataSource indexOfObject:ast];
+//                NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
+//                [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
+//            }
+            
+            [strongSelf refreshBottomView:NO];
+        }];
+        
+        return cell;
+    } else {
+        CYPhotoAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CYPhotoAssetCell class]) forIndexPath:indexPath];
+        
+        cell.asset = self.dataSource[indexPath.item].asset;
+        
+        cell.singleSelBtn.hidden = !CYPhotoCenter.config.isSinglePick;
+        
+        BOOL isContent = NO;
+        for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
+            if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
+                isContent = YES;
+            }
+        }
+
+        cell.selBtn.selected = isContent;
+        
+        __weak typeof(cell) weakCell = cell;
+        __weak typeof(self) weakSelf = self;
+        
+        [cell setSelectedBlock:^(BOOL isSelected) {
+            
+            if (isSelected) {
+                if ([[CYPhotoCenter shareCenter] isReachMaxSelectedCount]) {
+                    weakCell.selBtn.selected = NO;
+                    return;
+                }
+                [weakCell.selBtn startSelectedAnimation];
+                [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
+                
+                [weakSelf refreshBottomView:YES];
+            } else {
+                NSUInteger index = 0;
+                for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
+                    if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
+                        index = [[CYPhotoCenter shareCenter].selectedPhotos indexOfObject:model];
+                    }
+                }
+                
+                [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:index];
+                
+                [weakSelf refreshBottomView:NO];
+            }
+        }];
+    
+//        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(kScreenW, kScreenH) isResize:NO completion:^(UIImage *image, NSDictionary *info) {
+//            [cell setImgTapBlock:^{
+//                UIImageView *lastView = [weakCell.contentView.subviews lastObject];
+//                [CYHeadImageToBig showImage:lastView withImage:image];
+//            }];
+//        }];
+
+        [cell setImgTapBlock:^{
+//            UIImageView *lastView = [weakCell.contentView.subviews lastObject];
+//            [CYHeadImageToBig showImage:lastView withImage:weakCell.imageIV.image];
+        }];
+        
+        // 如果是单张图片选择
+        [cell setSigleSelectedBlock:^(BOOL isSelected) {
+            
+            NSLog(@"单张图片选择完成");
+            
+            [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
+            
+            [[CYPhotoCenter shareCenter] endPick];
+            [weakSelf.navigationController dismissViewControllerAnimated:YES completion:nil];
+        }];
+        
+        [cell setUnableTapBlock:^{
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"不可选择" message:@"图片不符合制作规定" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+        
+        [cell setLowInfoTapBlock:^{
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"图片不太清晰" message:@"会影响制作效果" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+        
+        return cell;
+    }
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+
+    CYPhotoAssetsFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoAssetsFooter class]) forIndexPath:indexPath];
+    footerView.count = self.album.count;
+    CYPhotoAssetsFooter *reusableView = footerView;
+    return reusableView;
+}
+
+#pragma mark - nofi
+- (void)didChangeStatusBarOrientationNotification:(NSNotification *)notification {
+    _offsetItemCount = self.collectionView.contentOffset.y / (_collectionLayout.itemSize.height + _collectionLayout.minimumLineSpacing);
+}
+
+#pragma mark - event response
+- (void)cancelBtnAction {
+    [[CYPhotoCenter shareCenter] clearInfos];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)completeClick:(UIButton *)sneder {
+    if ([CYPhotoCenter shareCenter].isReachMinSelectedCount) {
+        return;
+    }
+    
+    [[CYPhotoCenter shareCenter] endPick];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - private methods
 - (void)fetchAssets {
     CYPhotoHud *hud = [CYPhotoHud hud];
     
@@ -129,25 +290,6 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         }
     });
 }
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    [self someLayout];
-}
-
-- (void)viewSafeAreaInsetsDidChange {
-//    NSLog(@"old - safeAreaInserts ------------------ %@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
-//
-    [super viewSafeAreaInsetsDidChange];
-    
-//    NSLog(@"new - safeAreaInserts ------------------ %@", NSStringFromUIEdgeInsets(self.view.safeAreaInsets));
-}
-
-//- (BOOL)prefersHomeIndicatorAutoHidden {
-//    // 自动隐藏 HommeIndicator
-//    return YES;
-//}
 
 - (void)someLayout {
     UIEdgeInsets insets = CYPHOTOLIB_ViewSafeAreInsets(self.view);
@@ -228,7 +370,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     _collectionLayout.minimumInteritemSpacing = CYPhotoCenter.config.minimumInteritemSpacing;
     _collectionLayout.minimumLineSpacing = CYPhotoCenter.config.minimumLineSpacing;
     if (CYPhotoCenter.config.showCountFooter) {
-         _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
+        _collectionLayout.footerReferenceSize = CGSizeMake(width, 44 * 2);
     }
     [self.collectionView setCollectionViewLayout:_collectionLayout];
     
@@ -240,175 +382,6 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     }
 }
 
-#pragma mark - collectionView delegate
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (collectionView == self.toolBarThumbCollectionView) {
-        return [CYPhotoCenter shareCenter].selectedPhotos.count;
-    }
-    return self.dataSource.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView == self.toolBarThumbCollectionView) {
-    
-        NSMutableArray *arr = [CYPhotoCenter shareCenter].selectedPhotos;
-        CYAsset *asset = arr[indexPath.item];
-        
-        CYPhotoBottomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CYPhotoBottomCollectionViewCell class]) forIndexPath:indexPath];
-        
-        cell.indexPath = indexPath;
-        cell.asset = asset;
-        
-        [[CYPhotoManager manager] fetchImageWithAsset:asset.asset photoWidth:cell.bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
-            cell.imageView.image = image;
-        }];
-        
-        __weak typeof(self)weakSelf = self;
-        
-        [cell setDeleteTapBlock:^(NSIndexPath *cellIndexPath, CYAsset *ast) {
-            __strong typeof(self)strongSelf = weakSelf;
-            [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:cellIndexPath.item];
-            
-            // delete 刷新
-//            BOOL isContent = NO;
-            for (CYAsset *model in strongSelf.dataSource) {
-                if ([model.asset.localIdentifier isEqualToString:ast.asset.localIdentifier]) {
-//                    isContent = YES;
-                    
-                    NSInteger ind = [strongSelf.dataSource indexOfObject:model];
-                    NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
-                    [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
-                }
-            }
-//            if (isContent) {
-//                NSInteger ind = [strongSelf.dataSource indexOfObject:ast];
-//                NSIndexPath *p = [NSIndexPath indexPathForItem:ind inSection:indexPath.section];
-//                [strongSelf.collectionView reloadItemsAtIndexPaths:@[p]];
-//            }
-            
-            [strongSelf refreshBottomView];
-        }];
-        
-        return cell;
-    } else {
-        CYPhotoAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CYPhotoAssetCell class]) forIndexPath:indexPath];
-        
-        cell.asset = self.dataSource[indexPath.item].asset;
-        
-        cell.singleSelBtn.hidden = !CYPhotoCenter.config.isSinglePick;
-        
-        BOOL isContent = NO;
-        for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
-            if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
-                isContent = YES;
-            }
-        }
-
-        cell.selBtn.selected = isContent;
-        
-        __weak typeof(cell) weakCell = cell;
-        __weak typeof(self) weakSelf = self;
-        
-        [cell setSelectedBlock:^(BOOL isSelected) {
-            
-            
-            
-            if (isSelected) {
-                if ([[CYPhotoCenter shareCenter] isReachMaxSelectedCount]) {
-                    weakCell.selBtn.selected = NO;
-                    return;
-                }
-                [weakCell.selBtn startSelectedAnimation];
-                [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
-            } else {
-                NSUInteger index = 0;
-                for (CYAsset *model in [CYPhotoCenter shareCenter].selectedPhotos) {
-                    if ([model.asset.localIdentifier isEqualToString:self.dataSource[indexPath.item].asset.localIdentifier]) {
-                        index = [[CYPhotoCenter shareCenter].selectedPhotos indexOfObject:model];
-                    }
-                }
-                
-                [[CYPhotoCenter shareCenter].selectedPhotos removeObjectAtIndex:index];
-            }
-            [weakSelf refreshBottomView];
-            
-        }];
-    
-//        [[CYPhotoManager manager] fetchImageInAsset:asset size:CGSizeMake(kScreenW, kScreenH) isResize:NO completion:^(UIImage *image, NSDictionary *info) {
-//            [cell setImgTapBlock:^{
-//                UIImageView *lastView = [weakCell.contentView.subviews lastObject];
-//                [CYHeadImageToBig showImage:lastView withImage:image];
-//            }];
-//        }];
-
-        [cell setImgTapBlock:^{
-//            UIImageView *lastView = [weakCell.contentView.subviews lastObject];
-//            [CYHeadImageToBig showImage:lastView withImage:weakCell.imageIV.image];
-        }];
-        
-        // 如果是单张图片选择
-        [cell setSigleSelectedBlock:^(BOOL isSelected) {
-            
-            NSLog(@"单张图片选择完成");
-            
-            [[CYPhotoCenter shareCenter].selectedPhotos addObject:weakSelf.dataSource[indexPath.item]];
-            
-            [[CYPhotoCenter shareCenter] endPick];
-            [weakSelf.navigationController dismissViewControllerAnimated:YES completion:nil];
-        }];
-        
-        [cell setUnableTapBlock:^{
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"不可选择" message:@"图片不符合制作规定" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-            [self presentViewController:vc animated:YES completion:nil];
-        }];
-        
-        [cell setLowInfoTapBlock:^{
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"图片不太清晰" message:@"会影响制作效果" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-            [self presentViewController:vc animated:YES completion:nil];
-        }];
-        
-        return cell;
-    }
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-
-    CYPhotoAssetsFooter *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([CYPhotoAssetsFooter class]) forIndexPath:indexPath];
-
-    footerView.count = self.album.count;
-
-    CYPhotoAssetsFooter *reusableView = footerView;
-    self.footerView = footerView;
-    return reusableView;
-}
-
-- (void)didChangeStatusBarOrientationNotification:(NSNotification *)notification {
-    _offsetItemCount = self.collectionView.contentOffset.y / (_collectionLayout.itemSize.height + _collectionLayout.minimumLineSpacing);
-}
-
-#pragma mark - event response
-- (void)cancelBtnAction {
-    [[CYPhotoCenter shareCenter] clearInfos];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)completeClick:(UIButton *)sneder {
-    if ([CYPhotoCenter shareCenter].isReachMinSelectedCount) {
-        return;
-    }
-    
-    [[CYPhotoCenter shareCenter] endPick];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - private methods
 - (void)setupUI {
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.collectionView];
@@ -451,22 +424,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     }
 }
 
-- (void)setupButtons {
-    //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelBtnAction)];
-}
-
-- (void)setupButtonsSingle {
-    //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleDone target:self action:@selector(completeClick:)];
-}
-
-//- (void)loadAssetData {
-//
-//    [[CYPhotoManager manager] fetchAssetsInCollection:self.assetCollection asending:NO completion:^(NSArray<PHAsset *> *assets) {
-//        self.dataSource = assets;
-//    }];
-//}
-
-- (void)refreshBottomView {
+- (void)refreshBottomView:(BOOL)isScrollToLast {
     
     // 取消隐式动画
     [UIView performWithoutAnimation:^{
@@ -475,19 +433,13 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     
     self.allCountLabel.text = [NSString stringWithFormat:@"%ld/%ld张", (long)[CYPhotoCenter shareCenter].selectedPhotos.count, (long)[CYPhotoCenter shareCenter].config.maxSelectedCount];
     
-    [self scrollBottomCollectionViewToLast];
+    if (isScrollToLast) {
+        [self scrollBottomCollectionViewToLast];
+    }
 
     if ([CYPhotoCenter shareCenter].selectedPhotos.count > 0) {
-        //        self.bottomViewCover.hidden = YES;
-//        self.isOriginalBtn.selected = [CYPhotoCenter shareCenter].isOriginal;
-        //        self.comBtn.text = [NSString stringWithFormat:@"完成(%zi)", [CYPhotoCenter shareCenter].selectedPhotos.count];
-        
         self.completeBtn.hidden = NO;
     } else {
-        //        self.bottomViewCover.hidden = NO;
-        self.isOriginalBtn.selected = NO;
-        //        self.comBtn.text = @"完成";
-        
         self.completeBtn.hidden = YES;
     }
 }
@@ -500,13 +452,6 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     self.toolBar = toolBar;
     self.toolBar.backgroundColor = [UIColor whiteColor];
    
-//    //!!!: 这里设置的toolBar
-//    NSDictionary *views = NSDictionaryOfVariableBindings(toolBar);
-//    NSString *widthVfl =  @"H:|-0-[toolBar]-0-|";
-//    NSString *heightVfl = @"V:[toolBar(135)]-0-|";
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:widthVfl options:0 metrics:0 views:views]];
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:heightVfl options:0 metrics:0 views:views]];
-    
     self.toolBarThumbCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.toolBarThumbCollectionView];
 
@@ -516,27 +461,9 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     self.haveSelectedLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.haveSelectedLabel];
 
-    //!!!: Cyrill:这里是计数的样式
-    //    if (self.isCalendar) {
     self.allCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.toolBar addSubview:self.allCountLabel];
-    //    } else {
-    //        [self.toolBar addSubview:self.numberLabel];
-    //    }
-    
-    
-//    if (@available(iOS 11, *)) {
-//        UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
-//
-//        [NSLayoutConstraint activateConstraints:@[[self.toolBar.topAnchor constraintEqualToSystemSpacingBelowAnchor:guide.topAnchor multiplier:1.0],[self.toolBar.bottomAnchor constraintEqualToSystemSpacingBelowAnchor:guide.bottomAnchor multiplier:1.0],]];
-//    }
-
-    // 左视图 中间距 右视图
-    //    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.tbLeftView];
-    //    UIBarButtonItem *fiexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    //    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.tbRightView];
-    //
-    //    toorBar.items = @[leftItem,fiexItem,rightItem];
+   
 }
 
 #pragma mark - getters and setters
@@ -556,55 +483,9 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     return _collectionView;
 }
 
-- (UIView *)bottomView {
-    if (!_bottomView) {
-        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, CYPHOTOLIB_SCREEN_H-50, CYPHOTOLIB_SCREEN_W, 50)];
-    }
-    return _bottomView;
-}
-
-- (UIView *)bottomViewCover {
-    if (!_bottomViewCover) {
-        _bottomViewCover = [[UIView alloc] init];
-        _bottomViewCover.frame = self.bottomView.frame;
-    }
-    return _bottomViewCover;
-}
-
-- (UIButton *)isOriginalBtn {
-    if (!_isOriginalBtn) {
-        _isOriginalBtn = [[UIButton alloc] init];
-    }
-    return _isOriginalBtn;
-}
-
-- (UILabel *)comBtn {
-    if (!_comBtn) {
-        _comBtn = [[UILabel alloc] init];
-//        UIView *sendView = [[UIView alloc] initWithFrame:CGRectMake(CYPHOTOLIB_SCREEN_W-70-14, 5, 70, 30)];
-//        sendView.backgroundColor = [UIColor grayColor];
-//        _comBtn.frame = sendView.bounds;
-//        [sendView addSubview:_comBtn];
-//
-//        [sendView addSubview:self.completeBtn];
-//        
-////        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-////        btn.frame = sendView.bounds;
-////        [btn addTarget:self action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
-////        [sendView addSubview:btn];
-//        
-//        [self.bottomView addSubview:sendView];
-    }
-    return _comBtn;
-}
-
 - (UIButton *)completeBtn {
     if (!_completeBtn) {
         _completeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_zhizuo"] forState:UIControlStateNormal];
-//        [rightBtn setBackgroundImage:[UIImage imageNamed:@"icon_zhizuo_unsel"] forState:UIControlStateDisabled];
-//        [_completeBtn setBackgroundColor:[UIColor grayColor]];
-        
         _completeBtn.layer.cornerRadius = 25/2;
         _completeBtn.layer.masksToBounds = YES;
         [_completeBtn setBackgroundColor:CYPHOTOLIB_COMPLETE_BTN_BG_COLOR];
@@ -613,7 +494,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         _completeBtn.enabled = YES;
         _completeBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         _completeBtn.frame = CGRectMake(CYPHOTOLIB_SCREEN_W-220/2, 12, 190/2, 25);
-        [_completeBtn setTitle:@"开始制作" forState:UIControlStateNormal];
+        [_completeBtn setTitle:[NSBundle cy_localizedStringForKey:@"Star Making"] forState:UIControlStateNormal];
         [_completeBtn addTarget:self action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
         _completeBtn.hidden = YES;
     }
@@ -676,19 +557,6 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         _toolBarThumbCollectionView = toolBarThumbCollectionView;
     }
     return _toolBarThumbCollectionView;
-}
-
-#pragma mark - receive and dealloc
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-- (void)dealloc {
-//    self.collectionView.dataSource = nil;
-//    self.collectionView.delegate = nil;
-//    self.collectionView = nil;
-//    self.dataSource = nil;
 }
 
 @end

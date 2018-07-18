@@ -34,7 +34,7 @@
 #define CYPHOTOLIB_BGCOLOR                CYPHOTOLIB_RGBColor(237, 238, 242)
 #define CYPHOTOLIB_CLEARCOLOR             [UIColor clearColor]
 
-#define CYPHOTOLIB_NAV_BAR_COLOR          [UIColor purpleColor]
+#define CYPHOTOLIB_NAV_BAR_COLOR          [UIColor orangeColor]
 #define CYPHOTOLIB_COMPLETE_BTN_BG_COLOR  CYPHOTOLIB_NAV_BAR_COLOR
 
 #define CYPHOTOLIB_SINGLE_LINE_WIDTH           (1 / [UIScreen mainScreen].scale)
