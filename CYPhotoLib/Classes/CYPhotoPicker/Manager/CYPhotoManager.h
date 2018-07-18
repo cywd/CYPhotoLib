@@ -135,6 +135,19 @@
 - (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 
 /**
+ 获取图片，可查看进度
+ 
+ @param asset PHAsset
+ @param photoWidth 宽
+ @param completion 回调
+ @param progressHandler 进度回调
+ @param networkAccessAllowed 是否允许网络
+ @param synchronous 是否同步
+ @return 一个int32_t标识符
+ */
+- (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous;
+
+/**
  根据asset 获取原图 （默认联网请求，同步）
 
  @param asset PHAsset

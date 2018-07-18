@@ -290,7 +290,13 @@ static dispatch_once_t onceToken;
                 }
             }];
         } else {
-            
+            [self fetchImageWithAsset:asset photoWidth:size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+                [images addObject:image];
+                if (images.count == assetsArray.count) {
+                    //执行block
+                    if (completion) completion(images);
+                }
+            } progressHandler:nil networkAccessAllowed:NO synchronous:YES];
         }
     }
 }
@@ -301,6 +307,10 @@ static dispatch_once_t onceToken;
 }
 
 - (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+    return [self fetchImageWithAsset:asset photoWidth:photoWidth completion:completion progressHandler:progressHandler networkAccessAllowed:networkAccessAllowed synchronous:NO];
+}
+
+- (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous {
     CGSize imageSize;
     CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
     CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale;
@@ -326,6 +336,7 @@ static dispatch_once_t onceToken;
      normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
      */
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    options.synchronous = synchronous;
     
     PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         if (result) {

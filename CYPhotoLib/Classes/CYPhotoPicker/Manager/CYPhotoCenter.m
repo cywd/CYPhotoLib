@@ -46,6 +46,7 @@
 
 - (void)endPick {
     if (self.handle) {
+        // CY-TODO: 下一步外卖呢可以控制是否是原图，默认YES
         [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:YES completion:^(NSArray *images) {
             self.handle(images);
         }];
