@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Cyrill. All rights reserved.
 //
 
-#import "UIView+CYAnimation.h"
+#import "UIView+CYPhotoAnimation.h"
 
 #define BottomRect CGRectMake(self.frame.origin.x, [UIScreen mainScreen].bounds.size.height, self.frame.size.width, self.frame.size.height)
 

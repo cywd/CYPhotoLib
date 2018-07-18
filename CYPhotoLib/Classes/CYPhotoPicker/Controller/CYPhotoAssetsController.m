@@ -12,7 +12,7 @@
 #import "CYPhotoAssetsFooter.h"
 #import "CYPhotoManager.h"
 #import "CYPhotoBottomCollectionViewCell.h"
-#import "UIView+CYAnimation.h"
+#import "UIView+CYPhotoAnimation.h"
 #import "CYPhotoCenter.h"
 #import "UIView+CYPhotoConstraintMatching.h"
 
