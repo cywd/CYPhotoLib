@@ -76,10 +76,10 @@
 
 #pragma mark - 清除信息
 - (void)clearInfos {
-    self.handler = nil;
     self.allPhotos = nil;
     [self.selectedPhotos removeAllObjects];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.handler = nil;
 }
 
 #pragma mark - 监听图片变化代理

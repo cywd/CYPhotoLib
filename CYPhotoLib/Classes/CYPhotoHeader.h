@@ -15,7 +15,12 @@
 #define CYPHOTOLIB_SCREEN_B    [[UIScreen mainScreen] bounds]
 
 // iPhone X
-#define  CYPHOTOLIB_IPHONEX (CYPHOTOLIB_SCREEN_W == 375.f && CYPHOTOLIB_SCREEN_H == 812.f ? YES : NO)
+#define CYPHOTOLIB_IPHONEX \
+({BOOL isPhoneX = NO;\
+if (@available(iOS 11.0, *)) {\
+isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom > 0.0;\
+}\
+(isPhoneX);})
 
 // Status bar height.
 #define  CYPHOTOLIB_STATUS_H  (CYPHOTOLIB_IPHONEX ? 44.f : 20.f)

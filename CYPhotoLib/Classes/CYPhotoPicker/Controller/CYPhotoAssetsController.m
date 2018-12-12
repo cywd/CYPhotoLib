@@ -45,7 +45,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
 //@property (nonatomic , weak  ) UIToolbar *toolBar;
 @property (nonatomic , strong) UIView *toolBar;
 // 底部CollectionView
-@property (nonatomic , weak) UICollectionView *toolBarThumbCollectionView;
+@property (nonatomic , strong) UICollectionView *toolBarThumbCollectionView;
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionLayout;
@@ -526,14 +526,12 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         //FIXME:
         //!!!: toolBar上的collectionView
         // CGRectMake(0, 22, 300, 44)
-        UICollectionView *toolBarThumbCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 45, CYPHOTOLIB_SCREEN_W, 90) collectionViewLayout:flowLayout];
-        toolBarThumbCollectionView.backgroundColor = [UIColor clearColor];
-        toolBarThumbCollectionView.scrollsToTop = NO;
-        toolBarThumbCollectionView.dataSource = self;
-        toolBarThumbCollectionView.delegate = self;
-        [toolBarThumbCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoBottomCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([CYPhotoBottomCollectionViewCell class])];
-        
-        _toolBarThumbCollectionView = toolBarThumbCollectionView;
+        _toolBarThumbCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 45, CYPHOTOLIB_SCREEN_W, 90) collectionViewLayout:flowLayout];
+        _toolBarThumbCollectionView.backgroundColor = [UIColor clearColor];
+        _toolBarThumbCollectionView.scrollsToTop = NO;
+        _toolBarThumbCollectionView.dataSource = self;
+        _toolBarThumbCollectionView.delegate = self;
+        [_toolBarThumbCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CYPhotoBottomCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([CYPhotoBottomCollectionViewCell class])];
     }
     return _toolBarThumbCollectionView;
 }

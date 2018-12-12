@@ -286,6 +286,7 @@ static dispatch_once_t onceToken;
                 [images addObject:photo];
                 if (images.count == assetsArray.count) {
                     //执行block
+                    
                     if (completion) completion(images);
                 }
             }];
@@ -395,6 +396,7 @@ static dispatch_once_t onceToken;
     options.resizeMode = PHImageRequestOptionsResizeModeNone;
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+        
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
         if (downloadFinined && result) {
 //            result = [self fixOrientation:result];

@@ -59,21 +59,25 @@
 
 #pragma mark - event response
 - (IBAction)btnClick:(UIButton *)sender {
-    __weak typeof(self) weakSelf = self;
+    
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     picker.columnNumber = 3;
     picker.ascending = YES;
     [picker showInSender:self handler:^(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets) {
         
-        __strong typeof(self) strongSelf = weakSelf;
-        [weakSelf.dataArray removeAllObjects];
-        [weakSelf.dataArray addObjectsFromArray:photos];
-        [strongSelf.collectionView reloadData];
+        NSMutableArray *arr = [NSMutableArray arrayWithArray:[photos copy]];
+        
+        self.dataArray = [arr copy];
+        arr = nil;
+        [self.collectionView reloadData];
+        
     }];
 }
 
 - (IBAction)clear:(UIButton *)sender {
-    [self.dataArray removeAllObjects];
+    
+    self.dataArray = nil;
+    self.dataArray = [NSMutableArray array];
     [[CYPhotoCenter shareCenter] clearInfos];
     [self.collectionView reloadData];
 }
