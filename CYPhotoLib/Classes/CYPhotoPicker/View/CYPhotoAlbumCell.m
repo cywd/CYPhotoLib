@@ -27,7 +27,7 @@
     self.nameLabel.text = album.name;
     self.countLabel.text = @(album.count).stringValue;
     
-    [[CYPhotoManager manager] fetchCoverImageWithAlbum:album completion:^(UIImage *image) {
+    [CYPhotoManager fetchCoverImageWithAlbum:album completion:^(UIImage *image) {
         self.coverImageView.image = image;
     }];
 }

@@ -73,6 +73,7 @@
         [[CYPhotoCenter shareCenter].selectedPhotos enumerateObjectsUsingBlock:^(CYPhotoAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [assetArray addObject:obj.asset];
         }];
+        [CYPhotoCenter deallocCenter];
         handler(assetArray);
     }];
 }

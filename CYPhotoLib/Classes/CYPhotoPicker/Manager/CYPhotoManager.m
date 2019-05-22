@@ -20,21 +20,6 @@
 
 @implementation CYPhotoManager
 
-static CYPhotoManager *manager = nil;
-static dispatch_once_t onceToken;
-
-+ (instancetype)manager {
-    dispatch_once(&onceToken, ^{
-        manager = [[CYPhotoManager alloc] init];
-    });
-    return manager;
-}
-
-+ (void)deallocManager {
-    onceToken = 0;
-    manager = nil;
-}
-
 #pragma mark - 权限验证
 + (void)requestPhotoLibaryAuthorizationValidAuthorized:(void (^)(void))authorizedBlock denied:(void (^)(void))deniedBlock restricted:(void (^)(void))restrictedBlock elseBlock:(void(^)(void))elseBlock {
     
@@ -44,7 +29,7 @@ static dispatch_once_t onceToken;
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
             // 这里非主线程，选择完成后会出发相册变化代理方法
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.class requestPhotoLibaryAuthorizationValidAuthorized:authorizedBlock denied:deniedBlock restricted:restrictedBlock elseBlock:elseBlock];
+                [self requestPhotoLibaryAuthorizationValidAuthorized:authorizedBlock denied:deniedBlock restricted:restrictedBlock elseBlock:elseBlock];
             });
         }];
     } else if (status == PHAuthorizationStatusAuthorized) {
@@ -116,7 +101,7 @@ static dispatch_once_t onceToken;
  }
  */
 #pragma mark - Album相关
-- (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYPhotoAlbum *model))completion {
++ (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYPhotoAlbum *model))completion {
     __block CYPhotoAlbum *model;
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:isSortByModificationDate ascending:ascending];
     
@@ -137,7 +122,7 @@ static dispatch_once_t onceToken;
     }
 }
 
-- (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYPhotoAlbum *> *albumsArray))completion {
++ (void)fetchAllAlbumsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(NSArray<CYPhotoAlbum *> *albumsArray))completion {
     NSMutableArray *albumsArray = [NSMutableArray array];
     
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:isSortByModificationDate ascending:ascending];
@@ -178,11 +163,11 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Asset
 
-- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion {
++ (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion {
     [self fetchAssetsFromFetchResult:fetchResult allowPickingVideo:NO allowPickingImage:YES completion:completion];
 }
 
-- (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion {
++ (void)fetchAssetsFromFetchResult:(PHFetchResult *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<CYPhotoAsset *> *array))completion {
     NSMutableArray *assets = [NSMutableArray array];
     [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         CYPhotoAsset *asset = [self assetModelWithAsset:obj allowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage];
@@ -193,7 +178,7 @@ static dispatch_once_t onceToken;
     if (completion) completion(assets);
 }
 
-- (CYPhotoAsset *)assetModelWithAsset:(PHAsset *)asset allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage {
++ (CYPhotoAsset *)assetModelWithAsset:(PHAsset *)asset allowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage {
     
     PHAssetMediaType type = asset.mediaType;
 
@@ -206,7 +191,7 @@ static dispatch_once_t onceToken;
 }
 
 /** 根据localid获取资源对应的asset */
-- (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completion:(void(^)(PHAsset *asset))completion {
++ (void)fetchAssetWithLocalIdentifier:(NSString *)localIdentifier completion:(void(^)(PHAsset *asset))completion {
     // 需要localIdentifier
     PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
     PHFetchResult *fetchResult = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:fetchOptions];
@@ -214,7 +199,7 @@ static dispatch_once_t onceToken;
     if (completion) completion(asset);
 }
 
-- (BOOL)isLocalInAlbumWithAsset:(PHAsset *)asset {
++ (BOOL)isLocalInAlbumWithAsset:(PHAsset *)asset {
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.networkAccessAllowed = NO;
     option.synchronous = YES;
@@ -227,13 +212,13 @@ static dispatch_once_t onceToken;
     return isInLocalAlbum;
 }
 
-- (void)fetchCoverAssetWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(CYPhotoAsset *asset))completion {
++ (void)fetchCoverAssetWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(CYPhotoAsset *asset))completion {
     id obj = [album.result lastObject];
     CYPhotoAsset *tmp_asset = [self assetModelWithAsset:obj allowPickingVideo:NO allowPickingImage:YES];
     if (completion) completion(tmp_asset);
 }
 
-- (void)fetchCoverImageWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(UIImage *image))completion {
++ (void)fetchCoverImageWithAlbum:(CYPhotoAlbum *)album completion:(void (^)(UIImage *image))completion {
     id asset = [album.result lastObject];
     [self fetchImageWithAsset:asset photoWidth:80 completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
         if (completion) completion(image);
@@ -243,7 +228,7 @@ static dispatch_once_t onceToken;
 #pragma mark - Image相关
 
 /** 获取资源数组对应的图片数组 */
-- (void)fetchImagesWithAssetsArray:(NSArray<CYPhotoAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion {
++ (void)fetchImagesWithAssetsArray:(NSArray<CYPhotoAsset *> *)assetsArray isOriginal:(BOOL)isOriginal completion:(void(^)(NSArray * images))completion {
     
     NSMutableArray * images = [NSMutableArray array];
     
@@ -308,15 +293,15 @@ static dispatch_once_t onceToken;
 }
 
 
-- (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion {
++ (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion {
     return [self fetchImageWithAsset:asset photoWidth:photoWidth completion:completion progressHandler:nil networkAccessAllowed:NO];
 }
 
-- (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
++ (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     return [self fetchImageWithAsset:asset photoWidth:photoWidth completion:completion progressHandler:progressHandler networkAccessAllowed:networkAccessAllowed synchronous:NO];
 }
 
-- (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous {
++ (int32_t)fetchImageWithAsset:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completion:(void (^)(UIImage *image,NSDictionary *info,BOOL isDegraded))completion progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous {
     CGSize imageSize;
     CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
     CGFloat pixelWidth = photoWidth * [UIScreen mainScreen].scale;
@@ -383,11 +368,11 @@ static dispatch_once_t onceToken;
 }
 
 /// 获取原图
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion {
++ (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion {
     [self fetchOriginalImageWithAsset:asset networkAccessAllowed:YES synchronous:YES completion:completion];
 }
 
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion {
++ (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion {
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     /**
      synchronous：指定请求是否同步执行。
@@ -413,7 +398,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - image data
 /// 获取原图data
-- (void)fetchOriginalImageDataWithAsset:(PHAsset *)asset completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion {
++ (void)fetchOriginalImageDataWithAsset:(PHAsset *)asset completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion {
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.networkAccessAllowed = YES;
     options.version = PHImageRequestOptionsVersionCurrent;
@@ -427,7 +412,7 @@ static dispatch_once_t onceToken;
 }
 
 /// 根据id获取原图data
-- (void)fetchOriginalImageDataWithLocalIdentifier:(NSString *)localIdentifier completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion {
++ (void)fetchOriginalImageDataWithLocalIdentifier:(NSString *)localIdentifier completion:(void (^)(NSData *data, NSDictionary *info, BOOL isDegraded))completion {
     
     __weak typeof(self) weakSelf = self;
     [self fetchAssetWithLocalIdentifier:localIdentifier completion:^(PHAsset *asset) {
@@ -437,7 +422,7 @@ static dispatch_once_t onceToken;
 
 
 /** 获取资源对应的原图大小 */
-- (PHImageRequestID)fetchImageDataBytesWithAsset:(PHAsset *)asset completion:(void (^)(CGFloat length))completion {
++ (PHImageRequestID)fetchImageDataBytesWithAsset:(PHAsset *)asset completion:(void (^)(CGFloat length))completion {
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.synchronous = NO;
     options.resizeMode = PHImageRequestOptionsResizeModeNone;
@@ -454,11 +439,11 @@ static dispatch_once_t onceToken;
     }
 }
 
-- (CGSize)photoSizeWithAsset:(PHAsset *)asset {
++ (CGSize)photoSizeWithAsset:(PHAsset *)asset {
     return CGSizeMake(asset.pixelWidth, asset.pixelHeight);
 }
 
-- (BOOL)isCameraRollAlbum:(id)metadata {
++ (BOOL)isCameraRollAlbum:(id)metadata {
     if ([metadata isKindOfClass:[PHAssetCollection class]]) {
         NSString *versionStr = [[UIDevice currentDevice].systemVersion stringByReplacingOccurrencesOfString:@"." withString:@""];
         if (versionStr.length <= 1) {
@@ -479,7 +464,7 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - private
-- (PHFetchOptions *)optionsAllowPickingVideo:(BOOL)isAllowPickingVideo allowPickingImage:(BOOL)isAllowPickingImage sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending {
++ (PHFetchOptions *)optionsAllowPickingVideo:(BOOL)isAllowPickingVideo allowPickingImage:(BOOL)isAllowPickingImage sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending {
     
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     if (!isAllowPickingVideo) {
@@ -500,7 +485,7 @@ static dispatch_once_t onceToken;
 }
 
 /// 修正图片转向
-- (UIImage *)fixOrientation:(UIImage *)aImage {
++ (UIImage *)fixOrientation:(UIImage *)aImage {
     
     // No-op if the orientation is already correct
     if (aImage.imageOrientation == UIImageOrientationUp)

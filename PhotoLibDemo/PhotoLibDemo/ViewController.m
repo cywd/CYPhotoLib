@@ -44,10 +44,10 @@
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
     
     PHAsset *asset = self.dataArray[indexPath.item];
-    [[CYPhotoManager manager] fetchImageWithAsset:asset photoWidth:[UIScreen mainScreen].bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+    [CYPhotoManager fetchImageWithAsset:asset photoWidth:[UIScreen mainScreen].bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
         cell.imageView.image = image;
     }];
-//    [[CYPhotoManager manager] fetchOriginalImageWithAsset:asset completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+//    [CYPhotoManager fetchOriginalImageWithAsset:asset completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
 //        cell.imageView.image = image;
 //    }];
     

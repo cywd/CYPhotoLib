@@ -37,7 +37,8 @@
  *  单例
  */
 + (instancetype)shareCenter;
-
+/** dealloc 单例 */
++ (void)deallocCenter;
 
 + (CYPhotoConfig *)config;
 

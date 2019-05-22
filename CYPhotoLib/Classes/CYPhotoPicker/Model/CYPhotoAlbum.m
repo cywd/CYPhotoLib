@@ -26,7 +26,7 @@
     _result = result;
     
     if (needFetchAssets) {
-        [[CYPhotoManager manager] fetchAssetsFromFetchResult:result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<CYPhotoAsset *> *array) {
+        [CYPhotoManager fetchAssetsFromFetchResult:result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<CYPhotoAsset *> *array) {
             self.assets = array;
         }];
     }

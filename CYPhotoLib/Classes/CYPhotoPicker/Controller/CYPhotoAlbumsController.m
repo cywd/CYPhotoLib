@@ -88,7 +88,7 @@
 
 #pragma mark - event response
 - (void)cancelBtnAction {
-    [[CYPhotoCenter shareCenter] clearInfos];
+    [CYPhotoCenter deallocCenter];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -100,7 +100,7 @@
         [hud showProgressHUD];
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[CYPhotoManager manager] fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(NSArray<CYPhotoAlbum *> *albumsArray) {
+        [CYPhotoManager fetchAllAlbumsAllowPickingVideo:NO allowPickingImage:YES needFetchAssets:NO sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(NSArray<CYPhotoAlbum *> *albumsArray) {
             self.albums = [NSMutableArray arrayWithArray:albumsArray];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];

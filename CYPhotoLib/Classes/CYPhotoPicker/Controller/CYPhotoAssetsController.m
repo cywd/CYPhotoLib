@@ -115,7 +115,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         cell.indexPath = indexPath;
         cell.asset = asset;
         
-        [[CYPhotoManager manager] fetchImageWithAsset:asset.asset photoWidth:cell.bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+        [CYPhotoManager fetchImageWithAsset:asset.asset photoWidth:cell.bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
             cell.imageView.image = image;
         }];
         
@@ -253,7 +253,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     __block UIViewController *vc = [[UIViewController alloc] init];
     __block UIImageView *imgView = [[UIImageView alloc] initWithFrame:finRect];
     
-    [[CYPhotoManager manager] fetchImageWithAsset:asset photoWidth:[UIScreen mainScreen].bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+    [CYPhotoManager fetchImageWithAsset:asset photoWidth:[UIScreen mainScreen].bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
         imgView.image = image;
     } progressHandler:nil networkAccessAllowed:NO];
     
@@ -317,7 +317,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (!self.album) {
-            [[CYPhotoManager manager] fetchCameraRollAlbumAllowPickingVideo:CYPhotoCenter.config.allowPickingVideo allowPickingImage:CYPhotoCenter.config.allowPickingImage needFetchAssets:YES sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(CYPhotoAlbum *model) {
+            [CYPhotoManager fetchCameraRollAlbumAllowPickingVideo:CYPhotoCenter.config.allowPickingVideo allowPickingImage:CYPhotoCenter.config.allowPickingImage needFetchAssets:YES sortByModificationDate:CYPhotoCenter.config.sortByModificationDate ascending:CYPhotoCenter.config.ascending completion:^(CYPhotoAlbum *model) {
                 self.album = model;
                 self.assets = [NSMutableArray arrayWithArray:self.album.assets];
                 self.dataSource = self.assets;
@@ -329,7 +329,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
                 });
             }];
         } else {
-            [[CYPhotoManager manager] fetchAssetsFromFetchResult:self.album.result completion:^(NSArray<CYPhotoAsset *> *array) {
+            [CYPhotoManager fetchAssetsFromFetchResult:self.album.result completion:^(NSArray<CYPhotoAsset *> *array) {
                 self.assets = [NSMutableArray arrayWithArray:array];
                 self.dataSource = self.assets;
                 dispatch_async(dispatch_get_main_queue(), ^{

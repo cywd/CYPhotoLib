@@ -18,14 +18,21 @@
 
 @implementation CYPhotoCenter
 
+static CYPhotoCenter * center = nil;
+static dispatch_once_t onceToken;
 + (instancetype)shareCenter {
-    static CYPhotoCenter * center = nil;
-    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         center = [[CYPhotoCenter alloc] init];
         center.selectedPhotos = [NSMutableArray array];
     });
     return center;
+}
+
+/** dealloc 单例 */
++ (void)deallocCenter {
+    onceToken = 0;
+    [center clearInfos];
+    center = nil;
 }
 
 + (CYPhotoConfig *)config {
@@ -43,7 +50,7 @@
 - (void)endPick {
     if (self.handler) {
         // CY-TODO: 下一步外卖呢可以控制是否是原图，默认YES
-//        [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:YES completion:^(NSArray *images) {
+//        [CYPhotoManager fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:YES completion:^(NSArray *images) {
 //            self.handler(images);
 //        }];
         

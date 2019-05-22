@@ -90,7 +90,7 @@
         
         // 耗时
         if (asset.mediaType == PHAssetMediaTypeImage) {
-            [[CYPhotoManager manager] fetchImageDataBytesWithAsset:asset completion:^(CGFloat len) {
+            [CYPhotoManager fetchImageDataBytesWithAsset:asset completion:^(CGFloat len) {
                 
                 CGFloat length = len * 0.001;
                 
@@ -171,7 +171,7 @@
     
     self.representedAssetIdentifier = asset.localIdentifier;
 
-    int32_t imageRequestID = [[CYPhotoManager manager] fetchImageWithAsset:asset photoWidth:self.bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+    int32_t imageRequestID = [CYPhotoManager fetchImageWithAsset:asset photoWidth:self.bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
 
         if ([self.representedAssetIdentifier isEqualToString:asset.localIdentifier]) {
             self.imageView.image = image;
