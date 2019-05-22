@@ -24,7 +24,7 @@
  */
 @property (nonatomic, assign, getter=isAllowPickingImage) BOOL allowPickingImage;
 /**
- 是否跳转到相机胶卷
+ 是否跳转到相机胶卷, 默认YES
  */
 @property (nonatomic, assign, getter=isPushToCameraRoll) BOOL pushToCameraRoll;
 /**

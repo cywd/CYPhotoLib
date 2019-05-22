@@ -69,16 +69,17 @@
 - (IBAction)btnClick:(UIButton *)sender {
     
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
-    picker.columnNumber = 5;
+    picker.columnNumber = 4;
     picker.ascending = YES;
     // 100 warning 70k disabled 6M 6,144kb
     // 不可选70k 下，20M 以上
     picker.minDisabledDataLength = 70;
-    picker.maxDisabledDataLength = 20*1024;
+    picker.maxDisabledDataLength = 15*1024;
     // 警告 100k 下
     picker.minWarningDataLength = 100;
     // 警告 宽高比 2:1 或者 1:2
     picker.warningAspectRatio = 2;
+    
     [picker showInSender:self handler:^(NSArray<PHAsset *> *assets) {
         
         NSMutableArray *arr = [NSMutableArray arrayWithArray:[assets copy]];
