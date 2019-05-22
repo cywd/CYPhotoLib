@@ -37,12 +37,12 @@
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[CYPhotoAlbumCell class] forCellReuseIdentifier:NSStringFromClass([CYPhotoAlbumCell class])];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle cy_localizedStringForKey:@"Cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnAction)];
+    [self fetchAlbums];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self fetchAlbums];
 }
 
 - (void)viewWillLayoutSubviews {

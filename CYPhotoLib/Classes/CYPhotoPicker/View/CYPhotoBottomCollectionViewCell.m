@@ -16,9 +16,10 @@
 }
 
 - (IBAction)deleteItem:(UIButton *)sender forEvent:(UIEvent *)event {
-    if (self.deleteTapBlock) {
-        self.deleteTapBlock(self.indexPath, self.asset);
+    if ([self.delegate respondsToSelector:@selector(bottom_deleteTap:cell:)]) {
+        [self.delegate bottom_deleteTap:self.asset cell:self];
     }
+    
 }
 
 @end

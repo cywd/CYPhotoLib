@@ -14,6 +14,7 @@
 #import "CYPhotoNavigationController.h"
 #import "CYPhotoAlbumsController.h"
 #import "CYPhotoAssetsController.h"
+#import "CYPhotoAsset.h"
 
 #import "CYPhotoCenter.h"
 #import "CYPhotoConfig.h"
@@ -23,21 +24,17 @@
 
 // 配置
 @property (nonatomic, strong) CYPhotoConfig *config;
-// 显示选择器的控制器
-@property (nonatomic, weak) UIViewController * sender;
 
 @end
 
 @implementation CYPhotoPicker 
 
 #pragma mark - public
-- (void)showInSender:(__kindof UIViewController *)sender handler:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handler {
+- (void)showInSender:(__kindof UIViewController *)sender handler:(void(^)(NSArray<PHAsset *> *assets))handler {
     [self showInSender:sender config:self.config handler:handler];
 }
 
-- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handler:(void(^)(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets))handler {
-
-    self.sender = sender;
+- (void)showInSender:(__kindof UIViewController *)sender config:(CYPhotoConfig *)config handler:(void(^)(NSArray<PHAsset *> *assets))handler {
     
     [CYPhotoCenter shareCenter].config = config;
     
@@ -54,26 +51,29 @@
             [albumsViewController.navigationController pushViewController:assetsViewController animated:NO];
         }
         
-        [self.sender presentViewController:navigationController animated:YES completion:nil];
+        [sender presentViewController:navigationController animated:YES completion:nil];
         
     } denied:^{
-        [self deined];
+        [self deined:sender];
     } restricted:^{
-        [self restricted];
+        [self restricted:sender];
     } elseBlock:^{
         
     }];
     
-    [[CYPhotoCenter shareCenter] setHandler:^(NSArray<UIImage *> * photos) {
+    [[CYPhotoCenter shareCenter] setHandler:^(NSArray<CYPhotoAsset *> *photos) {
         
         // FIX： 如果是单张 清除信息，下次进来就没有了
         if (CYPhotoCenter.config.isSinglePick) {
             [self clearInfo];
         }
         
-        NSMutableArray *assetArray = [CYPhotoCenter shareCenter].selectedPhotos;
+        NSMutableArray *assetArray = [NSMutableArray array];
         
-        handler([photos copy], assetArray);
+        [[CYPhotoCenter shareCenter].selectedPhotos enumerateObjectsUsingBlock:^(CYPhotoAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [assetArray addObject:obj.asset];
+        }];
+        handler(assetArray);
     }];
 }
 
@@ -82,7 +82,7 @@
 }
 
 #pragma mark - private
-- (void)deined {
+- (void)deined:(UIViewController *)sender {
     // 无权限
     NSDictionary *infoDict = [NSBundle mainBundle].localizedInfoDictionary;
     if (!infoDict || !infoDict.count) {
@@ -94,11 +94,11 @@
     }
     NSString *appName = [infoDict valueForKey:@"CFBundleDisplayName"];
     if (!appName) appName = [infoDict valueForKey:@"CFBundleName"];
-    [self setAlertControllerWithTitle:[NSBundle cy_localizedStringForKey:@"The application cannot access your photo album"] message:[NSString stringWithFormat:[NSBundle cy_localizedStringForKey:@"Allow %@ to access your album in \"Settings -> %@ -> Photos\""],appName, appName]];
+    [self setAlertControllerWithTitle:[NSBundle cy_localizedStringForKey:@"The application cannot access your photo album"] message:[NSString stringWithFormat:[NSBundle cy_localizedStringForKey:@"Allow %@ to access your album in \"Settings -> %@ -> Photos\""],appName, appName] sender:sender];
     return;
 }
 
-- (void)restricted {
+- (void)restricted:(UIViewController *)sender {
     // 家长模式
     NSDictionary *infoDict = [NSBundle mainBundle].localizedInfoDictionary;
     if (!infoDict || !infoDict.count) {
@@ -110,11 +110,11 @@
     }
     NSString *appName = [infoDict valueForKey:@"CFBundleDisplayName"];
     if (!appName) appName = [infoDict valueForKey:@"CFBundleName"];
-    [self setAlertControllerWithTitle:[NSBundle cy_localizedStringForKey:@"The application was unable to access the photo because parental control was enabled"] message:[NSString stringWithFormat:[NSBundle cy_localizedStringForKey:@"Allow %@ to access your album in \"Settings -> %@ -> Photos\""], appName, appName]];
+    [self setAlertControllerWithTitle:[NSBundle cy_localizedStringForKey:@"The application was unable to access the photo because parental control was enabled"] message:[NSString stringWithFormat:[NSBundle cy_localizedStringForKey:@"Allow %@ to access your album in \"Settings -> %@ -> Photos\""], appName, appName] sender:sender];
     return;
 }
 
-- (void)setAlertControllerWithTitle:(NSString *)title message:(NSString *)message {
+- (void)setAlertControllerWithTitle:(NSString *)title message:(NSString *)message sender:(UIViewController *)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[NSBundle cy_localizedStringForKey:@"Cancel"] style:UIAlertActionStyleCancel handler:nil];
@@ -133,7 +133,7 @@
     [alert addAction:cancelAction];
     [alert addAction:okAction];
     
-    [self.sender presentViewController:alert animated:YES completion:nil];
+    [sender presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - getter
@@ -196,6 +196,51 @@
 
 - (void)setMinimumInteritemSpacing:(CGFloat)minimumInteritemSpacing {
     self.config.minimumInteritemSpacing = minimumInteritemSpacing;
+}
+
+// disabled data length
+- (void)setMinDisabledDataLength:(CGFloat)minDisabledDataLength {
+    self.config.minDisabledDataLength = minDisabledDataLength;
+}
+- (void)setMaxDisabledDataLength:(CGFloat)maxDisabledDataLength {
+    self.config.maxDisabledDataLength = maxDisabledDataLength;
+}
+
+
+// warning data length
+- (void)setMinWarningDataLength:(CGFloat)minWarningDataLength {
+    self.config.minWarningDataLength = minWarningDataLength;
+}
+
+//- (void)setMaxWarningDataLength:(CGFloat)maxWarningDataLength {
+//    self.config.maxWarningDataLength = maxWarningDataLength;
+//}
+
+
+//// disabled size
+//- (void)setMinDisabledSize:(CGSize)minDisabledSize {
+//    self.config.minDisabledSize = minDisabledSize;
+//}
+//
+//- (void)setMaxDisabledSize:(CGSize)maxDisabledSize {
+//    self.config.maxDisabledSize = maxDisabledSize;
+//}
+//
+//// warning size
+//- (void)setMinWarningSize:(CGSize)minWarningSize {
+//    self.config.minWarningSize = minWarningSize;
+//}
+//- (void)setMaxWarningSize:(CGSize)maxWarningSize {
+//    self.config.maxWarningSize = maxWarningSize;
+//}
+
+// disabled aspect ratio
+- (void)setDisabledAspectRatio:(CGFloat)disabledAspectRatio {
+    self.config.disabledAspectRatio = disabledAspectRatio;
+}
+// waring aspect ratio
+- (void)setWarningAspectRatio:(CGFloat)warningAspectRatio {
+    self.config.warningAspectRatio = warningAspectRatio;
 }
 
 - (void)setShowCountFooter:(BOOL)showCountFooter {

@@ -117,21 +117,22 @@ static dispatch_once_t onceToken;
  */
 #pragma mark - Album相关
 - (void)fetchCameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage needFetchAssets:(BOOL)needFetchAssets sortByModificationDate:(BOOL)isSortByModificationDate ascending:(BOOL)ascending completion:(void (^)(CYPhotoAlbum *model))completion {
+    __block CYPhotoAlbum *model;
     PHFetchOptions *options = [self optionsAllowPickingVideo:allowPickingVideo allowPickingImage:allowPickingImage sortByModificationDate:isSortByModificationDate ascending:ascending];
     
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection *collection in smartAlbums) {
-        if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
-        // 过滤空相册
-        if (collection.estimatedAssetCount <= 0) continue;
-        
-        //        if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-        
-        if ([self isCameraRollAlbum:collection]) {
-            PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
-            // 创建此相册的信息集
-            CYPhotoAlbum * model = [CYPhotoAlbum cy_AlbumInfoFromResult:fetchResult collection:collection needFetchAssets:needFetchAssets];
-            if (completion) completion(model);
+        @autoreleasepool {
+            // 有可能是PHCollectionList类的的对象，过滤掉
+            if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
+            // 过滤空相册
+            if (collection.estimatedAssetCount <= 0) continue;
+            if ([self isCameraRollAlbum:collection]) {
+                PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+                model = [CYPhotoAlbum cy_AlbumInfoFromResult:fetchResult collection:collection needFetchAssets:needFetchAssets];
+                if (completion) completion(model);
+                break;
+            }
         }
     }
 }
@@ -151,21 +152,23 @@ static dispatch_once_t onceToken;
     
     for (PHFetchResult *fetchResult in allAlbums) {
         for (PHAssetCollection *collection in fetchResult) {
-            if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
-            // 过滤空相册
-            if (collection.estimatedAssetCount <= 0) continue;
-            PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:collection options:options];
-            if (result.count < 1) continue;
-            
-            if ([collection.localizedTitle containsString:@"Hidden"] || [collection.localizedTitle isEqualToString:@"已隐藏"]) continue;
-            if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
-            
-            CYPhotoAlbum *album = [CYPhotoAlbum cy_AlbumInfoFromResult:result collection:collection needFetchAssets:needFetchAssets];
-            //            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-            if ([self isCameraRollAlbum:collection]) {
-                [albumsArray insertObject:album atIndex:0];
-            } else {
-                [albumsArray addObject:album];
+            @autoreleasepool {
+                // 有可能是PHCollectionList类的的对象，过滤掉
+                if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
+                // 过滤空相册
+                if (collection.estimatedAssetCount <= 0 && ![self isCameraRollAlbum:collection]) continue;
+                PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+                if (result.count < 1 && ![self isCameraRollAlbum:collection]) continue;
+                
+                if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumAllHidden) continue;
+                if (collection.assetCollectionSubtype == 1000000201) continue; //『最近删除』相册
+                
+                CYPhotoAlbum *album = [CYPhotoAlbum cy_AlbumInfoFromResult:result collection:collection needFetchAssets:needFetchAssets];
+                if ([self isCameraRollAlbum:collection]) {
+                    [albumsArray insertObject:album atIndex:0];
+                } else {
+                    [albumsArray addObject:album];
+                }
             }
         }
     }
@@ -245,59 +248,61 @@ static dispatch_once_t onceToken;
     NSMutableArray * images = [NSMutableArray array];
     
     for (int i = 0; i < assetsArray.count; i++) {
-        
-        PHAsset * asset = assetsArray[i].asset;
-        CGSize size;
-        
-        if (isOriginal) {
+        @autoreleasepool {
             
-            // 源图 -> 不压缩
-            size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
+            PHAsset * asset = assetsArray[i].asset;
+            CGSize size;
             
-        } else {
-            
-            // 压缩的图 －> 以最长边为屏幕分辨率压缩
-            CGFloat scale = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
-            if (scale > 1.0) {
+            if (isOriginal) {
                 
-                if (asset.pixelWidth < CYPHOTOLIB_SCREEN_W) {
-                    // 最长边小于屏幕宽度时，采用原图
-                    size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
-                } else {
-                    // 压缩
-                    size = CGSizeMake(CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_W / scale);
-                }
+                // 源图 -> 不压缩
+                size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
                 
             } else {
                 
-                if (asset.pixelHeight < CYPHOTOLIB_SCREEN_H) {
-                    // 最长边小于屏幕高度时，采用原图
-                    size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
-                } else {
-                    // 压缩
-                    size = CGSizeMake(CYPHOTOLIB_SCREEN_H * scale, CYPHOTOLIB_SCREEN_H);
-                }
-                
-            }
-        }
-        
-        if (isOriginal) {
-            [self fetchOriginalImageWithAsset:asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
-                [images addObject:photo];
-                if (images.count == assetsArray.count) {
-                    //执行block
+                // 压缩的图 －> 以最长边为屏幕分辨率压缩
+                CGFloat scale = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
+                if (scale > 1.0) {
                     
-                    if (completion) completion(images);
+                    if (asset.pixelWidth < CYPHOTOLIB_SCREEN_W) {
+                        // 最长边小于屏幕宽度时，采用原图
+                        size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
+                    } else {
+                        // 压缩
+                        size = CGSizeMake(CYPHOTOLIB_SCREEN_W, CYPHOTOLIB_SCREEN_W / scale);
+                    }
+                    
+                } else {
+                    
+                    if (asset.pixelHeight < CYPHOTOLIB_SCREEN_H) {
+                        // 最长边小于屏幕高度时，采用原图
+                        size = CGSizeMake((CGFloat)asset.pixelWidth, (CGFloat)asset.pixelHeight);
+                    } else {
+                        // 压缩
+                        size = CGSizeMake(CYPHOTOLIB_SCREEN_H * scale, CYPHOTOLIB_SCREEN_H);
+                    }
+                    
                 }
-            }];
-        } else {
-            [self fetchImageWithAsset:asset photoWidth:size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
-                [images addObject:image];
-                if (images.count == assetsArray.count) {
-                    //执行block
-                    if (completion) completion(images);
-                }
-            } progressHandler:nil networkAccessAllowed:NO synchronous:YES];
+            }
+            
+            if (isOriginal) {
+                [self fetchOriginalImageWithAsset:asset completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+                    [images addObject:image];
+                    if (images.count == assetsArray.count) {
+                        //执行block
+                        
+                        if (completion) completion(images);
+                    }
+                }];
+            } else {
+                [self fetchImageWithAsset:asset photoWidth:size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+                    [images addObject:image];
+                    if (images.count == assetsArray.count) {
+                        //执行block
+                        if (completion) completion(images);
+                    }
+                } progressHandler:nil networkAccessAllowed:NO synchronous:YES];
+            }
         }
     }
 }
@@ -378,11 +383,11 @@ static dispatch_once_t onceToken;
 }
 
 /// 获取原图
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion {
     [self fetchOriginalImageWithAsset:asset networkAccessAllowed:YES synchronous:YES completion:completion];
 }
 
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion {
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion {
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     /**
      synchronous：指定请求是否同步执行。
@@ -432,14 +437,21 @@ static dispatch_once_t onceToken;
 
 
 /** 获取资源对应的原图大小 */
-- (void)fetchImageDataBytesWithAsset:(PHAsset *)asset completion:(void (^)(CGFloat length))completion {
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option.resizeMode = PHImageRequestOptionsResizeModeNone;
-    
-    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        
-        if (completion) completion(imageData.length * 0.001);
-    }];
+- (PHImageRequestID)fetchImageDataBytesWithAsset:(PHAsset *)asset completion:(void (^)(CGFloat length))completion {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.synchronous = NO;
+    options.resizeMode = PHImageRequestOptionsResizeModeNone;
+    options.version = PHImageRequestOptionsVersionCurrent;
+    @autoreleasepool {
+        return [[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+            
+            NSUInteger length = 0.0;
+            if (imageData) {
+                length = imageData.length;
+            }
+            if (completion) completion(length);
+        }];
+    }
 }
 
 - (CGSize)photoSizeWithAsset:(PHAsset *)asset {

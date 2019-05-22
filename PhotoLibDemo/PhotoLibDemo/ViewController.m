@@ -42,7 +42,15 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
-    cell.imageView.image = self.dataArray[indexPath.item];
+    
+    PHAsset *asset = self.dataArray[indexPath.item];
+    [[CYPhotoManager manager] fetchImageWithAsset:asset photoWidth:[UIScreen mainScreen].bounds.size.width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+        cell.imageView.image = image;
+    }];
+//    [[CYPhotoManager manager] fetchOriginalImageWithAsset:asset completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+//        cell.imageView.image = image;
+//    }];
+    
     
     return cell;
 }
@@ -61,11 +69,19 @@
 - (IBAction)btnClick:(UIButton *)sender {
     
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
-    picker.columnNumber = 3;
+    picker.columnNumber = 5;
     picker.ascending = YES;
-    [picker showInSender:self handler:^(NSArray<UIImage *> *photos, NSArray<CYPhotoAsset *> *assets) {
+    // 100 warning 70k disabled 6M 6,144kb
+    // 不可选70k 下，20M 以上
+    picker.minDisabledDataLength = 70;
+    picker.maxDisabledDataLength = 20*1024;
+    // 警告 100k 下
+    picker.minWarningDataLength = 100;
+    // 警告 宽高比 2:1 或者 1:2
+    picker.warningAspectRatio = 2;
+    [picker showInSender:self handler:^(NSArray<PHAsset *> *assets) {
         
-        NSMutableArray *arr = [NSMutableArray arrayWithArray:[photos copy]];
+        NSMutableArray *arr = [NSMutableArray arrayWithArray:[assets copy]];
         
         self.dataArray = [arr copy];
         arr = nil;

@@ -523,11 +523,12 @@
 			};
 			buildConfigurationList = E79864781D17CD020074F8D2 /* Build configuration list for PBXProject "PhotoLibDemo" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = E79864741D17CD020074F8D2;
 			productRefGroup = E798647E1D17CD020074F8D2 /* Products */;

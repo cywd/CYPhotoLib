@@ -40,16 +40,14 @@
 }
 
 #pragma mark - 完成图片选择
-- (void)endPickWithImage:(UIImage *)cameraPhoto {
-    if (self.handler) self.handler(@[cameraPhoto]);
-}
-
 - (void)endPick {
     if (self.handler) {
         // CY-TODO: 下一步外卖呢可以控制是否是原图，默认YES
-        [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:YES completion:^(NSArray *images) {
-            self.handler(images);
-        }];
+//        [[CYPhotoManager manager] fetchImagesWithAssetsArray:self.selectedPhotos isOriginal:YES completion:^(NSArray *images) {
+//            self.handler(images);
+//        }];
+        
+        self.handler(self.selectedPhotos);
     }
 }
 

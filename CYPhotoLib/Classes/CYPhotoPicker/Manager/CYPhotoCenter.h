@@ -31,7 +31,7 @@
 /**
  *  选择完毕回调
  */
-@property (nonatomic, copy) void(^handler)(NSArray<UIImage *> * photos);
+@property (nonatomic, copy) void(^handler)(NSArray<CYPhotoAsset *> * photos);
 
 /**
  *  单例
@@ -59,11 +59,6 @@
 - (BOOL)isReachMaxSelectedCount;
 
 - (BOOL)isReachMinSelectedCount;
-
-/**
- *  完成选择（相机的照片）
- */
-- (void)endPickWithImage:(UIImage *)cameraPhoto;
 
 /**
  *  完成选择（相册的照片）

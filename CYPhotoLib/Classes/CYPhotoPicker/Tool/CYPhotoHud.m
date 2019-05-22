@@ -36,7 +36,7 @@
         _HUDContainer.layer.cornerRadius = 8;
         _HUDContainer.clipsToBounds = YES;
         _HUDContainer.backgroundColor = [UIColor darkGrayColor];
-        _HUDContainer.alpha = 0.7;
+        _HUDContainer.alpha = 0.3;
         
         _HUDIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         
@@ -67,8 +67,12 @@
 
 - (void)hideProgressHUD {
     if (_progressHUD) {
-        [_HUDIndicatorView stopAnimating];
-        [_progressHUD removeFromSuperview];
+        [UIView animateWithDuration:0.3 animations:^{
+            self->_progressHUD.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self->_HUDIndicatorView stopAnimating];
+            [self->_progressHUD removeFromSuperview];
+        }];
     }
 }
 

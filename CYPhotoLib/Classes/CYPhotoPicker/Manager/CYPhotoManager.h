@@ -153,7 +153,7 @@
  @param asset PHAsset
  @param completion 回调
  */
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion;
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion;
 
 
 /**
@@ -164,7 +164,7 @@
  @param synchronous 是否同步请求
  @param completion 回调
  */
-- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *photo, NSDictionary *info, BOOL isDegraded))completion;
+- (void)fetchOriginalImageWithAsset:(PHAsset *)asset networkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous completion:(void (^)(UIImage *image, NSDictionary *info, BOOL isDegraded))completion;
 
 
 #pragma mark - ImageData 相关
@@ -190,6 +190,6 @@
  @param asset PHAsset
  @param completion 回调
  */
-- (void)fetchImageDataBytesWithAsset:(PHAsset *)asset completion:(void(^)(CGFloat length))completion;
+- (PHImageRequestID)fetchImageDataBytesWithAsset:(PHAsset *)asset completion:(void(^)(CGFloat length))completion;
 
 @end
