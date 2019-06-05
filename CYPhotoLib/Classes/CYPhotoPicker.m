@@ -141,7 +141,7 @@
 - (CYPhotoConfig *)config
 {
     if (!_config) {
-        _config = [[CYPhotoConfig alloc] init];
+        _config = [CYPhotoConfig defaultConfig];
     }
     return _config;
 }
@@ -246,6 +246,10 @@
 
 - (void)setShowCountFooter:(BOOL)showCountFooter {
     self.config.showCountFooter = showCountFooter;
+}
+
+- (void)setShouldAutorotate:(BOOL)shouldAutorotate {
+    self.config.shouldAutorotate = shouldAutorotate;
 }
 
 @end

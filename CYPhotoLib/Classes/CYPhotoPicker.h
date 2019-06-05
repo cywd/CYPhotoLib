@@ -15,6 +15,12 @@
 @interface CYPhotoPicker : NSObject
 
 #pragma mark - config
+
+/**
+ 是否允许旋转横屏
+ */
+@property (nonatomic, assign, getter=isShouldAutorotate) BOOL shouldAutorotate;
+
 /**
  是否允许选择视频
  */

@@ -8,6 +8,8 @@
 
 #import "CYPhotoBaseController.h"
 #import "CYPhotoHeader.h"
+#import "CYPhotoCenter.h"
+#import "CYPhotoConfig.h"
 
 @interface CYPhotoBaseController ()
 
@@ -23,7 +25,7 @@
 
 // 横屏
 - (BOOL)shouldAutorotate {
-    return YES;
+    return [CYPhotoCenter shareCenter].config.isShouldAutorotate;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -14,6 +14,11 @@
 
 #pragma mark - 相册配置相关
 
+/**
+ 是否允许旋转横屏
+ */
+@property (nonatomic, assign, getter=isShouldAutorotate) BOOL shouldAutorotate;
+
 // CY-TODO: 下一步，支持可以选择视频，以及可以预览图片和视频
 /**
  是否允许选择视频
@@ -130,5 +135,7 @@
 @property (nonatomic) CGFloat warningAspectRatio;
 
 @property (nonatomic, assign, getter=isShowCountFooter) BOOL showCountFooter;
+
++ (instancetype)defaultConfig;
 
 @end

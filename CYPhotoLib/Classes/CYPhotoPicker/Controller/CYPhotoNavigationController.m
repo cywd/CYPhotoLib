@@ -7,6 +7,8 @@
 //
 
 #import "CYPhotoNavigationController.h"
+#import "CYPhotoCenter.h"
+#import "CYPhotoConfig.h"
 
 @interface CYPhotoNavigationController ()
 
@@ -21,7 +23,7 @@
 
 // 横屏
 - (BOOL)shouldAutorotate {
-    return YES;
+    return [CYPhotoCenter shareCenter].config.isShouldAutorotate;
 }
 
 - (void)didReceiveMemoryWarning {

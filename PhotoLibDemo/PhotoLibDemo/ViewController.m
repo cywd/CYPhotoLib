@@ -71,6 +71,8 @@
     CYPhotoPicker *picker = [[CYPhotoPicker alloc] init];
     picker.columnNumber = 4;
     picker.ascending = YES;
+    picker.shouldAutorotate = NO;
+    
     // 100 warning 70k disabled 6M 6,144kb
     // 不可选70k 下，20M 以上
     picker.minDisabledDataLength = 70;

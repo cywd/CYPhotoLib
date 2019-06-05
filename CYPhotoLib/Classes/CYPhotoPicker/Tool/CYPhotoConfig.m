@@ -10,6 +10,10 @@
 
 @implementation CYPhotoConfig
 
++ (instancetype)defaultConfig {
+    return [[self alloc] init];
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -26,6 +30,7 @@
         _minimumLineSpacing = 5;
         _minimumInteritemSpacing = 5;
         _showCountFooter = YES;
+        _shouldAutorotate = YES;
         
     }
     return self;
