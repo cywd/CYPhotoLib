@@ -45,7 +45,7 @@ static CGFloat TOOLBAR_HEIGHT = 135;
 //@property (nonatomic , weak  ) UIToolbar *toolBar;
 @property (nonatomic , strong) UIView *toolBar;
 // 底部CollectionView
-@property (nonatomic , weak) UICollectionView *toolBarThumbCollectionView;
+@property (nonatomic , strong) UICollectionView *toolBarThumbCollectionView;
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionLayout;
@@ -303,8 +303,8 @@ static CGFloat TOOLBAR_HEIGHT = 135;
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.toolBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:TOOLBAR_HEIGHT];
         [self.toolBar addConstraint:heightConstraint];
         
-        NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-        NSLayoutConstraint *rightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+        NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0];
+        NSLayoutConstraint *rightConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
         NSLayoutConstraint *bottomConstraint1 = [NSLayoutConstraint constraintWithItem:self.toolBarThumbCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.toolBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
         [self.toolBar addConstraints:@[leftConstraint1, rightConstraint1, bottomConstraint1]];
         

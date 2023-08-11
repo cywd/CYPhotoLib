@@ -24,6 +24,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library Usage Description</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>此App会在上传图片服务中访问您的相册附加功能权限</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera Usage Description</string>
 	<key>NSLocationAlwaysUsageDescription</key>
